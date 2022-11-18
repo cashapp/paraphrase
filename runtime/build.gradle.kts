@@ -21,3 +21,7 @@ android {
     jvmTarget = "1.8"
   }
 }
+
+dependencies {
+  implementation("androidx.annotation:annotation:1.5.0")
+}
