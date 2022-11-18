@@ -16,4 +16,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "gingham"
-include(":runtime")
+include(
+  ":plugin",
+  ":runtime",
+)
