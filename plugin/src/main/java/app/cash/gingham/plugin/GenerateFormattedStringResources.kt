@@ -19,11 +19,12 @@ abstract class GenerateFormattedStringResources @Inject constructor() : DefaultT
   abstract val namespace: Property<String>
 
   @get:InputFiles
-  abstract val resourceFiles: ConfigurableFileCollection
+  abstract val resDirectories: ConfigurableFileCollection
 
   @TaskAction
   fun generateFormattedStringResources() {
-    resourceFiles
+    resDirectories
+      .asFileTree
       .filter { it.isStringResourceFile() }
       .flatMap { parseStringResources(it) }
       .map { stringResource ->
