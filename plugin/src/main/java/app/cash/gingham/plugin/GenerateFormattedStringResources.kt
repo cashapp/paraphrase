@@ -7,6 +7,7 @@ import app.cash.icu.asIcuTokens
 import app.cash.icu.tokens.Argument
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.TaskAction
@@ -15,7 +16,7 @@ import javax.inject.Inject
 
 abstract class GenerateFormattedStringResources @Inject constructor() : DefaultTask() {
   @get:Input
-  abstract val namespace: String
+  abstract val namespace: Property<String>
 
   @get:InputFiles
   abstract val resourceFiles: ConfigurableFileCollection
@@ -33,7 +34,7 @@ abstract class GenerateFormattedStringResources @Inject constructor() : DefaultT
         )
       }
       .filter { it.args.isNotEmpty() }
-      .let { generateFormattedStringResources(packageName = namespace, it) }
+      .let { generateFormattedStringResources(packageName = namespace.get(), it) }
       .writeTo(System.out)
   }
 
