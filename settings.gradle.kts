@@ -22,4 +22,3 @@ include(
   ":plugin",
   ":runtime",
 )
-includeBuild("../plugin")

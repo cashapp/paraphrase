@@ -1,3 +1,5 @@
 <resources>
   <string name="app_name">Gingham Sample App</string>
+  <string name="named_args">{sender} sent {amount} to {recipient}</string>
+  <string name="numbered_args">{0} sent {1} to {2}</string>
 </resources>

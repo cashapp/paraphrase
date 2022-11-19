@@ -1,4 +1,5 @@
 plugins {
+  id("app.cash.gingham")
   id("com.android.application")
   id("org.jetbrains.kotlin.android")
 }

@@ -1,6 +1,15 @@
 plugins {
   id("java-gradle-plugin")
-  id("org.jetbrains.kotlin.jvm")
+  id("org.jetbrains.kotlin.jvm") version "1.7.10"
+}
+
+gradlePlugin {
+  plugins {
+    create("gingham") {
+      id = "app.cash.gingham"
+      implementationClass = "app.cash.gingham.plugin.GinghamPlugin"
+    }
+  }
 }
 
 java {
