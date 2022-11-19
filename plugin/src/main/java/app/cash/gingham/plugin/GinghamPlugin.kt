@@ -8,6 +8,7 @@ import org.gradle.api.DomainObjectSet
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.configurationcache.extensions.capitalized
+import java.io.File
 
 private const val ANDROID_APP_PLUGIN = "com.android.application"
 private const val ANDROID_LIBRARY_PLUGIN = "com.android.library"
@@ -47,8 +48,13 @@ class GinghamPlugin : Plugin<Project> {
   ) = tasks.register(
     "generateFormattedStringResources${variant.name.capitalized()}",
     GenerateFormattedStringResources::class.java
-  ).configure { task ->
-    task.namespace.set(extension.namespace)
-    task.resDirectories.from(variant.sourceSets.flatMap { it.resDirectories })
+  ).apply {
+    val outputDirectory = File("${buildDir}/gingham/${variant.dirName}")
+    variant.registerJavaGeneratingTask(this, outputDirectory)
+    configure { task ->
+      task.namespace.set(extension.namespace)
+      task.resDirectories.from(variant.sourceSets.flatMap { it.resDirectories })
+      task.outputDirectory.set(outputDirectory)
+    }
   }
 }

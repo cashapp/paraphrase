@@ -24,4 +24,9 @@ include(
   ":app",
   ":library",
 )
-includeBuild("..")
+includeBuild("..") {
+  dependencySubstitution {
+    substitute(module("app.cash.gingham:plugin")).using(project(":plugin"))
+    substitute(module("app.cash.gingham:runtime")).using(project(":runtime"))
+  }
+}

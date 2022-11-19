@@ -14,7 +14,7 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 import org.gradle.configurationcache.extensions.capitalized
 
@@ -87,7 +87,7 @@ private fun TokenizedStringResource.asResolveFunction(packageStringsType: TypeNa
     .receiver(packageStringsType)
     .addParameter(ParameterSpec(name = "resources", ANDROID_RESOURCES))
     .apply { parameters.forEach { addParameter(it) } }
-    .returns(String::class.java)
+    .returns(String::class)
     .apply {
       addCode(
         buildCodeBlock {
@@ -105,14 +105,14 @@ private fun Argument.asParameter(): ParameterSpec =
   ParameterSpec(
     name = if (isNumbered()) "arg$name" else name,
     when (this) {
-      is Date -> java.util.Date::class.java
-      is Number -> kotlin.Number::class.java
-      is Plural -> Int::class.java
-      is Select -> String::class.java
-      is SelectOrdinal -> Int::class.java
-      is Text -> String::class.java
-      is Time -> java.util.Date::class.java
-    }.asTypeName()
+      is Date -> java.util.Date::class
+      is Number -> kotlin.Number::class
+      is Plural -> Int::class
+      is Select -> String::class
+      is SelectOrdinal -> Int::class
+      is Text -> String::class
+      is Time -> java.util.Date::class
+    }.asClassName()
   )
 
 private fun Argument.isNumbered(): Boolean = name.toIntOrNull() != null

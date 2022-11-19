@@ -7,9 +7,12 @@ import app.cash.icu.asIcuTokens
 import app.cash.icu.tokens.Argument
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import javax.inject.Inject
@@ -20,6 +23,9 @@ abstract class GenerateFormattedStringResources @Inject constructor() : DefaultT
 
   @get:InputFiles
   abstract val resDirectories: ConfigurableFileCollection
+
+  @get:OutputDirectory
+  abstract val outputDirectory: DirectoryProperty
 
   @TaskAction
   fun generateFormattedStringResources() {
@@ -36,7 +42,7 @@ abstract class GenerateFormattedStringResources @Inject constructor() : DefaultT
       }
       .filter { it.args.isNotEmpty() }
       .let { generateFormattedStringResources(packageName = namespace.get(), it) }
-      .writeTo(System.out)
+      .writeTo(outputDirectory.get().asFile)
   }
 
   private fun File.isStringResourceFile(): Boolean =
