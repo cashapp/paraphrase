@@ -21,4 +21,6 @@ rootProject.name = "gingham"
 include(
   ":plugin",
   ":runtime",
+  ":sample:app",
+  ":sample:library",
 )
