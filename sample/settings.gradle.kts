@@ -12,14 +12,11 @@ dependencyResolutionManagement {
   repositories {
     google()
     mavenCentral()
-    mavenLocal()
-    maven { setUrl("https://jitpack.io") }
   }
 }
 
-rootProject.name = "gingham"
+rootProject.name = "sample"
 include(
-  ":plugin",
-  ":runtime",
+  ":app",
+  ":library",
 )
-includeBuild("../plugin")
