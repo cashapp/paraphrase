@@ -14,14 +14,12 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
-import org.gradle.configurationcache.extensions.capitalized
 
 private const val GINGHAM_PACKAGE = "app.cash.gingham"
 
-private val ANDROID_RESOURCES =
-  ClassName(packageName = "android.content.res", "Resources")
 private val FORMATTED_STRING_RESOURCE =
   ClassName(packageName = GINGHAM_PACKAGE, "FormattedStringResource")
 private val ICU_NAMED_ARG_STRING_RESOURCE =
@@ -34,22 +32,24 @@ fun generateFormattedStringResources(
   tokenizedStringResources: List<TokenizedStringResource>
 ): FileSpec {
   val packageStringsType = ClassName(packageName = packageName, "R", "string")
-  return FileSpec.builder(packageName = packageName, fileName = "GinghamStringResources")
+  return FileSpec.builder(packageName = packageName, fileName = "FormattedStrings")
     .addImport(packageName = packageName, "R")
-    .apply {
-      tokenizedStringResources.forEach { tokenizedStringResource ->
-        addFunction(tokenizedStringResource.asFormatFunction(packageStringsType))
-        addFunction(tokenizedStringResource.asResolveFunction(packageStringsType))
-      }
-    }
+    .addType(
+      TypeSpec.objectBuilder("FormattedStrings")
+        .apply {
+          tokenizedStringResources.forEach { tokenizedStringResource ->
+            addFunction(tokenizedStringResource.asFunction(packageStringsType))
+          }
+        }
+        .build()
+    )
     .build()
 }
 
-private fun TokenizedStringResource.asFormatFunction(packageStringsType: TypeName): FunSpec {
+private fun TokenizedStringResource.asFunction(packageStringsType: TypeName): FunSpec {
   val hasNumberedArgs = args.any { it.isNumbered() }
   val parameters = args.map { it.asParameter() }
-  return FunSpec.builder("format${name.snakeCaseToUpperCamelCase()}")
-    .receiver(packageStringsType)
+  return FunSpec.builder(name)
     .apply { parameters.forEach { addParameter(it) } }
     .returns(FORMATTED_STRING_RESOURCE)
     .apply {
@@ -81,26 +81,6 @@ private fun TokenizedStringResource.asFormatFunction(packageStringsType: TypeNam
     .build()
 }
 
-private fun TokenizedStringResource.asResolveFunction(packageStringsType: TypeName): FunSpec {
-  val parameters = args.map { it.asParameter() }
-  return FunSpec.builder("resolve${name.snakeCaseToUpperCamelCase()}")
-    .receiver(packageStringsType)
-    .addParameter(ParameterSpec(name = "resources", ANDROID_RESOURCES))
-    .apply { parameters.forEach { addParameter(it) } }
-    .returns(String::class)
-    .apply {
-      addCode(
-        buildCodeBlock {
-          add("val formattedStringResource = format%L(⇥\n", name.snakeCaseToUpperCamelCase())
-          parameters.forEach { addStatement("%1L = %1L,", it.name) }
-          add("⇤)\n")
-        }
-      )
-      addStatement("return formattedStringResource.resolve(resources = resources)")
-    }
-    .build()
-}
-
 private fun Argument.asParameter(): ParameterSpec =
   ParameterSpec(
     name = if (isNumbered()) "arg$name" else name,
@@ -116,6 +96,3 @@ private fun Argument.asParameter(): ParameterSpec =
   )
 
 private fun Argument.isNumbered(): Boolean = name.toIntOrNull() != null
-
-private fun String.snakeCaseToUpperCamelCase() =
-  replace(regex = Regex("_[a-zA-Z]")) { it.value[1].uppercase() }.capitalized()

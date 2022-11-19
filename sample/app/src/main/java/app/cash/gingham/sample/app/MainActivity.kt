@@ -9,7 +9,7 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
 
-    findViewById<TextView>(R.id.text).text = formatNamedArgs(
+    findViewById<TextView>(R.id.text).text = FormattedStrings.named_args(
       sender = "Ashley",
       amount = "$50",
       recipient = "Briana",
