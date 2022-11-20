@@ -12,34 +12,38 @@ import java.io.File
 
 private const val ANDROID_APP_PLUGIN = "com.android.application"
 private const val ANDROID_LIBRARY_PLUGIN = "com.android.library"
+private const val GINGHAM_RUNTIME = "app.cash.gingham:runtime"
 
 class GinghamPlugin : Plugin<Project> {
   override fun apply(target: Project) = target.run {
-    plugins.withId(ANDROID_APP_PLUGIN) {
-      val extension = extensions.getByType(AppExtension::class.java)
-      registerGenerateFormattedStringResourcesTasks(
-        extension = extension,
-        variants = extension.applicationVariants
-      )
-    }
+    configureAndroidPlugin(
+      id = ANDROID_APP_PLUGIN,
+      extensionType = AppExtension::class.java,
+      getVariants = { applicationVariants }
+    )
 
-    plugins.withId(ANDROID_LIBRARY_PLUGIN) {
-      val extension = extensions.getByType(LibraryExtension::class.java)
-      registerGenerateFormattedStringResourcesTasks(
-        extension = extension,
-        variants = extension.libraryVariants
-      )
-    }
+    configureAndroidPlugin(
+      id = ANDROID_LIBRARY_PLUGIN,
+      extensionType = LibraryExtension::class.java,
+      getVariants = { libraryVariants }
+    )
   }
 
-  private fun Project.registerGenerateFormattedStringResourcesTasks(
-    extension: BaseExtension,
-    variants: DomainObjectSet<out InternalBaseVariant>
-  ) = variants.all { variant ->
-    registerGenerateFormattedStringResourcesTask(
-      extension = extension,
-      variant = variant
-    )
+  private fun <T: BaseExtension> Project.configureAndroidPlugin(
+    id: String,
+    extensionType: Class<T>,
+    getVariants: T.() -> DomainObjectSet<out InternalBaseVariant>
+  ) {
+    plugins.withId(id) {
+      dependencies.add("implementation", GINGHAM_RUNTIME)
+      val extension = extensions.getByType(extensionType)
+      extension.getVariants().all { variant ->
+        registerGenerateFormattedStringResourcesTask(
+          extension = extension,
+          variant = variant
+        )
+      }
+    }
   }
 
   private fun Project.registerGenerateFormattedStringResourcesTask(

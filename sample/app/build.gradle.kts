@@ -27,6 +27,5 @@ android {
 }
 
 dependencies {
-  implementation("app.cash.gingham:runtime")
   implementation("com.google.android.material:material:1.7.0")
 }
