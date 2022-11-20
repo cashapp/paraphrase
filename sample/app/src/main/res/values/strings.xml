@@ -2,4 +2,11 @@
   <string name="app_name">Gingham Sample App</string>
   <string name="named_args">{sender} sent {amount} to {recipient}</string>
   <string name="numbered_args">{0} sent {1} to {2}</string>
+  <string name="plural">
+    {amount, plural,
+      =0 {{sender} sent nothing to {recipient}}
+      =1 {{sender} sent 1 dollar to {recipient}}
+      other {{sender} sent # dollars to {recipient}}
+    }
+  </string>
 </resources>
