@@ -35,7 +35,6 @@ abstract class GenerateFormattedStrings @Inject constructor() : DefaultTask() {
       .map { stringResource ->
         TokenizedStringResource(
           name = stringResource.name,
-          text = stringResource.text,
           args = stringResource.text.asIcuTokens().filterIsInstance(Argument::class.java)
         )
       }
