@@ -6,13 +6,11 @@ import org.w3c.dom.NodeList
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
-// TODO: Filter out plurals, arrays, etc
 fun parseStringResources(file: File): List<StringResource> =
   DocumentBuilderFactory.newInstance()
     .newDocumentBuilder()
     .parse(file)
-    .documentElement
-    .childNodes
+    .getElementsByTagName("string")
     .asIterator()
     .asSequence()
     .filter { it.nodeType == Node.ELEMENT_NODE }
