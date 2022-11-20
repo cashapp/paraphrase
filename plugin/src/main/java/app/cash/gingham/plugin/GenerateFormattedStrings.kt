@@ -8,7 +8,6 @@ import app.cash.icu.tokens.Argument
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
@@ -17,7 +16,7 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 import javax.inject.Inject
 
-abstract class GenerateFormattedStringResources @Inject constructor() : DefaultTask() {
+abstract class GenerateFormattedStrings @Inject constructor() : DefaultTask() {
   @get:Input
   abstract val namespace: Property<String>
 

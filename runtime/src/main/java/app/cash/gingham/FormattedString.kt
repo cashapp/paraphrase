@@ -1,9 +1,10 @@
 package app.cash.gingham
 
+import android.content.Context
 import android.content.res.Resources
 
 /**
- * A [FormattedStringResource] consists of:
+ * A [FormattedString] consists of:
  * 1. An Android string resource
  * 2. The arguments required to resolve it
  *
@@ -18,12 +19,12 @@ import android.content.res.Resources
  * </string>
  * ```
  *
- * The [FormattedStringResource] would contain:
+ * The [FormattedString] would contain:
  * - The R.string.detective_has_suspects resource ID
  * - An integer value for the suspects argument
  * - A string value for the detective argument
  */
-fun interface FormattedStringResource {
+fun interface FormattedString {
   /**
    * Resolves the final formatted version of the string by:
    * 1. Using [Resources] to look up the string pattern
@@ -31,3 +32,15 @@ fun interface FormattedStringResource {
    */
   fun resolve(resources: Resources): String
 }
+
+/**
+ * Resolves and returns the final formatted version of the given formatted string.
+ */
+fun Context.getString(formattedString: FormattedString): String = formattedString.resolve(resources)
+
+/**
+ * Resolves and returns the final formatted version of the given formatted string.
+ */
+fun Resources.getString(formattedString: FormattedString): String = formattedString.resolve(this)
+
+

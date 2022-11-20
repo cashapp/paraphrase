@@ -21,11 +21,11 @@ import com.squareup.kotlinpoet.buildCodeBlock
 private const val GINGHAM_PACKAGE = "app.cash.gingham"
 
 private val FORMATTED_STRING_RESOURCE =
-  ClassName(packageName = GINGHAM_PACKAGE, "FormattedStringResource")
+  ClassName(packageName = GINGHAM_PACKAGE, "FormattedString")
 private val ICU_NAMED_ARG_STRING_RESOURCE =
-  ClassName(packageName = GINGHAM_PACKAGE, "IcuNamedArgStringResource")
+  ClassName(packageName = GINGHAM_PACKAGE, "IcuNamedArgFormattedString")
 private val ICU_NUMBERED_ARG_STRING_RESOURCE =
-  ClassName(packageName = GINGHAM_PACKAGE, "IcuNumberedArgStringResource")
+  ClassName(packageName = GINGHAM_PACKAGE, "IcuNumberedArgFormattedString")
 
 fun generateFormattedStringResources(
   packageName: String,
