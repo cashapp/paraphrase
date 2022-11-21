@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham.plugin
 
 import com.android.build.gradle.AppExtension
@@ -29,7 +30,7 @@ class GinghamPlugin : Plugin<Project> {
     )
   }
 
-  private fun <T: BaseExtension> Project.configureAndroidPlugin(
+  private fun <T : BaseExtension> Project.configureAndroidPlugin(
     id: String,
     extensionType: Class<T>,
     getVariants: T.() -> DomainObjectSet<out InternalBaseVariant>
@@ -53,7 +54,7 @@ class GinghamPlugin : Plugin<Project> {
     "generateFormattedStringResources${variant.name.capitalized()}",
     GenerateFormattedStrings::class.java
   ).apply {
-    val outputDirectory = File("${buildDir}/gingham/${variant.dirName}")
+    val outputDirectory = File("$buildDir/gingham/${variant.dirName}")
     variant.registerJavaGeneratingTask(this, outputDirectory)
     configure { task ->
       task.namespace.set(extension.namespace)

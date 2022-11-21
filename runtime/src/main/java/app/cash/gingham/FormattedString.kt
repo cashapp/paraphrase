@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham
 
 import android.content.Context
@@ -42,5 +43,3 @@ fun Context.getString(formattedString: FormattedString): String = formattedStrin
  * Resolves and returns the final formatted version of the given formatted string.
  */
 fun Resources.getString(formattedString: FormattedString): String = formattedString.resolve(this)
-
-

@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham
 
 import android.content.res.Resources

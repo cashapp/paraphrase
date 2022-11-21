@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham.plugin
 
 import app.cash.gingham.plugin.generator.generateFormattedStringResources
@@ -56,7 +57,7 @@ abstract class GenerateFormattedStrings @Inject constructor() : DefaultTask() {
     flatMap { it.findArguments() }.toSet()
 
   private fun IcuToken.findArguments(): Set<Argument> =
-    when(this) {
+    when (this) {
       is Count, is Literal -> emptySet()
       is Date, is Number, is Text, is Time -> setOf(this as Argument)
       is Quantity -> setOf(this) + choices.flatMap { it.value.findArguments() }

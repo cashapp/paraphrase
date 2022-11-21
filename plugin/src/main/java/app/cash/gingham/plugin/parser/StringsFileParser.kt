@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham.plugin.parser
 
 import app.cash.gingham.plugin.model.StringResource

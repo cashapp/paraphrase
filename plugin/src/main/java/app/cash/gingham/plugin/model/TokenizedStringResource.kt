@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham.plugin.model
 
 import app.cash.icu.tokens.Argument
