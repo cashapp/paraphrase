@@ -3,13 +3,13 @@ package app.cash.gingham.plugin.generator
 
 import app.cash.gingham.plugin.model.TokenizedStringResource
 import app.cash.icu.tokens.Argument
-import app.cash.icu.tokens.Date
-import app.cash.icu.tokens.Number
-import app.cash.icu.tokens.Plural
-import app.cash.icu.tokens.Select
-import app.cash.icu.tokens.SelectOrdinal
-import app.cash.icu.tokens.Text
-import app.cash.icu.tokens.Time
+import app.cash.icu.tokens.DateArgument
+import app.cash.icu.tokens.NumberArgument
+import app.cash.icu.tokens.PluralArgument
+import app.cash.icu.tokens.SelectArgument
+import app.cash.icu.tokens.SelectOrdinalArgument
+import app.cash.icu.tokens.TextArgument
+import app.cash.icu.tokens.TimeArgument
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -17,6 +17,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
+import java.util.Date
 
 private const val GINGHAM_PACKAGE = "app.cash.gingham"
 
@@ -84,13 +85,13 @@ private fun Argument.asParameter(): ParameterSpec =
   ParameterSpec(
     name = if (isNumbered()) "arg$name" else name,
     when (this) {
-      is Date -> java.util.Date::class
-      is Number -> kotlin.Number::class
-      is Plural -> Int::class
-      is Select -> String::class
-      is SelectOrdinal -> Int::class
-      is Text -> String::class
-      is Time -> java.util.Date::class
+      is DateArgument -> Date::class
+      is NumberArgument -> Number::class
+      is PluralArgument -> Int::class
+      is SelectArgument -> String::class
+      is SelectOrdinalArgument -> Int::class
+      is TextArgument -> String::class
+      is TimeArgument -> Date::class
     }.asClassName()
   )
 
