@@ -52,9 +52,9 @@ println(orderDescription)
 // Jobu Tupaki orders 12 everything bagels
 ```
 
-Projects
---------
+Modules
+-------
 
-* plugin: The Gradle plugin, with logic to parse string resources and generate formatter methods.
-* runtime: The client library, with the types that Gingham requires to work at runtime.
-* sample: A sample Android project that demonstrates usage of Gingham.
+* `plugin`: The Gradle plugin, with logic to parse string resources and generate formatter methods.
+* `runtime`: The client library, with the types that Gingham requires to work at runtime.
+* `sample`: A sample Android project that demonstrates usage of Gingham.
