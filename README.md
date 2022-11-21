@@ -14,9 +14,9 @@ formatted string resource:
 <resources>
   <string name="order_description">
     {count, plural,
-    =0 {{name} does not order any bagels}
-    =1 {{name} orders an everything bagel}
-    other {{name} orders # everything bagels}
+      =0 {{name} does not order any bagels}
+      =1 {{name} orders an everything bagel}
+      other {{name} orders # everything bagels}
     }
   </string>
 </resources>
