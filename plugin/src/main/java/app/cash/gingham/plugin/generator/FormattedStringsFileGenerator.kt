@@ -15,14 +15,15 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 
 private const val GINGHAM_PACKAGE = "app.cash.gingham"
 
-private val FORMATTED_STRING_RESOURCE =
+private val FORMATTED_STRING =
   ClassName(packageName = GINGHAM_PACKAGE, "FormattedString")
+private val FORMATTED_STRINGS =
+  ClassName(packageName = GINGHAM_PACKAGE, "FormattedStrings")
 private val ICU_NAMED_ARG_STRING_RESOURCE =
   ClassName(packageName = GINGHAM_PACKAGE, "IcuNamedArgFormattedString")
 private val ICU_NUMBERED_ARG_STRING_RESOURCE =
@@ -35,15 +36,11 @@ fun generateFormattedStringResources(
   val packageStringsType = ClassName(packageName = packageName, "R", "string")
   return FileSpec.builder(packageName = packageName, fileName = "FormattedStrings")
     .addImport(packageName = packageName, "R")
-    .addType(
-      TypeSpec.objectBuilder("FormattedStrings")
-        .apply {
-          tokenizedStringResources.forEach { tokenizedStringResource ->
-            addFunction(tokenizedStringResource.asFunction(packageStringsType))
-          }
-        }
-        .build()
-    )
+    .apply {
+      tokenizedStringResources.forEach { tokenizedStringResource ->
+        addFunction(tokenizedStringResource.asFunction(packageStringsType))
+      }
+    }
     .build()
 }
 
@@ -51,8 +48,9 @@ private fun TokenizedStringResource.asFunction(packageStringsType: TypeName): Fu
   val hasNumberedArgs = args.any { it.isNumbered() }
   val parameters = args.map { it.asParameter() }
   return FunSpec.builder(name)
+    .receiver(FORMATTED_STRINGS)
     .apply { parameters.forEach { addParameter(it) } }
-    .returns(FORMATTED_STRING_RESOURCE)
+    .returns(FORMATTED_STRING)
     .apply {
       if (hasNumberedArgs) {
         addStatement("val numberedArgs = listOf(%L)", parameters.joinToString { it.name })

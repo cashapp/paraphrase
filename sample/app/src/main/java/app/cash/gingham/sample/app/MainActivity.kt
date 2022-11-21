@@ -16,9 +16,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.cash.gingham.FormattedString
+import app.cash.gingham.FormattedStrings
 import app.cash.gingham.getString
+import app.cash.gingham.sample.library.library_date_argument
+import app.cash.gingham.sample.library.library_number_argument
+import app.cash.gingham.sample.library.library_plural_argument
+import app.cash.gingham.sample.library.library_select_argument
+import app.cash.gingham.sample.library.library_select_ordinal_argument
+import app.cash.gingham.sample.library.library_text_argument
+import app.cash.gingham.sample.library.library_time_argument
 import java.util.Date
-import app.cash.gingham.sample.library.FormattedStrings as LibraryFormattedStrings
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,31 +107,31 @@ class MainActivity : ComponentActivity() {
     private val SAMPLE_LIBRARY_STRINGS = listOf(
       SampleString(
         label = "Text Argument",
-        formattedString = LibraryFormattedStrings.library_text_argument(name = "Jobu Tupaki")
+        formattedString = FormattedStrings.library_text_argument(name = "Jobu Tupaki")
       ),
       SampleString(
         label = "Date Argument",
-        formattedString = LibraryFormattedStrings.library_date_argument(release_date = Date())
+        formattedString = FormattedStrings.library_date_argument(release_date = Date())
       ),
       SampleString(
         label = "Number Argument",
-        formattedString = LibraryFormattedStrings.library_number_argument(budget = 10_000_000)
+        formattedString = FormattedStrings.library_number_argument(budget = 10_000_000)
       ),
       SampleString(
         label = "Time Argument",
-        formattedString = LibraryFormattedStrings.library_time_argument(showtime = Date())
+        formattedString = FormattedStrings.library_time_argument(showtime = Date())
       ),
       SampleString(
         label = "Plural Argument",
-        formattedString = LibraryFormattedStrings.library_plural_argument(count = 5)
+        formattedString = FormattedStrings.library_plural_argument(count = 5)
       ),
       SampleString(
         label = "Select Argument",
-        formattedString = LibraryFormattedStrings.library_select_argument(verse = "alpha")
+        formattedString = FormattedStrings.library_select_argument(verse = "alpha")
       ),
       SampleString(
         label = "Select Ordinal Argument",
-        formattedString = LibraryFormattedStrings.library_select_ordinal_argument(count = 5)
+        formattedString = FormattedStrings.library_select_ordinal_argument(count = 5)
       ),
     )
   }
