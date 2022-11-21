@@ -1,23 +1,23 @@
 <resources>
-  <string name="app_name">Gingham Sample App</string>
-  <string name="app_text_argument">{name}</string>
-  <string name="app_date_argument">{release_date, date}</string>
-  <string name="app_number_argument">{budget, number}</string>
-  <string name="app_time_argument">{showtime, time, short}</string>
-  <string name="app_plural_argument">
+  <string name="library_name">Gingham Sample Library</string>
+  <string name="library_text_argument">{name}</string>
+  <string name="library_date_argument">{release_date, date}</string>
+  <string name="library_number_argument">{budget, number}</string>
+  <string name="library_time_argument">{showtime, time, short}</string>
+  <string name="library_plural_argument">
     {count, plural,
       =0 {Jobu does not order any bagels}
       =1 {Jobu orders an everything bagel}
       other {Jobu orders # everything bagels}
     }
   </string>
-  <string name="app_select_argument">
+  <string name="library_select_argument">
     {verse, select,
       alpha {Evelyn talks to Alpha-Waymond}
       other {Evelyn talks to Waymond}
     }
   </string>
-  <string name="app_select_ordinal_argument">
+  <string name="library_select_ordinal_argument">
     {count, selectordinal,
       one {Evelyn verse jumps for the #st time}
       two {Evelyn verse jumps for the #nd time}

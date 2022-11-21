@@ -1,10 +1,11 @@
 plugins {
+  id("app.cash.gingham")
   id("com.android.library")
   id("org.jetbrains.kotlin.android")
 }
 
 android {
-  namespace = "app.cash.gingham"
+  namespace = "app.cash.gingham.sample.library"
   compileSdk = 33
 
   defaultConfig {
