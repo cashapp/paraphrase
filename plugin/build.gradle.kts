@@ -1,4 +1,5 @@
 plugins {
+  id("com.vanniktech.maven.publish")
   id("java-gradle-plugin")
   id("org.jetbrains.kotlin.jvm") version "1.7.10"
 }

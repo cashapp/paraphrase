@@ -1,5 +1,6 @@
 plugins {
   id("com.android.library")
+  id("com.vanniktech.maven.publish")
   id("org.jetbrains.kotlin.android")
 }
 
