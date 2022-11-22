@@ -36,7 +36,13 @@ class GinghamPlugin : Plugin<Project> {
     getVariants: T.() -> DomainObjectSet<out InternalBaseVariant>
   ) {
     plugins.withId(id) {
-      dependencies.add("implementation", GINGHAM_RUNTIME)
+      val isInternalBuild = project.properties["app.cash.gingham.internal"].toString() == "true"
+      if (isInternalBuild) {
+        dependencies.add("implementation", GINGHAM_RUNTIME)
+      } else {
+        dependencies.add("implementation", "app.cash.gingham:gingham-runtime:0.9.0")
+      }
+
       val extension = extensions.getByType(extensionType)
       extension.getVariants().all { variant ->
         registerGenerateFormattedStringResourcesTask(
