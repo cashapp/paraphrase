@@ -1,11 +1,12 @@
 // Copyright Square, Inc.
-package app.cash.gingham.plugin.parser
+package app.cash.gingham.plugin
 
 import app.cash.gingham.plugin.model.StringResource
+import app.cash.gingham.plugin.parser.parseResources
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class StringsFileParserTest {
+class ResourceParserTest {
   @Test
   fun parseSingleStringResource() {
     """
@@ -88,6 +89,6 @@ class StringsFileParserTest {
   }
 
   private fun String.assertParse(vararg expectedResources: StringResource) {
-    assertThat(parseStringResources(byteInputStream())).containsExactly(*expectedResources)
+    assertThat(parseResources(byteInputStream())).containsExactly(*expectedResources)
   }
 }

@@ -8,10 +8,10 @@ import java.io.File
 import java.io.InputStream
 import javax.xml.parsers.DocumentBuilderFactory
 
-internal fun parseStringResources(file: File): List<StringResource> =
-  parseStringResources(file.inputStream())
+internal fun parseResources(file: File): List<StringResource> =
+  parseResources(file.inputStream())
 
-internal fun parseStringResources(inputStream: InputStream): List<StringResource> =
+internal fun parseResources(inputStream: InputStream): List<StringResource> =
   DocumentBuilderFactory.newInstance()
     .newDocumentBuilder()
     .parse(inputStream)

@@ -2,7 +2,7 @@
 package app.cash.gingham.plugin
 
 import app.cash.gingham.plugin.generator.generateFormattedStringResources
-import app.cash.gingham.plugin.parser.parseStringResources
+import app.cash.gingham.plugin.parser.parseResources
 import app.cash.icu.tokens.Argument
 import app.cash.icu.tokens.ChoiceArgument
 import app.cash.icu.tokens.IcuToken
@@ -32,7 +32,7 @@ internal abstract class GenerateFormattedStrings @Inject constructor() : Default
     resDirectories
       .asFileTree
       .filter { it.isStringResourceFile() }
-      .flatMap { parseStringResources(it) }
+      .flatMap { parseResources(it) }
       .mapNotNull { tokenizeResource(it) }
       .let { generateFormattedStringResources(packageName = namespace.get(), it) }
       .writeTo(outputDirectory.get().asFile)
