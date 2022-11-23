@@ -30,7 +30,7 @@ private val ICU_NAMED_ARG_STRING_RESOURCE =
 private val ICU_NUMBERED_ARG_STRING_RESOURCE =
   ClassName(packageName = GINGHAM_PACKAGE, "IcuNumberedArgFormattedString")
 
-fun generateFormattedStringResources(
+internal fun generateFormattedStringResources(
   packageName: String,
   tokenizedStringResources: List<TokenizedStringResource>
 ): FileSpec {
