@@ -2,9 +2,7 @@
 package app.cash.gingham.plugin
 
 import app.cash.gingham.plugin.generator.generateFormattedStringResources
-import app.cash.gingham.plugin.model.TokenizedStringResource
 import app.cash.gingham.plugin.parser.parseStringResources
-import app.cash.icu.asIcuTokens
 import app.cash.icu.tokens.Argument
 import app.cash.icu.tokens.ChoiceArgument
 import app.cash.icu.tokens.IcuToken
@@ -35,13 +33,7 @@ internal abstract class GenerateFormattedStrings @Inject constructor() : Default
       .asFileTree
       .filter { it.isStringResourceFile() }
       .flatMap { parseStringResources(it) }
-      .map { stringResource ->
-        TokenizedStringResource(
-          name = stringResource.name,
-          args = stringResource.text.asIcuTokens().findArguments()
-        )
-      }
-      .filter { it.args.isNotEmpty() }
+      .mapNotNull { tokenizeResource(it) }
       .let { generateFormattedStringResources(packageName = namespace.get(), it) }
       .writeTo(outputDirectory.get().asFile)
   }
