@@ -18,43 +18,36 @@ private const val GINGHAM_RUNTIME = "app.cash.gingham:runtime"
 class GinghamPlugin : Plugin<Project> {
   override fun apply(target: Project) = target.run {
     configureAndroidPlugin(
-      id = ANDROID_APP_PLUGIN,
-      extensionType = AppExtension::class.java,
+      androidPluginId = ANDROID_APP_PLUGIN,
+      androidExtensionType = AppExtension::class.java,
       getVariants = { applicationVariants }
     )
 
     configureAndroidPlugin(
-      id = ANDROID_LIBRARY_PLUGIN,
-      extensionType = LibraryExtension::class.java,
+      androidPluginId = ANDROID_LIBRARY_PLUGIN,
+      androidExtensionType = LibraryExtension::class.java,
       getVariants = { libraryVariants }
     )
   }
 
   private fun <T : BaseExtension> Project.configureAndroidPlugin(
-    id: String,
-    extensionType: Class<T>,
+    androidPluginId: String,
+    androidExtensionType: Class<T>,
     getVariants: T.() -> DomainObjectSet<out InternalBaseVariant>
-  ) {
-    plugins.withId(id) {
-      val isInternalBuild = project.properties["app.cash.gingham.internal"].toString() == "true"
-      if (isInternalBuild) {
-        dependencies.add("implementation", GINGHAM_RUNTIME)
-      } else {
-        dependencies.add("implementation", "app.cash.gingham:gingham-runtime:0.9.0")
-      }
+  ) = plugins.withId(androidPluginId) {
+    val isInternalBuild = project.properties["app.cash.gingham.internal"].toString() == "true"
+    if (isInternalBuild) {
+      dependencies.add("implementation", GINGHAM_RUNTIME)
+    } else {
+      dependencies.add("implementation", "app.cash.gingham:gingham-runtime:0.9.0")
+    }
 
-      val extension = extensions.getByType(extensionType)
-      extension.getVariants().all { variant ->
-        registerGenerateFormattedStringResourcesTask(
-          extension = extension,
-          variant = variant
-        )
-      }
+    extensions.getByType(androidExtensionType).getVariants().all { variant ->
+      registerGenerateFormattedStringResourcesTask(variant = variant)
     }
   }
 
   private fun Project.registerGenerateFormattedStringResourcesTask(
-    extension: BaseExtension,
     variant: InternalBaseVariant
   ) = tasks.register(
     "generateFormattedStringResources${variant.name.capitalized()}",
@@ -63,7 +56,7 @@ class GinghamPlugin : Plugin<Project> {
     val outputDirectory = File("$buildDir/gingham/${variant.dirName}")
     variant.registerJavaGeneratingTask(this, outputDirectory)
     configure { task ->
-      task.namespace.set(extension.namespace)
+      task.namespace.set(variant.applicationId)
       task.resDirectories.from(variant.sourceSets.flatMap { it.resDirectories })
       task.outputDirectory.set(outputDirectory)
     }

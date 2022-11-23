@@ -5,7 +5,6 @@ plugins {
 }
 
 android {
-  namespace = "app.cash.gingham.sample.library"
   compileSdk = 33
 
   defaultConfig {
