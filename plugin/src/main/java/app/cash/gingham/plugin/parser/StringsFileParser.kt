@@ -5,12 +5,16 @@ import app.cash.gingham.plugin.model.StringResource
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.io.File
+import java.io.InputStream
 import javax.xml.parsers.DocumentBuilderFactory
 
 fun parseStringResources(file: File): List<StringResource> =
+  parseStringResources(file.inputStream())
+
+fun parseStringResources(inputStream: InputStream): List<StringResource> =
   DocumentBuilderFactory.newInstance()
     .newDocumentBuilder()
-    .parse(file)
+    .parse(inputStream)
     .getElementsByTagName("string")
     .asIterator()
     .asSequence()
