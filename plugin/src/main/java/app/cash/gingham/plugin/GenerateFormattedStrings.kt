@@ -1,11 +1,8 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.generator.generateFormattedStringResources
+import app.cash.gingham.plugin.generator.writeResources
 import app.cash.gingham.plugin.parser.parseResources
-import app.cash.icu.tokens.Argument
-import app.cash.icu.tokens.ChoiceArgument
-import app.cash.icu.tokens.IcuToken
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
@@ -32,21 +29,11 @@ internal abstract class GenerateFormattedStrings @Inject constructor() : Default
     resDirectories
       .asFileTree
       .filter { it.isStringResourceFile() }
-      .flatMap { parseResources(it) }
-      .mapNotNull { tokenizeResource(it) }
-      .let { generateFormattedStringResources(packageName = namespace.get(), it) }
-      .writeTo(outputDirectory.get().asFile)
+      .flatMap { parseResources(file = it) }
+      .mapNotNull { tokenizeResource(stringResource = it) }
+      .let { writeResources(packageName = namespace.get(), tokenizedResources = it) }
+      .writeTo(directory = outputDirectory.get().asFile)
   }
-
-  private fun List<IcuToken>.findArguments(): Set<Argument> =
-    flatMap { it.findArguments() }.toSet()
-
-  private fun IcuToken.findArguments(): Set<Argument> =
-    when (this) {
-      !is Argument -> emptySet()
-      !is ChoiceArgument<*> -> setOf(this)
-      else -> setOf(this) + choices.flatMap { it.value.findArguments() }
-    }
 
   private fun File.isStringResourceFile(): Boolean =
     isFile && bufferedReader().useLines { lines ->

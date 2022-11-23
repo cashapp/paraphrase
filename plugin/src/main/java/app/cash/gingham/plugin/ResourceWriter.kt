@@ -5,7 +5,6 @@ import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
-import app.cash.icu.tokens.Argument
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -25,7 +24,7 @@ private val ICU_NAMED_ARG_STRING_RESOURCE =
 private val ICU_NUMBERED_ARG_STRING_RESOURCE =
   ClassName(packageName = GINGHAM_PACKAGE, "IcuNumberedArgFormattedString")
 
-internal fun generateFormattedStringResources(
+internal fun writeResources(
   packageName: String,
   tokenizedResources: List<TokenizedResource>
 ): FileSpec {
@@ -34,15 +33,15 @@ internal fun generateFormattedStringResources(
     .addImport(packageName = packageName, "R")
     .apply {
       tokenizedResources.forEach { tokenizedResource ->
-        addFunction(tokenizedResource.asFunction(packageStringsType))
+        addFunction(tokenizedResource.toFunSpec(packageStringsType))
       }
     }
     .build()
 }
 
-private fun TokenizedResource.asFunction(packageStringsType: TypeName): FunSpec {
+private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
   val hasNumberedArgs = tokens.any { it is NumberedToken }
-  val parameters = tokens.map { it.asParameter() }
+  val parameters = tokens.map { it.toParameterSpec() }
   return FunSpec.builder(name)
     .receiver(FORMATTED_STRINGS)
     .apply { parameters.forEach { addParameter(it) } }
@@ -76,7 +75,7 @@ private fun TokenizedResource.asFunction(packageStringsType: TypeName): FunSpec 
     .build()
 }
 
-private fun Token.asParameter(): ParameterSpec =
+private fun Token.toParameterSpec(): ParameterSpec =
   ParameterSpec(
     name = when (this) {
       is NamedToken -> name
@@ -84,5 +83,3 @@ private fun Token.asParameter(): ParameterSpec =
     },
     type = type.asClassName()
   )
-
-private fun Argument.isNumbered(): Boolean = name.toIntOrNull() != null
