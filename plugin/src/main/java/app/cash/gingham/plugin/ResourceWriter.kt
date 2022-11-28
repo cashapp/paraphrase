@@ -15,21 +15,21 @@ import com.squareup.kotlinpoet.buildCodeBlock
 
 private const val GINGHAM_PACKAGE = "app.cash.gingham"
 
-private val FORMATTED_STRING =
-  ClassName(packageName = GINGHAM_PACKAGE, "FormattedString")
-private val FORMATTED_STRINGS =
-  ClassName(packageName = GINGHAM_PACKAGE, "FormattedStrings")
-private val ICU_NAMED_ARG_STRING_RESOURCE =
-  ClassName(packageName = GINGHAM_PACKAGE, "IcuNamedArgFormattedString")
-private val ICU_NUMBERED_ARG_STRING_RESOURCE =
-  ClassName(packageName = GINGHAM_PACKAGE, "IcuNumberedArgFormattedString")
+private val FORMATTED_RESOURCE =
+  ClassName(packageName = GINGHAM_PACKAGE, "FormattedResource")
+private val FORMATTED_RESOURCES =
+  ClassName(packageName = GINGHAM_PACKAGE, "FormattedResources")
+private val ICU_NAMED_ARG_FORMATTED_RESOURCE =
+  ClassName(packageName = GINGHAM_PACKAGE, "IcuNamedArgFormattedResource")
+private val ICU_NUMBERED_ARG_FORMATTED_RESOURCE =
+  ClassName(packageName = GINGHAM_PACKAGE, "IcuNumberedArgFormattedResource")
 
 internal fun writeResources(
   packageName: String,
   tokenizedResources: List<TokenizedResource>
 ): FileSpec {
   val packageStringsType = ClassName(packageName = packageName, "R", "string")
-  return FileSpec.builder(packageName = packageName, fileName = "FormattedStrings")
+  return FileSpec.builder(packageName = packageName, fileName = "FormattedResources")
     .addImport(packageName = packageName, "R")
     .apply {
       tokenizedResources.forEach { tokenizedResource ->
@@ -43,15 +43,15 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
   val hasNumberedArgs = tokens.any { it is NumberedToken }
   val parameters = tokens.map { it.toParameterSpec() }
   return FunSpec.builder(name)
-    .receiver(FORMATTED_STRINGS)
+    .receiver(FORMATTED_RESOURCES)
     .apply { parameters.forEach { addParameter(it) } }
-    .returns(FORMATTED_STRING)
+    .returns(FORMATTED_RESOURCE)
     .apply {
       if (hasNumberedArgs) {
         addStatement("val numberedArgs = listOf(%L)", parameters.joinToString { it.name })
         addCode(
           buildCodeBlock {
-            add("return %T(⇥\n", ICU_NUMBERED_ARG_STRING_RESOURCE)
+            add("return %T(⇥\n", ICU_NUMBERED_ARG_FORMATTED_RESOURCE)
             addStatement("resourceId = %T.%L,", packageStringsType, name)
             addStatement("numberedArgs = numberedArgs")
             add("⇤)\n")
@@ -64,7 +64,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
         )
         addCode(
           buildCodeBlock {
-            add("return %T(⇥\n", ICU_NAMED_ARG_STRING_RESOURCE)
+            add("return %T(⇥\n", ICU_NAMED_ARG_FORMATTED_RESOURCE)
             addStatement("resourceId = %T.%L,", packageStringsType, name)
             addStatement("namedArgs = namedArgs")
             add("⇤)\n")

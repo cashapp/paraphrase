@@ -25,9 +25,9 @@ class ResourceWriterTest {
       """
       package com.gingham.test
 
-      import app.cash.gingham.FormattedString
-      import app.cash.gingham.FormattedStrings
-      import app.cash.gingham.IcuNamedArgFormattedString
+      import app.cash.gingham.FormattedResource
+      import app.cash.gingham.FormattedResources
+      import app.cash.gingham.IcuNamedArgFormattedResource
       import com.gingham.test.R
       import java.util.Date
       import kotlin.Any
@@ -35,16 +35,16 @@ class ResourceWriterTest {
       import kotlin.Number
       import kotlin.String
 
-      public fun FormattedStrings.test_named(
+      public fun FormattedResources.test_named(
         first: Any,
         second: Date,
         third: Int,
         fourth: Number,
         fifth: String,
-      ): FormattedString {
+      ): FormattedResource {
         val namedArgs = mapOf("first" to first, "second" to second, "third" to third, "fourth" to fourth,
             "fifth" to fifth)
-        return IcuNamedArgFormattedString(
+        return IcuNamedArgFormattedResource(
           resourceId = R.string.test_named,
           namedArgs = namedArgs
         )
@@ -69,9 +69,9 @@ class ResourceWriterTest {
       """
       package com.gingham.test
 
-      import app.cash.gingham.FormattedString
-      import app.cash.gingham.FormattedStrings
-      import app.cash.gingham.IcuNumberedArgFormattedString
+      import app.cash.gingham.FormattedResource
+      import app.cash.gingham.FormattedResources
+      import app.cash.gingham.IcuNumberedArgFormattedResource
       import com.gingham.test.R
       import java.util.Date
       import kotlin.Any
@@ -79,15 +79,15 @@ class ResourceWriterTest {
       import kotlin.Number
       import kotlin.String
 
-      public fun FormattedStrings.test_numbered(
+      public fun FormattedResources.test_numbered(
         arg0: Any,
         arg1: Date,
         arg2: Int,
         arg3: Number,
         arg4: String,
-      ): FormattedString {
+      ): FormattedResource {
         val numberedArgs = listOf(arg0, arg1, arg2, arg3, arg4)
-        return IcuNumberedArgFormattedString(
+        return IcuNumberedArgFormattedResource(
           resourceId = R.string.test_numbered,
           numberedArgs = numberedArgs
         )

@@ -14,7 +14,7 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 import javax.inject.Inject
 
-internal abstract class GenerateFormattedStrings @Inject constructor() : DefaultTask() {
+internal abstract class GenerateFormattedResources @Inject constructor() : DefaultTask() {
   @get:Input
   abstract val namespace: Property<String>
 

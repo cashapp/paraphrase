@@ -6,12 +6,12 @@ import android.icu.text.MessageFormat
 import androidx.annotation.StringRes
 
 /**
- * A [FormattedString] that uses named parameters to fill in an ICU message pattern.
+ * A [FormattedResource] that uses named parameters to fill in an ICU message pattern.
  */
-data class IcuNamedArgFormattedString(
+data class IcuNamedArgFormattedResource(
   @StringRes val resourceId: Int,
   val namedArgs: Map<String, Any>
-) : FormattedString {
+) : FormattedResource {
   override fun resolve(resources: Resources): String {
     return MessageFormat.format(resources.getString(resourceId), namedArgs)
   }

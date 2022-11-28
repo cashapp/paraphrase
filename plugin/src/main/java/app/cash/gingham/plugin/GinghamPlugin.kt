@@ -43,15 +43,15 @@ class GinghamPlugin : Plugin<Project> {
     }
 
     extensions.getByType(androidExtensionType).getVariants().all { variant ->
-      registerGenerateFormattedStringResourcesTask(variant = variant)
+      registerGenerateFormattedResourcesTask(variant = variant)
     }
   }
 
-  private fun Project.registerGenerateFormattedStringResourcesTask(
+  private fun Project.registerGenerateFormattedResourcesTask(
     variant: InternalBaseVariant
   ) = tasks.register(
-    "generateFormattedStringResources${variant.name.capitalized()}",
-    GenerateFormattedStrings::class.java
+    "generateFormattedResources${variant.name.capitalized()}",
+    GenerateFormattedResources::class.java
   ).apply {
     val outputDirectory = File("$buildDir/gingham/${variant.dirName}")
     variant.registerJavaGeneratingTask(this, outputDirectory)

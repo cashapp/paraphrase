@@ -42,7 +42,7 @@ Finally, use the type safe formatters in your code:
 import app.cash.gingham.getString
 
 val orderDescription = resources.getString(
-  FormattedStrings.order_description(
+  FormattedResources.order_description(
     count = 12,
     name = "Jobu Tupaki"
   )
