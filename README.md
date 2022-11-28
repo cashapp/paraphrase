@@ -50,6 +50,18 @@ Or run the Gingham gradle task for the relevant build flavor:
 ./gradlew my-app:generateFormattedResourcesRelease
 ```
 
+That generates a formatted resource method that looks like this:
+```kotlin
+public fun FormattedResources.order_description(count: Int, name: Any): FormattedResource {
+  val namedArgs = mapOf("count" to count, "name" to name)
+  return IcuNamedArgFormattedResource(
+    id = R.string.order_description,
+    namedArgs = namedArgs
+  )
+}
+```
+
+
 ### Step 4: Use the Formatted Resources
 
 In your view modules:
