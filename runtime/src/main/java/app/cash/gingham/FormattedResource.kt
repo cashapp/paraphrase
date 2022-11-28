@@ -3,6 +3,7 @@ package app.cash.gingham
 
 import android.content.Context
 import android.content.res.Resources
+import android.icu.text.MessageFormat
 
 /**
  * A [FormattedResource] consists of:
@@ -25,21 +26,33 @@ import android.content.res.Resources
  * - An integer value for the suspects argument
  * - A string value for the detective argument
  */
-fun interface FormattedResource {
+sealed interface FormattedResource {
   /**
-   * Resolves the final formatted version of the string by:
-   * 1. Using [Resources] to look up the string pattern
-   * 2. Inserting argument values into the pattern
+   * The ID of the underlying Android string resource.
    */
-  fun resolve(resources: Resources): String
+  val id: Int
 }
 
 /**
  * Resolves and returns the final formatted version of the given formatted string.
  */
-fun Context.getString(formattedResource: FormattedResource): String = formattedResource.resolve(resources)
+fun Context.getString(formattedResource: FormattedResource): String =
+  resources.getString(formattedResource)
 
 /**
  * Resolves and returns the final formatted version of the given formatted string.
  */
-fun Resources.getString(formattedResource: FormattedResource): String = formattedResource.resolve(this)
+fun Resources.getString(formattedResource: FormattedResource): String =
+  when (formattedResource) {
+    is IcuNamedArgFormattedResource ->
+      MessageFormat.format(
+        getString(formattedResource.id),
+        formattedResource.namedArgs
+      )
+
+    is IcuNumberedArgFormattedResource ->
+      MessageFormat.format(
+        getString(formattedResource.id),
+        *formattedResource.numberedArgs.toTypedArray()
+      )
+  }
