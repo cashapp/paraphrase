@@ -52,7 +52,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
         addCode(
           buildCodeBlock {
             add("return %T(⇥\n", ICU_NUMBERED_ARG_FORMATTED_RESOURCE)
-            addStatement("resourceId = %T.%L,", packageStringsType, name)
+            addStatement("id = %T.%L,", packageStringsType, name)
             addStatement("numberedArgs = numberedArgs")
             add("⇤)\n")
           }
@@ -65,7 +65,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
         addCode(
           buildCodeBlock {
             add("return %T(⇥\n", ICU_NAMED_ARG_FORMATTED_RESOURCE)
-            addStatement("resourceId = %T.%L,", packageStringsType, name)
+            addStatement("id = %T.%L,", packageStringsType, name)
             addStatement("namedArgs = namedArgs")
             add("⇤)\n")
           }

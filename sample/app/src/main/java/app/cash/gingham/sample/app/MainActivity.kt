@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.cash.gingham.FormattedString
-import app.cash.gingham.FormattedStrings
+import app.cash.gingham.FormattedResource
+import app.cash.gingham.FormattedResources
 import app.cash.gingham.getString
 import app.cash.gingham.sample.library.library_date_argument
 import app.cash.gingham.sample.library.library_number_argument
@@ -64,74 +64,74 @@ class MainActivity : ComponentActivity() {
       )
 
       Text(
-        text = resources.getString(sampleString.formattedString),
+        text = resources.getString(sampleString.formattedResource),
         fontSize = 16.sp,
       )
     }
   }
 
   companion object {
-    data class SampleString(val label: String, val formattedString: FormattedString)
+    data class SampleString(val label: String, val formattedResource: FormattedResource)
 
     private val SAMPLE_APP_STRINGS = listOf(
       SampleString(
         label = "Text Argument",
-        formattedString = FormattedStrings.app_text_argument(name = "Jobu Tupaki")
+        formattedResource = FormattedResources.app_text_argument(name = "Jobu Tupaki")
       ),
       SampleString(
         label = "Date Argument",
-        formattedString = FormattedStrings.app_date_argument(release_date = Date())
+        formattedResource = FormattedResources.app_date_argument(release_date = Date())
       ),
       SampleString(
         label = "Number Argument",
-        formattedString = FormattedStrings.app_number_argument(budget = 10_000_000)
+        formattedResource = FormattedResources.app_number_argument(budget = 10_000_000)
       ),
       SampleString(
         label = "Time Argument",
-        formattedString = FormattedStrings.app_time_argument(showtime = Date())
+        formattedResource = FormattedResources.app_time_argument(showtime = Date())
       ),
       SampleString(
         label = "Plural Argument",
-        formattedString = FormattedStrings.app_plural_argument(count = 5)
+        formattedResource = FormattedResources.app_plural_argument(count = 5)
       ),
       SampleString(
         label = "Select Argument",
-        formattedString = FormattedStrings.app_select_argument(verse = "alpha")
+        formattedResource = FormattedResources.app_select_argument(verse = "alpha")
       ),
       SampleString(
         label = "Select Ordinal Argument",
-        formattedString = FormattedStrings.app_select_ordinal_argument(count = 5)
+        formattedResource = FormattedResources.app_select_ordinal_argument(count = 5)
       ),
     )
 
     private val SAMPLE_LIBRARY_STRINGS = listOf(
       SampleString(
         label = "Text Argument",
-        formattedString = FormattedStrings.library_text_argument(name = "Jobu Tupaki")
+        formattedResource = FormattedResources.library_text_argument(name = "Jobu Tupaki")
       ),
       SampleString(
         label = "Date Argument",
-        formattedString = FormattedStrings.library_date_argument(release_date = Date())
+        formattedResource = FormattedResources.library_date_argument(release_date = Date())
       ),
       SampleString(
         label = "Number Argument",
-        formattedString = FormattedStrings.library_number_argument(budget = 10_000_000)
+        formattedResource = FormattedResources.library_number_argument(budget = 10_000_000)
       ),
       SampleString(
         label = "Time Argument",
-        formattedString = FormattedStrings.library_time_argument(showtime = Date())
+        formattedResource = FormattedResources.library_time_argument(showtime = Date())
       ),
       SampleString(
         label = "Plural Argument",
-        formattedString = FormattedStrings.library_plural_argument(count = 5)
+        formattedResource = FormattedResources.library_plural_argument(count = 5)
       ),
       SampleString(
         label = "Select Argument",
-        formattedString = FormattedStrings.library_select_argument(verse = "alpha")
+        formattedResource = FormattedResources.library_select_argument(verse = "alpha")
       ),
       SampleString(
         label = "Select Ordinal Argument",
-        formattedString = FormattedStrings.library_select_ordinal_argument(count = 5)
+        formattedResource = FormattedResources.library_select_ordinal_argument(count = 5)
       ),
     )
   }
