@@ -6,8 +6,19 @@ A Gradle plugin that generates type checked formatters for patterned Android str
 Usage
 -----
 
-Let's say you have an Android application or library module that contains the following ICU
-formatted string resource:
+### Step 1: Add the Gingham Plugin
+
+In the `build.gradle.kts` file of an Android application or library module:
+
+```kotlin
+plugins {
+  id("app.cash.gingham")
+}
+```
+
+### Step 2: Add an ICU String Resource
+
+In the `strings.xml` file within the module:
 
 ```xml
 
@@ -22,26 +33,45 @@ formatted string resource:
 </resources>
 ```
 
-First, apply the Gingham plugin to the module:
+For more information on the ICU message format, see the [ICU docs](https://unicode-org.github.io/icu/userguide/format_parse/messages).
 
-```kotlin
-plugins {
-  id("app.cash.gingham")
-}
-```
+### Step 3: Generate the Formatted Resources
 
-Then, generate the type safe formatters by building the module:
+Build the module:
 
 ```shell
 ./gradlew my-app:build
 ```
 
-Finally, use the type safe formatters in your code:
+Or run the Gingham gradle task for the relevant build flavor:
+
+```shell
+./gradlew my-app:generateFormattedResourcesDebug
+./gradlew my-app:generateFormattedResourcesRelease
+```
+
+### Step 4: Use the Formatted Resources
+
+In your view modules:
 
 ```kotlin
 import app.cash.gingham.getString
 
 val orderDescription = resources.getString(
+  FormattedResources.order_description(
+    count = 12,
+    name = "Jobu Tupaki"
+  )
+)
+
+println(orderDescription)
+// Jobu Tupaki orders 12 everything bagels
+```
+
+Or in your presenter modules:
+
+```kotlin
+val orderDescription = stringManager.getString(
   FormattedResources.order_description(
     count = 12,
     name = "Jobu Tupaki"
