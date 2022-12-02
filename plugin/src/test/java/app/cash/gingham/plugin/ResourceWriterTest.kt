@@ -45,7 +45,7 @@ class ResourceWriterTest {
         val namedArgs = mapOf("first" to first, "second" to second, "third" to third, "fourth" to fourth,
             "fifth" to fifth)
         return IcuNamedArgFormattedResource(
-          resourceId = R.string.test_named,
+          id = R.string.test_named,
           namedArgs = namedArgs
         )
       }
@@ -88,7 +88,7 @@ class ResourceWriterTest {
       ): FormattedResource {
         val numberedArgs = listOf(arg0, arg1, arg2, arg3, arg4)
         return IcuNumberedArgFormattedResource(
-          resourceId = R.string.test_numbered,
+          id = R.string.test_numbered,
           numberedArgs = numberedArgs
         )
       }
