@@ -19,8 +19,8 @@ java {
 }
 
 dependencies {
-  implementation("app.cash.icu:icu-message-parser:0.9.0")
   implementation("com.android.tools.build:gradle:7.2.1")
+  implementation("com.ibm.icu:icu4j:72.1")
   implementation("com.squareup:kotlinpoet:1.12.0")
   testImplementation("com.google.truth:truth:1.1.3")
   testImplementation("junit:junit:4.13.2")
