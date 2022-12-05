@@ -27,17 +27,11 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
   val pattern = try {
     MessagePattern(stringResource.text)
   } catch (throwable: Throwable) {
-    return TokenizedResource(
-      name = stringResource.name,
-      tokens = emptyList()
-    )
+    return stringResource.toTokenizedResource(tokens = emptyList())
   }
 
   if (!pattern.hasNamedArguments() && !pattern.hasNumberedArguments()) {
-    return TokenizedResource(
-      name = stringResource.name,
-      tokens = emptyList()
-    )
+    return stringResource.toTokenizedResource(tokens = emptyList())
   }
 
   val tokens = pattern.partsIterator()
@@ -73,11 +67,11 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
     }
   }
 
-  return TokenizedResource(
-    name = stringResource.name,
-    tokens = deduplicatedTokens.values.toList()
-  )
+  return stringResource.toTokenizedResource(tokens = deduplicatedTokens.values.toList())
 }
+
+private fun StringResource.toTokenizedResource(tokens: List<Token>): TokenizedResource =
+  TokenizedResource(name = name, description = description, tokens = tokens)
 
 private fun MessagePattern.getToken(identifier: Part, type: KClass<*>): Token =
   when (identifier.type) {

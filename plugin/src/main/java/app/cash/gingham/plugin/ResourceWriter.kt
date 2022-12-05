@@ -46,6 +46,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
   val hasNumberedArgs = tokens.any { it is NumberedToken }
   val parameters = tokens.map { it.toParameterSpec() }
   return FunSpec.builder(name)
+    .apply { if (description != null) addKdoc(description) }
     .receiver(FORMATTED_RESOURCES)
     .apply { parameters.forEach { addParameter(it) } }
     .returns(FORMATTED_RESOURCE)

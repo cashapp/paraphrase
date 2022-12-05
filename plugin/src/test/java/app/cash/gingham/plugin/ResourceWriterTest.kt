@@ -1,7 +1,6 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.generator.writeResources
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
@@ -14,6 +13,7 @@ class ResourceWriterTest {
   fun writeResourceWithNamedTokens() {
     TokenizedResource(
       name = "test_named",
+      description = "Named Description",
       tokens = listOf(
         NamedToken(name = "first", type = Any::class),
         NamedToken(name = "second", type = Date::class),
@@ -35,6 +35,9 @@ class ResourceWriterTest {
       import kotlin.Number
       import kotlin.String
 
+      /**
+       * Named Description
+       */
       public fun FormattedResources.test_named(
         first: Any,
         second: Date,
@@ -58,6 +61,7 @@ class ResourceWriterTest {
   fun writeResourceWithNumberedTokens() {
     TokenizedResource(
       name = "test_numbered",
+      description = "Numbered Description",
       tokens = listOf(
         NumberedToken(number = 0, type = Any::class),
         NumberedToken(number = 1, type = Date::class),
@@ -79,6 +83,9 @@ class ResourceWriterTest {
       import kotlin.Number
       import kotlin.String
 
+      /**
+       * Numbered Description
+       */
       public fun FormattedResources.test_numbered(
         arg0: Any,
         arg1: Date,

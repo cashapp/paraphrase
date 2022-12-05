@@ -32,10 +32,26 @@ internal fun parseResources(inputStream: InputStream): List<StringResource> =
     .map {
       StringResource(
         name = it.attributes.getNamedItem("name").childNodes.item(0).textContent,
-        text = it.textContent
+        description = it.precedingComment()?.textContent?.trim(),
+        text = it.textContent,
       )
     }
     .toList()
+
+private fun Node.precedingComment(): Node? {
+  val candidate = previousSibling ?: return null
+  return when {
+    candidate.nodeType == Node.COMMENT_NODE -> {
+      candidate
+    }
+    candidate.nodeType == Node.TEXT_NODE && candidate.textContent.isBlank() -> {
+      candidate.precedingComment()
+    }
+    else -> {
+      null
+    }
+  }
+}
 
 private fun NodeList.asIterator(): Iterator<Node> = object : Iterator<Node> {
   private var index = 0
