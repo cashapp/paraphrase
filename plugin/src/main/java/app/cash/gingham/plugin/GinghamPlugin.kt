@@ -15,6 +15,9 @@ private const val ANDROID_APP_PLUGIN = "com.android.application"
 private const val ANDROID_LIBRARY_PLUGIN = "com.android.library"
 private const val GINGHAM_RUNTIME = "app.cash.gingham:runtime"
 
+/**
+ * A Gradle plugin that generates type checked formatters for patterned Android string resources.
+ */
 class GinghamPlugin : Plugin<Project> {
   override fun apply(target: Project) = target.run {
     configureAndroidPlugin(

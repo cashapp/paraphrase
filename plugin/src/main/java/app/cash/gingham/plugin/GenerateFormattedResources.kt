@@ -14,6 +14,10 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 import javax.inject.Inject
 
+/**
+ * A Gradle task that reads all of the Android string resources in a module and then generates
+ * formatted resource methods for any that contain ICU arguments.
+ */
 internal abstract class GenerateFormattedResources @Inject constructor() : DefaultTask() {
   @get:Input
   abstract val namespace: Property<String>
