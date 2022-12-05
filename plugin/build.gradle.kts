@@ -1,7 +1,8 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-  id("com.vanniktech.maven.publish")
-  id("java-gradle-plugin")
-  id("org.jetbrains.kotlin.jvm") version "1.7.10"
+  `java-gradle-plugin`
+  kotlin("jvm")
+  alias(libs.plugins.mavenPublish)
 }
 
 gradlePlugin {
@@ -19,9 +20,10 @@ java {
 }
 
 dependencies {
-  implementation("com.android.tools.build:gradle:7.2.1")
-  implementation("com.ibm.icu:icu4j:72.1")
-  implementation("com.squareup:kotlinpoet:1.12.0")
-  testImplementation("com.google.truth:truth:1.1.3")
-  testImplementation("junit:junit:4.13.2")
+  implementation(libs.agp)
+  implementation(libs.icu4j)
+  implementation(libs.kotlinPoet)
+
+  testImplementation(libs.junit)
+  testImplementation(libs.truth)
 }

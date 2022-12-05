@@ -1,7 +1,8 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-  id("com.android.library")
-  id("com.vanniktech.maven.publish")
-  id("org.jetbrains.kotlin.android")
+  kotlin("android")
+  alias(libs.plugins.androidLibrary)
+  alias(libs.plugins.mavenPublish)
 }
 
 android {
@@ -24,5 +25,5 @@ android {
 }
 
 dependencies {
-  implementation("androidx.annotation:annotation:1.5.0")
+  implementation(libs.androidAnnotation)
 }

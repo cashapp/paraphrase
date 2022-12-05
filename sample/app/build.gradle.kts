@@ -1,7 +1,8 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+  kotlin("android")
   id("app.cash.gingham")
-  id("com.android.application")
-  id("org.jetbrains.kotlin.android")
+  alias(libs.plugins.androidApplication)
 }
 
 android {
@@ -36,8 +37,8 @@ android {
 
 dependencies {
   implementation(project(":library"))
-  implementation("androidx.activity:activity-compose:1.5.1")
-  implementation("androidx.compose.material:material:1.3.1")
-  implementation("androidx.compose.ui:ui:1.3.1")
-  implementation("com.google.android.material:material:1.7.0")
+  implementation(libs.androidActivityCompose)
+  implementation(libs.androidMaterial)
+  implementation(libs.composeMaterial)
+  implementation(libs.composeUi)
 }

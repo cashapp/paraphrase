@@ -1,0 +1,33 @@
+[versions]
+agp = "7.3.1"
+androidActivityCompose = "1.5.1"
+androidAnnotation = "1.5.0"
+androidMaterial = "1.7.0"
+compose = "1.3.1"
+icu4j = "72.1"
+junit = "4.13.2"
+kotlin = "1.7.10"
+kotlinPoet = "1.12.0"
+mavenPublish = "0.22.0"
+spotless = "6.11.0"
+truth = "1.1.3"
+
+[libraries]
+agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+androidActivityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidActivityCompose" }
+androidAnnotation = { module = "androidx.annotation:annotation", version.ref = "androidAnnotation" }
+androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
+composeMaterial = { module = "androidx.compose.material:material", version.ref = "compose" }
+composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
