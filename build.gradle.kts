@@ -9,7 +9,7 @@ plugins {
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
   kotlin {
-    target("**/*.kt")
+    target("src/**/*.kt")
     licenseHeader("// Copyright Square, Inc.")
     // ktlint doesn't honour .editorconfig yet: https://github.com/diffplug/spotless/issues/142
     ktlint("0.41.0").userData(
