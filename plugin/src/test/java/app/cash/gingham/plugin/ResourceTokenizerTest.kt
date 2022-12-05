@@ -185,11 +185,7 @@ class ResourceTokenizerTest {
 
   private fun StringResource.assertTokens(vararg tokens: Token) {
     assertThat(tokenizeResource(this)).isEqualTo(
-      if (tokens.isEmpty()) {
-        null
-      } else {
-        TokenizedResource(name = name, tokens = tokens.toList())
-      }
+      TokenizedResource(name = name, tokens = tokens.toList())
     )
   }
 }

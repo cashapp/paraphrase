@@ -23,15 +23,21 @@ import kotlin.reflect.KClass
 /**
  * Parses the given resource and extracts the ICU argument tokens.
  */
-internal fun tokenizeResource(stringResource: StringResource): TokenizedResource? {
+internal fun tokenizeResource(stringResource: StringResource): TokenizedResource {
   val pattern = try {
     MessagePattern(stringResource.text)
   } catch (throwable: Throwable) {
-    return null
+    return TokenizedResource(
+      name = stringResource.name,
+      tokens = emptyList()
+    )
   }
 
   if (!pattern.hasNamedArguments() && !pattern.hasNumberedArguments()) {
-    return null
+    return TokenizedResource(
+      name = stringResource.name,
+      tokens = emptyList()
+    )
   }
 
   val tokens = pattern.partsIterator()
