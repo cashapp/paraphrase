@@ -1,5 +1,5 @@
 // Copyright Square, Inc.
-package app.cash.gingham.plugin.parser
+package app.cash.gingham.plugin
 
 import app.cash.gingham.plugin.model.StringResource
 import org.w3c.dom.Node

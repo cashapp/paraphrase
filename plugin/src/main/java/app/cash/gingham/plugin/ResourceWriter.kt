@@ -1,5 +1,5 @@
 // Copyright Square, Inc.
-package app.cash.gingham.plugin.generator
+package app.cash.gingham.plugin
 
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
