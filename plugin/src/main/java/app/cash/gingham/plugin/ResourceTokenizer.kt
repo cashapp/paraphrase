@@ -20,6 +20,9 @@ import com.ibm.icu.text.MessagePattern.Part.Type.ARG_START
 import java.util.Date
 import kotlin.reflect.KClass
 
+/**
+ * Parses the given resource and extracts the ICU argument tokens.
+ */
 internal fun tokenizeResource(stringResource: StringResource): TokenizedResource? {
   val pattern = try {
     MessagePattern(stringResource.text)

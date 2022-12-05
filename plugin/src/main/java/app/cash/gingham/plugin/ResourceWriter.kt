@@ -24,6 +24,9 @@ private val ICU_NAMED_ARG_FORMATTED_RESOURCE =
 private val ICU_NUMBERED_ARG_FORMATTED_RESOURCE =
   ClassName(packageName = GINGHAM_PACKAGE, "IcuNumberedArgFormattedResource")
 
+/**
+ * Writes the given tokenized resources to a Kotlin source file.
+ */
 internal fun writeResources(
   packageName: String,
   tokenizedResources: List<TokenizedResource>

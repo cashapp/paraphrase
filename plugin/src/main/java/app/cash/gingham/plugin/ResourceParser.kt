@@ -8,9 +8,19 @@ import java.io.File
 import java.io.InputStream
 import javax.xml.parsers.DocumentBuilderFactory
 
+/**
+ * Parses and returns all of the Android <string> resources declared in the given file.
+ *
+ * Ignores all other resources, including <plurals> and <string-array>.
+ */
 internal fun parseResources(file: File): List<StringResource> =
   parseResources(file.inputStream())
 
+/**
+ * Parses and returns all of the Android <string> resources declared in the given stream.
+ *
+ * Ignores all other resources, including <plurals> and <string-array>.
+ */
 internal fun parseResources(inputStream: InputStream): List<StringResource> =
   DocumentBuilderFactory.newInstance()
     .newDocumentBuilder()
