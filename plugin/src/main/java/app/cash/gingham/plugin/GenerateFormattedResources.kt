@@ -6,9 +6,11 @@ import app.cash.gingham.plugin.parser.parseResources
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import java.io.File
@@ -22,17 +24,21 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
   @get:Input
   abstract val namespace: Property<String>
 
+  @get:Internal
+  abstract val resourceDirectories: ConfigurableFileCollection
+
   @get:InputFiles
-  abstract val resDirectories: ConfigurableFileCollection
+  val stringResourceFiles: FileCollection
+    get() = resourceDirectories
+      .asFileTree
+      .filter { it.isStringResourceFile() }
 
   @get:OutputDirectory
   abstract val outputDirectory: DirectoryProperty
 
   @TaskAction
   fun generateFormattedStringResources() {
-    resDirectories
-      .asFileTree
-      .filter { it.isStringResourceFile() }
+    stringResourceFiles
       .flatMap { parseResources(file = it) }
       .map { tokenizeResource(stringResource = it) }
       .filter { it.tokens.isNotEmpty() }

@@ -60,7 +60,7 @@ class GinghamPlugin : Plugin<Project> {
     variant.registerJavaGeneratingTask(this, outputDirectory)
     configure { task ->
       task.namespace.set(variant.applicationId)
-      task.resDirectories.from(variant.sourceSets.flatMap { it.resDirectories })
+      task.resourceDirectories.from(variant.sourceSets.flatMap { it.resDirectories })
       task.outputDirectory.set(outputDirectory)
     }
   }
