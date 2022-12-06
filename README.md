@@ -23,6 +23,7 @@ In the `strings.xml` file within the module:
 ```xml
 
 <resources>
+  <!-- Describes an order placed at the deli. -->
   <string name="order_description">
     {count, plural,
       =0 {{name} does not order any bagels}
@@ -52,6 +53,9 @@ Or run the Gingham gradle task for the relevant build flavor:
 
 That generates a formatted resource method that looks like this:
 ```kotlin
+/**
+ * Describes an order placed at the deli.
+ */
 public fun FormattedResources.order_description(count: Int, name: Any): FormattedResource {
   val namedArgs = mapOf("count" to count, "name" to name)
   return IcuNamedArgFormattedResource(
