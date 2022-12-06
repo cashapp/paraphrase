@@ -1,13 +1,18 @@
+import com.diffplug.gradle.spotless.SpotlessExtension
+import com.vanniktech.maven.publish.MavenPublishPlugin
+import java.net.URI
+
 @Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 plugins {
   kotlin("android") version libs.versions.kotlin apply false
   kotlin("jvm") version libs.versions.kotlin apply false
   alias(libs.plugins.androidApplication) apply false
   alias(libs.plugins.androidLibrary) apply false
+  alias(libs.plugins.mavenPublish)
   alias(libs.plugins.spotless)
 }
 
-configure<com.diffplug.gradle.spotless.SpotlessExtension> {
+configure<SpotlessExtension> {
   kotlin {
     target("src/**/*.kt")
     licenseHeader("// Copyright Square, Inc.")
@@ -30,5 +35,27 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         "indent_size" to "2",
       )
     )
+  }
+}
+
+subprojects {
+  plugins.withType(MavenPublishPlugin::class) {
+    publishing {
+      repositories {
+        /**
+         * Want to push to an internal repository for testing?
+         * Set the following properties in ~/.gradle/gradle.properties.
+         *
+         * internalUrl=YOUR_INTERNAL_URL
+         * internalUsername=YOUR_USERNAME
+         * internalPassword=YOUR_PASSWORD
+         */
+        maven {
+          name = "internal"
+          url = URI(providers.gradleProperty("internalUrl").get())
+          credentials(PasswordCredentials::class)
+        }
+      }
+    }
   }
 }
