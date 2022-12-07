@@ -20,7 +20,8 @@ java {
 }
 
 dependencies {
-  implementation(libs.agp)
+  compileOnly(libs.agp)
+
   implementation(libs.icu4j)
   implementation(libs.kotlinPoet)
 
