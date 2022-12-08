@@ -33,10 +33,10 @@ class MainActivity : ComponentActivity() {
     setContent {
       LazyColumn {
         item { Header(text = "App Strings") }
-        items(SAMPLE_APP_STRINGS) { SampleString(it) }
+        items(APP_SAMPLES) { SampleRow(it) }
 
         item { Header(text = "Library Strings") }
-        items(SAMPLE_LIBRARY_STRINGS) { SampleString(it) }
+        items(LIBRARY_SAMPLES) { SampleRow(it) }
       }
     }
   }
@@ -52,86 +52,86 @@ class MainActivity : ComponentActivity() {
   }
 
   @Composable
-  private fun SampleString(sampleString: SampleString) {
+  private fun SampleRow(sample: Sample) {
     Column(
       modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
       Text(
         modifier = Modifier.padding(bottom = 4.dp),
         color = Color.DarkGray,
-        text = sampleString.label,
+        text = sample.label,
         fontSize = 12.sp,
       )
 
       Text(
-        text = resources.getString(sampleString.formattedResource),
+        text = resources.getString(sample.resource),
         fontSize = 16.sp,
       )
     }
   }
 
   companion object {
-    data class SampleString(val label: String, val formattedResource: FormattedResource)
+    data class Sample(val label: String, val resource: FormattedResource)
 
-    private val SAMPLE_APP_STRINGS = listOf(
-      SampleString(
+    private val APP_SAMPLES = listOf(
+      Sample(
         label = "Text Argument",
-        formattedResource = FormattedResources.app_text_argument(name = "Jobu Tupaki")
+        resource = FormattedResources.app_text_argument(name = "Jobu Tupaki")
       ),
-      SampleString(
+      Sample(
         label = "Date Argument",
-        formattedResource = FormattedResources.app_date_argument(release_date = Date())
+        resource = FormattedResources.app_date_argument(release_date = Date())
       ),
-      SampleString(
+      Sample(
         label = "Number Argument",
-        formattedResource = FormattedResources.app_number_argument(budget = 10_000_000)
+        resource = FormattedResources.app_number_argument(budget = 10_000_000)
       ),
-      SampleString(
+      Sample(
         label = "Time Argument",
-        formattedResource = FormattedResources.app_time_argument(showtime = Date())
+        resource = FormattedResources.app_time_argument(showtime = Date())
       ),
-      SampleString(
+      Sample(
         label = "Plural Argument",
-        formattedResource = FormattedResources.app_plural_argument(count = 5)
+        resource = FormattedResources.app_plural_argument(count = 5)
       ),
-      SampleString(
+      Sample(
         label = "Select Argument",
-        formattedResource = FormattedResources.app_select_argument(verse = "alpha")
+        resource = FormattedResources.app_select_argument(verse = "alpha")
       ),
-      SampleString(
+      Sample(
         label = "Select Ordinal Argument",
-        formattedResource = FormattedResources.app_select_ordinal_argument(count = 5)
+        resource = FormattedResources.app_select_ordinal_argument(count = 5)
       ),
     )
 
-    private val SAMPLE_LIBRARY_STRINGS = listOf(
-      SampleString(
+    private val LIBRARY_SAMPLES = listOf(
+      Sample(
         label = "Text Argument",
-        formattedResource = FormattedResources.library_text_argument(name = "Jobu Tupaki")
+        resource = FormattedResources.library_text_argument(name = "Jobu Tupaki")
       ),
-      SampleString(
+      Sample(
         label = "Date Argument",
-        formattedResource = FormattedResources.library_date_argument(release_date = Date())
+        resource = FormattedResources.library_date_argument(release_date = Date())
       ),
-      SampleString(
+      Sample(
         label = "Number Argument",
-        formattedResource = FormattedResources.library_number_argument(budget = 10_000_000)
+        resource = FormattedResources.library_number_argument(budget = 10_000_000)
       ),
-      SampleString(
+      Sample(
         label = "Time Argument",
-        formattedResource = FormattedResources.library_time_argument(showtime = Date())
+        resource = FormattedResources.library_time_argument(showtime = Date())
       ),
-      SampleString(
+      Sample(
         label = "Plural Argument",
-        formattedResource = FormattedResources.library_plural_argument(count = 5)
+        resource = FormattedResources.library_plural_argument(count = 5)
       ),
-      SampleString(
+      Sample(
         label = "Select Argument",
-        formattedResource = FormattedResources.library_select_argument(verse = "alpha")
+        resource = FormattedResources.library_select_argument(verse = "alpha")
       ),
-      SampleString(
+      Sample(
         label = "Select Ordinal Argument",
-        formattedResource = FormattedResources.library_select_ordinal_argument(count = 5)
+        resource = FormattedResources.library_select_ordinal_argument(count = 5)
       ),
     )
   }
