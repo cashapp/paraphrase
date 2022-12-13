@@ -42,7 +42,7 @@ class GinghamPlugin : Plugin<Project> {
     if (isInternalBuild) {
       dependencies.add("implementation", GINGHAM_RUNTIME)
     } else {
-      dependencies.add("implementation", "app.cash.gingham:gingham-runtime:0.9.0")
+      dependencies.add("implementation", "app.cash.gingham:gingham-runtime:0.1.0")
     }
 
     extensions.getByType(androidExtensionType).getVariants().all { variant ->
