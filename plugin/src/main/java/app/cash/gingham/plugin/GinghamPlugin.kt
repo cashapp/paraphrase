@@ -57,6 +57,7 @@ class GinghamPlugin : Plugin<Project> {
     val outputDirectory = File("$buildDir/gingham/${variant.dirName}")
     variant.registerJavaGeneratingTask(this, outputDirectory)
     configure { task ->
+      task.description = "Generates type-safe formatters for ${variant.name} string resources"
       task.namespace.set(variant.applicationId)
       task.resourceDirectories.from(variant.sourceSets.flatMap { it.resDirectories })
       task.outputDirectory.set(outputDirectory)
