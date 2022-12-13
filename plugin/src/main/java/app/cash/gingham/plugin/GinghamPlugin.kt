@@ -13,8 +13,6 @@ import org.gradle.api.Project
 import org.gradle.configurationcache.extensions.capitalized
 import java.io.File
 
-private const val GINGHAM_RUNTIME = "app.cash.gingham:runtime"
-
 /**
  * A Gradle plugin that generates type checked formatters for patterned Android string resources.
  */
@@ -40,9 +38,9 @@ class GinghamPlugin : Plugin<Project> {
   ) = plugins.withType(androidPluginType) {
     val isInternalBuild = project.properties["app.cash.gingham.internal"].toString() == "true"
     if (isInternalBuild) {
-      dependencies.add("implementation", GINGHAM_RUNTIME)
+      dependencies.add("implementation", "app.cash.gingham:runtime")
     } else {
-      dependencies.add("implementation", "app.cash.gingham:gingham-runtime:0.1.0")
+      dependencies.add("implementation", "app.cash.gingham:gingham-runtime:${BuildConfig.VERSION}")
     }
 
     extensions.getByType(androidExtensionType).getVariants().all { variant ->

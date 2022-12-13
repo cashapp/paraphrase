@@ -39,6 +39,8 @@ configure<SpotlessExtension> {
 }
 
 subprojects {
+  version = extra["VERSION_NAME"]!!
+
   plugins.withType(MavenPublishPlugin::class) {
     publishing {
       repositories {

@@ -2,7 +2,12 @@
 plugins {
   `java-gradle-plugin`
   kotlin("jvm")
+  alias(libs.plugins.buildConfig)
   alias(libs.plugins.mavenPublish)
+}
+
+buildConfig {
+  buildConfigField("String", "VERSION", "\"${project.version}\"")
 }
 
 gradlePlugin {

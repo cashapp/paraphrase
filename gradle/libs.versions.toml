@@ -3,6 +3,7 @@ agp = "7.3.1"
 androidActivityCompose = "1.5.1"
 androidAnnotation = "1.5.0"
 androidMaterial = "1.7.0"
+buildConfig = "3.1.0"
 compose = "1.3.1"
 icu4j = "72.1"
 junit = "4.13.2"
@@ -27,6 +28,7 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
