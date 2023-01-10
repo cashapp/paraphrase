@@ -17,6 +17,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "gingham"
 include(
+  ":model",
   ":plugin",
   ":runtime",
 )

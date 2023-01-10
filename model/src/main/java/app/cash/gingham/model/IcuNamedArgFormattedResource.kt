@@ -1,5 +1,5 @@
 // Copyright Square, Inc.
-package app.cash.gingham
+package app.cash.gingham.model
 
 import androidx.annotation.StringRes
 

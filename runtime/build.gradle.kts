@@ -25,5 +25,5 @@ android {
 }
 
 dependencies {
-  implementation(libs.androidAnnotation)
+  implementation(project(":model"))
 }
