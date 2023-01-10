@@ -1,6 +1,9 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
+import app.cash.gingham.model.FormattedResource
+import app.cash.gingham.model.IcuNamedArgFormattedResource
+import app.cash.gingham.model.IcuNumberedArgFormattedResource
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
@@ -10,19 +13,14 @@ import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 
 private const val GINGHAM_PACKAGE = "app.cash.gingham"
 
-private val FORMATTED_RESOURCE =
-  ClassName(packageName = GINGHAM_PACKAGE, "FormattedResource")
 private val FORMATTED_RESOURCES =
   ClassName(packageName = GINGHAM_PACKAGE, "FormattedResources")
-private val ICU_NAMED_ARG_FORMATTED_RESOURCE =
-  ClassName(packageName = GINGHAM_PACKAGE, "IcuNamedArgFormattedResource")
-private val ICU_NUMBERED_ARG_FORMATTED_RESOURCE =
-  ClassName(packageName = GINGHAM_PACKAGE, "IcuNumberedArgFormattedResource")
 
 /**
  * Writes the given tokenized resources to a Kotlin source file.
@@ -34,11 +32,15 @@ internal fun writeResources(
   val packageStringsType = ClassName(packageName = packageName, "R", "string")
   return FileSpec.builder(packageName = packageName, fileName = "FormattedResources")
     .addImport(packageName = packageName, "R")
-    .apply {
-      tokenizedResources.forEach { tokenizedResource ->
-        addFunction(tokenizedResource.toFunSpec(packageStringsType))
-      }
-    }
+    .addType(
+      TypeSpec.objectBuilder("FormattedResources")
+        .apply {
+          tokenizedResources.forEach { tokenizedResource ->
+            addFunction(tokenizedResource.toFunSpec(packageStringsType))
+          }
+        }
+        .build()
+    )
     .build()
 }
 
@@ -49,13 +51,13 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
     .apply { if (description != null) addKdoc(description) }
     .receiver(FORMATTED_RESOURCES)
     .apply { parameters.forEach { addParameter(it) } }
-    .returns(FORMATTED_RESOURCE)
+    .returns(FormattedResource::class.java)
     .apply {
       if (hasNumberedArgs) {
         addStatement("val numberedArgs = listOf(%L)", parameters.joinToString { it.name })
         addCode(
           buildCodeBlock {
-            add("return %T(⇥\n", ICU_NUMBERED_ARG_FORMATTED_RESOURCE)
+            add("return %T(⇥\n", IcuNumberedArgFormattedResource::class.java)
             addStatement("id = %T.%L,", packageStringsType, name)
             addStatement("numberedArgs = numberedArgs")
             add("⇤)\n")
@@ -68,7 +70,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
         )
         addCode(
           buildCodeBlock {
-            add("return %T(⇥\n", ICU_NAMED_ARG_FORMATTED_RESOURCE)
+            add("return %T(⇥\n", IcuNamedArgFormattedResource::class.java)
             addStatement("id = %T.%L,", packageStringsType, name)
             addStatement("namedArgs = namedArgs")
             add("⇤)\n")
