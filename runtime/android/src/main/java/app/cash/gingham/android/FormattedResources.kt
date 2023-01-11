@@ -8,8 +8,6 @@ import app.cash.gingham.model.FormattedResource
 import app.cash.gingham.model.NamedArgFormattedResource
 import app.cash.gingham.model.NumberedArgFormattedResource
 
-object FormattedResources
-
 /**
  * Resolves and returns the final formatted version of the given formatted string.
  */
