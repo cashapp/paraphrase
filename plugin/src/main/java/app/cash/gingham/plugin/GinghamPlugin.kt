@@ -37,11 +37,11 @@ class GinghamPlugin : Plugin<Project> {
     getVariants: T.() -> DomainObjectSet<out InternalBaseVariant>
   ) = plugins.withType(androidPluginType) {
     val isInternalBuild = project.properties["app.cash.gingham.internal"].toString() == "true"
-    if (isInternalBuild) {
-      dependencies.add("implementation", "app.cash.gingham:runtime:android")
-    } else {
-      dependencies.add("implementation", "app.cash.gingham:gingham-runtime-android:${BuildConfig.VERSION}")
-    }
+    dependencies.add(
+      "implementation",
+      if (isInternalBuild) "app.cash.gingham:runtime:android"
+      else "app.cash.gingham:gingham-runtime-android:${BuildConfig.VERSION}"
+    )
 
     extensions.getByType(androidExtensionType).getVariants().all { variant ->
       registerGenerateFormattedResourcesTask(variant = variant)
@@ -54,7 +54,7 @@ class GinghamPlugin : Plugin<Project> {
     "generateFormattedResources${variant.name.capitalized()}",
     GenerateFormattedResources::class.java
   ).apply {
-    val outputDirectory = File("$buildDir/gingham/${variant.dirName}")
+    val outputDirectory = File("$buildDir/generated/source/gingham/${variant.dirName}")
     variant.registerJavaGeneratingTask(this, outputDirectory)
     configure { task ->
       task.description = "Generates type-safe formatters for ${variant.name} string resources"
