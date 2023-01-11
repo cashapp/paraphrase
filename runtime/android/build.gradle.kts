@@ -25,5 +25,5 @@ android {
 }
 
 dependencies {
-  api(project(":runtime:model"))
+  api(projects.runtime.model)
 }
