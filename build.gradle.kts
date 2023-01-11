@@ -2,11 +2,6 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import com.vanniktech.maven.publish.MavenPublishPlugin
 import java.net.URI
 
-buildscript {
-  dependencies {
-    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
-  }
-}
 @Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 plugins {
   kotlin("android") version libs.versions.kotlin apply false

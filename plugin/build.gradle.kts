@@ -1,6 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   `java-gradle-plugin`
+  kotlin("jvm")
   alias(libs.plugins.buildConfig)
   alias(libs.plugins.mavenPublish)
 }

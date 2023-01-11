@@ -17,11 +17,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 
-private const val GINGHAM_PACKAGE = "app.cash.gingham"
-
-private val FORMATTED_RESOURCES =
-  ClassName(packageName = GINGHAM_PACKAGE, "FormattedResources")
-
 /**
  * Writes the given tokenized resources to a Kotlin source file.
  */
@@ -49,7 +44,6 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
   val parameters = tokens.map { it.toParameterSpec() }
   return FunSpec.builder(name)
     .apply { if (description != null) addKdoc(description) }
-    .receiver(FORMATTED_RESOURCES)
     .apply { parameters.forEach { addParameter(it) } }
     .returns(FormattedResource::class.java)
     .apply {

@@ -25,9 +25,8 @@ class ResourceWriterTest {
       """
       package com.gingham.test
 
-      import app.cash.gingham.FormattedResource
-      import app.cash.gingham.FormattedResources
-      import app.cash.gingham.IcuNamedArgFormattedResource
+      import app.cash.gingham.model.FormattedResource
+      import app.cash.gingham.model.NamedArgFormattedResource
       import com.gingham.test.R
       import java.util.Date
       import kotlin.Any
@@ -35,22 +34,24 @@ class ResourceWriterTest {
       import kotlin.Number
       import kotlin.String
 
-      /**
-       * Named Description
-       */
-      public fun FormattedResources.test_named(
-        first: Any,
-        second: Date,
-        third: Int,
-        fourth: Number,
-        fifth: String,
-      ): FormattedResource {
-        val namedArgs = mapOf("first" to first, "second" to second, "third" to third, "fourth" to fourth,
-            "fifth" to fifth)
-        return IcuNamedArgFormattedResource(
-          id = R.string.test_named,
-          namedArgs = namedArgs
-        )
+      public object FormattedResources {
+        /**
+         * Named Description
+         */
+        public fun test_named(
+          first: Any,
+          second: Date,
+          third: Int,
+          fourth: Number,
+          fifth: String,
+        ): FormattedResource {
+          val arguments = mapOf("first" to first, "second" to second, "third" to third, "fourth" to
+              fourth, "fifth" to fifth)
+          return NamedArgFormattedResource(
+            id = R.string.test_named,
+            arguments = arguments
+          )
+        }
       }
 
       """.trimIndent()
@@ -73,9 +74,8 @@ class ResourceWriterTest {
       """
       package com.gingham.test
 
-      import app.cash.gingham.FormattedResource
-      import app.cash.gingham.FormattedResources
-      import app.cash.gingham.IcuNumberedArgFormattedResource
+      import app.cash.gingham.model.FormattedResource
+      import app.cash.gingham.model.NumberedArgFormattedResource
       import com.gingham.test.R
       import java.util.Date
       import kotlin.Any
@@ -83,21 +83,23 @@ class ResourceWriterTest {
       import kotlin.Number
       import kotlin.String
 
-      /**
-       * Numbered Description
-       */
-      public fun FormattedResources.test_numbered(
-        arg0: Any,
-        arg1: Date,
-        arg2: Int,
-        arg3: Number,
-        arg4: String,
-      ): FormattedResource {
-        val numberedArgs = listOf(arg0, arg1, arg2, arg3, arg4)
-        return IcuNumberedArgFormattedResource(
-          id = R.string.test_numbered,
-          numberedArgs = numberedArgs
-        )
+      public object FormattedResources {
+        /**
+         * Numbered Description
+         */
+        public fun test_numbered(
+          arg0: Any,
+          arg1: Date,
+          arg2: Int,
+          arg3: Number,
+          arg4: String,
+        ): FormattedResource {
+          val arguments = listOf(arg0, arg1, arg2, arg3, arg4)
+          return NumberedArgFormattedResource(
+            id = R.string.test_numbered,
+            arguments = arguments
+          )
+        }
       }
 
       """.trimIndent()
