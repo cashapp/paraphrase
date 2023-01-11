@@ -1,6 +1,8 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   `java-library`
   kotlin("jvm")
+  alias(libs.plugins.mavenPublish)
 }
 
 java {
