@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.res.Resources
 import android.icu.text.MessageFormat
 import app.cash.gingham.model.FormattedResource
-import app.cash.gingham.model.IcuNamedArgFormattedResource
-import app.cash.gingham.model.IcuNumberedArgFormattedResource
+import app.cash.gingham.model.NamedArgFormattedResource
+import app.cash.gingham.model.NumberedArgFormattedResource
 
 object FormattedResources
 
@@ -21,15 +21,15 @@ fun Context.getString(formattedResource: FormattedResource): String =
  */
 fun Resources.getString(formattedResource: FormattedResource): String =
   when (formattedResource) {
-    is IcuNamedArgFormattedResource ->
+    is NamedArgFormattedResource ->
       MessageFormat.format(
         getString(formattedResource.id),
-        formattedResource.namedArgs
+        formattedResource.arguments
       )
 
-    is IcuNumberedArgFormattedResource ->
+    is NumberedArgFormattedResource ->
       MessageFormat.format(
         getString(formattedResource.id),
-        *formattedResource.numberedArgs.toTypedArray()
+        *formattedResource.arguments.toTypedArray()
       )
   }

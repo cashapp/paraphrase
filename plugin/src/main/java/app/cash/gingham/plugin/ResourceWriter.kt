@@ -2,8 +2,8 @@
 package app.cash.gingham.plugin
 
 import app.cash.gingham.model.FormattedResource
-import app.cash.gingham.model.IcuNamedArgFormattedResource
-import app.cash.gingham.model.IcuNumberedArgFormattedResource
+import app.cash.gingham.model.NamedArgFormattedResource
+import app.cash.gingham.model.NumberedArgFormattedResource
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
@@ -54,25 +54,25 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
     .returns(FormattedResource::class.java)
     .apply {
       if (hasNumberedArgs) {
-        addStatement("val numberedArgs = listOf(%L)", parameters.joinToString { it.name })
+        addStatement("val arguments = listOf(%L)", parameters.joinToString { it.name })
         addCode(
           buildCodeBlock {
-            add("return %T(⇥\n", IcuNumberedArgFormattedResource::class.java)
+            add("return %T(⇥\n", NumberedArgFormattedResource::class.java)
             addStatement("id = %T.%L,", packageStringsType, name)
-            addStatement("numberedArgs = numberedArgs")
+            addStatement("arguments = arguments")
             add("⇤)\n")
           }
         )
       } else {
         addStatement(
-          "val namedArgs = mapOf(%L)",
+          "val arguments = mapOf(%L)",
           parameters.joinToString { "\"${it.name}\" to ${it.name}" }
         )
         addCode(
           buildCodeBlock {
-            add("return %T(⇥\n", IcuNamedArgFormattedResource::class.java)
+            add("return %T(⇥\n", NamedArgFormattedResource::class.java)
             addStatement("id = %T.%L,", packageStringsType, name)
-            addStatement("namedArgs = namedArgs")
+            addStatement("arguments = arguments")
             add("⇤)\n")
           }
         )
