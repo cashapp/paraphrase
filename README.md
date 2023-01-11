@@ -56,11 +56,11 @@ That generates a formatted resource method that looks like this:
 /**
  * Describes an order placed at the deli.
  */
-public fun FormattedResources.order_description(count: Int, name: Any): FormattedResource {
-  val namedArgs = mapOf("count" to count, "name" to name)
-  return IcuNamedArgFormattedResource(
+public fun order_description(count: Int, name: Any): FormattedResource {
+  val arguments = mapOf("count" to count, "name" to name)
+  return NamedArgFormattedResource(
     id = R.string.order_description,
-    namedArgs = namedArgs
+    arguments = arguments
   )
 }
 ```
