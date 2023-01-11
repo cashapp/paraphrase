@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-  implementation(project(":library"))
+  implementation(projects.library)
   implementation(libs.androidActivityCompose)
   implementation(libs.androidMaterial)
   implementation(libs.composeMaterial)
