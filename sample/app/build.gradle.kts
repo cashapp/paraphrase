@@ -1,12 +1,12 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   kotlin("android")
-  id("app.cash.gingham")
+  id("com.squareup.cash.gingham")
   alias(libs.plugins.androidApplication)
 }
 
 android {
-  namespace = "app.cash.gingham.sample.app"
+  namespace = "com.squareup.cash.gingham.sample.app"
   compileSdk = 33
 
   buildFeatures {
@@ -18,7 +18,7 @@ android {
   }
 
   defaultConfig {
-    applicationId = "app.cash.gingham.sample.app"
+    applicationId = "com.squareup.cash.gingham.sample.app"
     minSdk = 24
     targetSdk = 33
     versionCode = 1

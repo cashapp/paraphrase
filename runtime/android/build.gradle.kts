@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-  namespace = "app.cash.gingham"
+  namespace = "com.squareup.cash.gingham"
   compileSdk = 33
 
   defaultConfig {

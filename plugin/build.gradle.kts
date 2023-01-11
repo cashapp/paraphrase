@@ -13,8 +13,8 @@ buildConfig {
 gradlePlugin {
   plugins {
     create("gingham") {
-      id = "app.cash.gingham"
-      implementationClass = "app.cash.gingham.plugin.GinghamPlugin"
+      id = "com.squareup.cash.gingham"
+      implementationClass = "com.squareup.cash.gingham.plugin.GinghamPlugin"
     }
   }
 }

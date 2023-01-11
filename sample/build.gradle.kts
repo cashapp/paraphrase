@@ -7,6 +7,6 @@ plugins {
 
 buildscript {
   dependencies {
-    classpath("app.cash.gingham:plugin")
+    classpath("com.squareup.cash.gingham:plugin")
   }
 }
