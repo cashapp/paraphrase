@@ -38,7 +38,7 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
   fun generateFormattedStringResources() {
     stringResourceFiles
       .flatMap { parseResources(file = it) }
-      .map { tokenizeResource(stringResource = it) }
+      .map { tokenizeResource(rawResource = it) }
       .filter { it.tokens.isNotEmpty() }
       .let { writeResources(packageName = namespace.get(), tokenizedResources = it) }
       .writeTo(directory = outputDirectory.get().asFile)

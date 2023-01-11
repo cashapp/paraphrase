@@ -1,7 +1,7 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.model.StringResource
+import app.cash.gingham.plugin.model.RawResource
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.io.File
@@ -13,7 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory
  *
  * Ignores all other resources, including <plurals> and <string-array>.
  */
-internal fun parseResources(file: File): List<StringResource> =
+internal fun parseResources(file: File): List<RawResource> =
   parseResources(file.inputStream())
 
 /**
@@ -21,7 +21,7 @@ internal fun parseResources(file: File): List<StringResource> =
  *
  * Ignores all other resources, including <plurals> and <string-array>.
  */
-internal fun parseResources(inputStream: InputStream): List<StringResource> =
+internal fun parseResources(inputStream: InputStream): List<RawResource> =
   DocumentBuilderFactory.newInstance()
     .newDocumentBuilder()
     .parse(inputStream)
@@ -30,7 +30,7 @@ internal fun parseResources(inputStream: InputStream): List<StringResource> =
     .asSequence()
     .filter { it.nodeType == Node.ELEMENT_NODE }
     .map {
-      StringResource(
+      RawResource(
         name = it.attributes.getNamedItem("name").childNodes.item(0).textContent,
         description = it.precedingComment()?.textContent?.trim(),
         text = it.textContent,

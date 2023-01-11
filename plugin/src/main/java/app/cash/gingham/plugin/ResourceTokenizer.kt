@@ -1,7 +1,7 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.model.StringResource
+import app.cash.gingham.plugin.model.RawResource
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
@@ -23,15 +23,15 @@ import kotlin.reflect.KClass
 /**
  * Parses the given resource and extracts the ICU argument tokens.
  */
-internal fun tokenizeResource(stringResource: StringResource): TokenizedResource {
+internal fun tokenizeResource(rawResource: RawResource): TokenizedResource {
   val pattern = try {
-    MessagePattern(stringResource.text)
+    MessagePattern(rawResource.text)
   } catch (throwable: Throwable) {
-    return stringResource.toTokenizedResource(tokens = emptyList())
+    return rawResource.toTokenizedResource(tokens = emptyList())
   }
 
   if (!pattern.hasNamedArguments() && !pattern.hasNumberedArguments()) {
-    return stringResource.toTokenizedResource(tokens = emptyList())
+    return rawResource.toTokenizedResource(tokens = emptyList())
   }
 
   val tokens = pattern.partsIterator()
@@ -49,7 +49,6 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
             "number" -> Number::class
             else -> Any::class
           }
-
           CHOICE -> Int::class
           PLURAL -> Int::class
           SELECT -> String::class
@@ -67,10 +66,10 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
     }
   }
 
-  return stringResource.toTokenizedResource(tokens = deduplicatedTokens.values.toList())
+  return rawResource.toTokenizedResource(tokens = deduplicatedTokens.values.toList())
 }
 
-private fun StringResource.toTokenizedResource(tokens: List<Token>): TokenizedResource =
+private fun RawResource.toTokenizedResource(tokens: List<Token>): TokenizedResource =
   TokenizedResource(name = name, description = description, tokens = tokens)
 
 private fun MessagePattern.getToken(identifier: Part, type: KClass<*>): Token =

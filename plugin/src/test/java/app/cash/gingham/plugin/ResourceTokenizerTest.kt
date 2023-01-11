@@ -1,7 +1,7 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.model.StringResource
+import app.cash.gingham.plugin.model.RawResource
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
@@ -164,7 +164,7 @@ class ResourceTokenizerTest {
   private fun String.assertTokens(vararg tokens: Token) {
     assertThat(
       tokenizeResource(
-        StringResource(
+        RawResource(
           name = "test",
           description = "Test Description",
           text = this
