@@ -25,5 +25,5 @@ android {
 }
 
 dependencies {
-  implementation(project(":model"))
+  implementation(project(":runtime:model"))
 }

@@ -1,7 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   `java-gradle-plugin`
-  kotlin("jvm")
   alias(libs.plugins.buildConfig)
   alias(libs.plugins.mavenPublish)
 }
@@ -27,7 +26,7 @@ java {
 dependencies {
   compileOnly(libs.agp)
 
-  implementation(project(":model"))
+  implementation(project(":runtime:model"))
   implementation(libs.icu4j)
   implementation(libs.kotlinPoet)
 

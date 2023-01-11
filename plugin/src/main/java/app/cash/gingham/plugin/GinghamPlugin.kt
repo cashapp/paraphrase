@@ -38,9 +38,9 @@ class GinghamPlugin : Plugin<Project> {
   ) = plugins.withType(androidPluginType) {
     val isInternalBuild = project.properties["app.cash.gingham.internal"].toString() == "true"
     if (isInternalBuild) {
-      dependencies.add("implementation", "app.cash.gingham:runtime")
+      dependencies.add("implementation", "app.cash.gingham:runtime:android")
     } else {
-      dependencies.add("implementation", "app.cash.gingham:gingham-runtime:${BuildConfig.VERSION}")
+      dependencies.add("implementation", "app.cash.gingham:gingham-runtime-android:${BuildConfig.VERSION}")
     }
 
     extensions.getByType(androidExtensionType).getVariants().all { variant ->

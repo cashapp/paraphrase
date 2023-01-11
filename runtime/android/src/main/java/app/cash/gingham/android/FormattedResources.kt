@@ -1,5 +1,5 @@
 // Copyright Square, Inc.
-package app.cash.gingham
+package app.cash.gingham.android
 
 import android.content.Context
 import android.content.res.Resources
