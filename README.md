@@ -102,5 +102,6 @@ Modules
 -------
 
 * `plugin`: The Gradle plugin, with logic to parse string resources and generate formatter methods.
-* `runtime`: The client library, with the types that Gingham requires to work at runtime.
+* `runtime:android`: The Android extensions that Gingham requires to work at runtime.
+* `runtime:model`: The data types that Gingham requires to work at runtime.
 * `sample`: A sample Android project that demonstrates usage of Gingham.
