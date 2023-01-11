@@ -60,9 +60,7 @@ internal fun tokenizeResource(rawResource: RawResource): TokenizedResource {
 
   val deduplicatedTokens = buildMap {
     tokens.forEach { token ->
-      if (!containsKey(token.key)) {
-        put(token.key, token)
-      }
+      putIfAbsent(token.key, token)
     }
   }
 
