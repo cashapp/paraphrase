@@ -15,17 +15,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.cash.gingham.FormattedResource
-import app.cash.gingham.FormattedResources
-import app.cash.gingham.getString
-import app.cash.gingham.sample.library.library_date_argument
-import app.cash.gingham.sample.library.library_number_argument
-import app.cash.gingham.sample.library.library_plural_argument
-import app.cash.gingham.sample.library.library_select_argument
-import app.cash.gingham.sample.library.library_select_ordinal_argument
-import app.cash.gingham.sample.library.library_text_argument
-import app.cash.gingham.sample.library.library_time_argument
+import app.cash.gingham.android.getString
+import app.cash.gingham.model.FormattedResource
 import java.util.Date
+import app.cash.gingham.sample.app.FormattedResources as AppFormattedResources
+import app.cash.gingham.sample.library.FormattedResources as LibraryFormattedResources
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,62 +70,62 @@ class MainActivity : ComponentActivity() {
     private val APP_SAMPLES = listOf(
       Sample(
         label = "Text Argument",
-        resource = FormattedResources.app_text_argument(name = "Jobu Tupaki")
+        resource = AppFormattedResources.app_text_argument(name = "Jobu Tupaki")
       ),
       Sample(
         label = "Date Argument",
-        resource = FormattedResources.app_date_argument(release_date = Date())
+        resource = AppFormattedResources.app_date_argument(release_date = Date())
       ),
       Sample(
         label = "Number Argument",
-        resource = FormattedResources.app_number_argument(budget = 10_000_000)
+        resource = AppFormattedResources.app_number_argument(budget = 10_000_000)
       ),
       Sample(
         label = "Time Argument",
-        resource = FormattedResources.app_time_argument(showtime = Date())
+        resource = AppFormattedResources.app_time_argument(showtime = Date())
       ),
       Sample(
         label = "Plural Argument",
-        resource = FormattedResources.app_plural_argument(count = 5)
+        resource = AppFormattedResources.app_plural_argument(count = 5)
       ),
       Sample(
         label = "Select Argument",
-        resource = FormattedResources.app_select_argument(verse = "alpha")
+        resource = AppFormattedResources.app_select_argument(verse = "alpha")
       ),
       Sample(
         label = "Select Ordinal Argument",
-        resource = FormattedResources.app_select_ordinal_argument(count = 5)
+        resource = AppFormattedResources.app_select_ordinal_argument(count = 5)
       ),
     )
 
     private val LIBRARY_SAMPLES = listOf(
       Sample(
         label = "Text Argument",
-        resource = FormattedResources.library_text_argument(name = "Jobu Tupaki")
+        resource = LibraryFormattedResources.library_text_argument(name = "Jobu Tupaki")
       ),
       Sample(
         label = "Date Argument",
-        resource = FormattedResources.library_date_argument(release_date = Date())
+        resource = LibraryFormattedResources.library_date_argument(release_date = Date())
       ),
       Sample(
         label = "Number Argument",
-        resource = FormattedResources.library_number_argument(budget = 10_000_000)
+        resource = LibraryFormattedResources.library_number_argument(budget = 10_000_000)
       ),
       Sample(
         label = "Time Argument",
-        resource = FormattedResources.library_time_argument(showtime = Date())
+        resource = LibraryFormattedResources.library_time_argument(showtime = Date())
       ),
       Sample(
         label = "Plural Argument",
-        resource = FormattedResources.library_plural_argument(count = 5)
+        resource = LibraryFormattedResources.library_plural_argument(count = 5)
       ),
       Sample(
         label = "Select Argument",
-        resource = FormattedResources.library_select_argument(verse = "alpha")
+        resource = LibraryFormattedResources.library_select_argument(verse = "alpha")
       ),
       Sample(
         label = "Select Ordinal Argument",
-        resource = FormattedResources.library_select_ordinal_argument(count = 5)
+        resource = LibraryFormattedResources.library_select_ordinal_argument(count = 5)
       ),
     )
   }
