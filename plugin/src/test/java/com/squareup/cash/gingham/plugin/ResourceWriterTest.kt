@@ -29,7 +29,6 @@ class ResourceWriterTest {
 
       import com.gingham.test.R
       import com.squareup.cash.gingham.model.FormattedResource
-      import com.squareup.cash.gingham.model.NamedArgFormattedResource
       import java.util.Date
       import kotlin.Any
       import kotlin.Int
@@ -49,7 +48,7 @@ class ResourceWriterTest {
         ): FormattedResource {
           val arguments = mapOf("first" to first, "second" to second, "third" to third, "fourth" to
               fourth, "fifth" to fifth)
-          return NamedArgFormattedResource(
+          return FormattedResource(
             id = R.string.test_named,
             arguments = arguments
           )
@@ -80,7 +79,6 @@ class ResourceWriterTest {
 
       import com.gingham.test.R
       import com.squareup.cash.gingham.model.FormattedResource
-      import com.squareup.cash.gingham.model.NumberedArgFormattedResource
       import java.util.Date
       import kotlin.Any
       import kotlin.Int
@@ -98,8 +96,8 @@ class ResourceWriterTest {
           arg3: Number,
           arg4: String,
         ): FormattedResource {
-          val arguments = listOf(arg0, arg1, arg2, arg3, arg4)
-          return NumberedArgFormattedResource(
+          val arguments = mapOf("0" to arg0, "1" to arg1, "2" to arg2, "3" to arg3, "4" to arg4)
+          return FormattedResource(
             id = R.string.test_numbered,
             arguments = arguments
           )

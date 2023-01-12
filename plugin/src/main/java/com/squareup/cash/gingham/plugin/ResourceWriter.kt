@@ -2,8 +2,6 @@
 package com.squareup.cash.gingham.plugin
 
 import com.squareup.cash.gingham.model.FormattedResource
-import com.squareup.cash.gingham.model.NamedArgFormattedResource
-import com.squareup.cash.gingham.model.NumberedArgFormattedResource
 import com.squareup.cash.gingham.plugin.model.TokenizedResource
 import com.squareup.cash.gingham.plugin.model.TokenizedResource.Token
 import com.squareup.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
@@ -46,46 +44,41 @@ internal fun writeResources(
 }
 
 private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
-  val hasNumberedArgs = tokens.any { it is NumberedToken }
-  val parameters = tokens.map { it.toParameterSpec() }
   return FunSpec.builder(name)
     .apply { if (description != null) addKdoc(description) }
-    .apply { parameters.forEach { addParameter(it) } }
+    .apply { tokens.forEach { addParameter(it.toParameterSpec()) } }
     .returns(FormattedResource::class.java)
     .apply {
-      if (hasNumberedArgs) {
-        addStatement("val arguments = listOf(%L)", parameters.joinToString { it.name })
-        addCode(
-          buildCodeBlock {
-            add("return %T(⇥\n", NumberedArgFormattedResource::class.java)
-            addStatement("id = %T.%L,", packageStringsType, name)
-            addStatement("arguments = arguments")
-            add("⇤)\n")
-          }
-        )
-      } else {
-        addStatement(
-          "val arguments = mapOf(%L)",
-          parameters.joinToString { "\"${it.name}\" to ${it.name}" }
-        )
-        addCode(
-          buildCodeBlock {
-            add("return %T(⇥\n", NamedArgFormattedResource::class.java)
-            addStatement("id = %T.%L,", packageStringsType, name)
-            addStatement("arguments = arguments")
-            add("⇤)\n")
-          }
-        )
-      }
+      addStatement(
+        "val arguments = mapOf(%L)",
+        tokens.joinToString { "\"${it.argumentName}\" to ${it.parameterName}" }
+      )
+      addCode(
+        buildCodeBlock {
+          add("return %T(⇥\n", FormattedResource::class.java)
+          addStatement("id = %T.%L,", packageStringsType, name)
+          addStatement("arguments = arguments")
+          add("⇤)\n")
+        }
+      )
     }
     .build()
 }
 
+private val Token.argumentName: String
+  get() = when (this) {
+    is NamedToken -> name
+    is NumberedToken -> number.toString()
+  }
+
+private val Token.parameterName: String
+  get() = when (this) {
+    is NamedToken -> name
+    is NumberedToken -> "arg$number"
+  }
+
 private fun Token.toParameterSpec(): ParameterSpec =
   ParameterSpec(
-    name = when (this) {
-      is NamedToken -> name
-      is NumberedToken -> "arg$number"
-    },
+    name = parameterName,
     type = type.asClassName()
   )

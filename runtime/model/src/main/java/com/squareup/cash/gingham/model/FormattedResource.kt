@@ -1,9 +1,11 @@
 // Copyright Square, Inc.
 package com.squareup.cash.gingham.model
 
+import androidx.annotation.StringRes
+
 /**
  * A [FormattedResource] consists of:
- * 1. An Android string resource
+ * 1. An Android string resource ID
  * 2. The arguments required to resolve it
  *
  * For example, if the following string was declared in the strings.xml resource file:
@@ -22,9 +24,4 @@ package com.squareup.cash.gingham.model
  * - An integer value for the suspects argument
  * - A string value for the detective argument
  */
-sealed interface FormattedResource {
-  /**
-   * The ID of the underlying Android string resource.
-   */
-  val id: Int
-}
+data class FormattedResource(@StringRes val id: Int, val arguments: Map<String, Any>)
