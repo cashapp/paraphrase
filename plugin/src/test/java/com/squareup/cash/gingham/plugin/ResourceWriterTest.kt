@@ -28,7 +28,7 @@ class ResourceWriterTest {
       package com.gingham.test
 
       import com.gingham.test.R
-      import com.squareup.cash.gingham.model.FormattedResource
+      import com.squareup.cash.gingham.FormattedResource
       import java.util.Date
       import kotlin.Any
       import kotlin.Int
@@ -78,7 +78,7 @@ class ResourceWriterTest {
       package com.gingham.test
 
       import com.gingham.test.R
-      import com.squareup.cash.gingham.model.FormattedResource
+      import com.squareup.cash.gingham.FormattedResource
       import java.util.Date
       import kotlin.Any
       import kotlin.Int

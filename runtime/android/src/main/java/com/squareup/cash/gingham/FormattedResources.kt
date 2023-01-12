@@ -1,11 +1,10 @@
 // Copyright Square, Inc.
-package com.squareup.cash.gingham.android
+package com.squareup.cash.gingham
 
 
 import android.content.Context
 import android.content.res.Resources
 import android.icu.text.MessageFormat
-import com.squareup.cash.gingham.model.FormattedResource
 
 /**
  * Resolves and returns the final formatted version of the given formatted string.

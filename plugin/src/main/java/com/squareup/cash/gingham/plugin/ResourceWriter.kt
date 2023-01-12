@@ -1,7 +1,7 @@
 // Copyright Square, Inc.
 package com.squareup.cash.gingham.plugin
 
-import com.squareup.cash.gingham.model.FormattedResource
+import com.squareup.cash.gingham.FormattedResource
 import com.squareup.cash.gingham.plugin.model.TokenizedResource
 import com.squareup.cash.gingham.plugin.model.TokenizedResource.Token
 import com.squareup.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
