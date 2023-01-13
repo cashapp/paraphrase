@@ -58,7 +58,7 @@ That generates a formatted resource method that looks like this:
  */
 public fun order_description(count: Int, name: Any): FormattedResource {
   val arguments = mapOf("count" to count, "name" to name)
-  return NamedArgFormattedResource(
+  return FormattedResource(
     id = R.string.order_description,
     arguments = arguments
   )
