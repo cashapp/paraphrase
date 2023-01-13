@@ -1,8 +1,8 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   kotlin("android")
-  id("app.cash.gingham")
   alias(libs.plugins.androidLibrary)
+  id("app.cash.gingham")
 }
 
 android {
