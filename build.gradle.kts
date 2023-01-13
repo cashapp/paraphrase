@@ -54,7 +54,7 @@ subprojects {
          */
         maven {
           name = "internal"
-          url = URI(providers.gradleProperty("internalUrl").get())
+          setUrl(providers.gradleProperty("internalUrl"))
           credentials(PasswordCredentials::class)
         }
       }
