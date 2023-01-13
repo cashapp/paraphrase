@@ -14,7 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory
  * Ignores all other resources, including <plurals> and <string-array>.
  */
 internal fun parseResources(file: File): List<RawResource> =
-  parseResources(file.inputStream())
+  file.inputStream().use(::parseResources)
 
 /**
  * Parses and returns all of the Android <string> resources declared in the given stream.
