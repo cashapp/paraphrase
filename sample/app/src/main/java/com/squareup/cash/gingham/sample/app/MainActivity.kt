@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.squareup.cash.gingham.android.getString
-import com.squareup.cash.gingham.model.FormattedResource
+import com.squareup.cash.gingham.FormattedResource
+import com.squareup.cash.gingham.getString
 import java.util.Date
 import com.squareup.cash.gingham.sample.app.FormattedResources as AppFormattedResources
 import com.squareup.cash.gingham.sample.library.FormattedResources as LibraryFormattedResources
