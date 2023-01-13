@@ -1,6 +1,5 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.vanniktech.maven.publish.MavenPublishPlugin
-import java.net.URI
 
 @Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 plugins {
