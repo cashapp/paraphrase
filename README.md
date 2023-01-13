@@ -12,7 +12,7 @@ In the `build.gradle.kts` file of an Android application or library module:
 
 ```kotlin
 plugins {
-  id("com.squareup.cash.gingham")
+  id("app.cash.gingham")
 }
 ```
 
@@ -71,7 +71,7 @@ public fun order_description(count: Int, name: Any): FormattedResource {
 In your view modules:
 
 ```kotlin
-import com.squareup.cash.gingham.android.getString
+import app.cash.gingham.android.getString
 
 val orderDescription = resources.getString(
   FormattedResources.order_description(

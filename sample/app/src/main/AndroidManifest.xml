@@ -9,7 +9,7 @@
       android:supportsRtl="true"
       android:theme="@style/Theme.Gingham">
     <activity
-        android:name=".MainActivity"
+        android:name="app.cash.gingham.sample.app.MainActivity"
         android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />

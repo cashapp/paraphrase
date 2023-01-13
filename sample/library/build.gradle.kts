@@ -1,12 +1,12 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   kotlin("android")
-  id("com.squareup.cash.gingham")
+  id("app.cash.gingham")
   alias(libs.plugins.androidLibrary)
 }
 
 android {
-  namespace = "com.squareup.cash.gingham.sample.library"
+  namespace = "app.cash.gingham.sample.library"
   compileSdk = 33
 
   defaultConfig {

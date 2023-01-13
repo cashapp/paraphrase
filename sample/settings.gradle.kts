@@ -32,8 +32,8 @@ include(
 )
 includeBuild("..") {
   dependencySubstitution {
-    substitute(module("com.squareup.cash.gingham:plugin")).using(project(":plugin"))
-    substitute(module("com.squareup.cash.gingham:runtime:android")).using(project(":runtime:android"))
-    substitute(module("com.squareup.cash.gingham:runtime:model")).using(project(":runtime:model"))
+    substitute(module("app.cash.gingham:plugin")).using(project(":plugin"))
+    substitute(module("app.cash.gingham:runtime:android")).using(project(":runtime:android"))
+    substitute(module("app.cash.gingham:runtime:model")).using(project(":runtime:model"))
   }
 }
