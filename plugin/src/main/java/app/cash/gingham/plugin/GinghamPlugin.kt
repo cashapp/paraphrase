@@ -1,14 +1,8 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.BuildConfig
-import com.android.build.gradle.AppExtension
-import com.android.build.gradle.AppPlugin
-import com.android.build.gradle.BaseExtension
-import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.LibraryPlugin
-import com.android.build.gradle.internal.core.InternalBaseVariant
-import org.gradle.api.DomainObjectSet
+import com.android.build.api.variant.AndroidComponentsExtension
+import com.android.build.api.variant.Variant
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.configurationcache.extensions.capitalized
@@ -18,50 +12,37 @@ import java.io.File
  * A Gradle plugin that generates type checked formatters for patterned Android string resources.
  */
 class GinghamPlugin : Plugin<Project> {
-  override fun apply(target: Project) {
-    target.configureAndroidPlugin(
-      androidPluginType = AppPlugin::class.java,
-      androidExtensionType = AppExtension::class.java,
-      getVariants = { applicationVariants }
-    )
-
-    target.configureAndroidPlugin(
-      androidPluginType = LibraryPlugin::class.java,
-      androidExtensionType = LibraryExtension::class.java,
-      getVariants = { libraryVariants }
-    )
+  override fun apply(target: Project) = target.run {
+    extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
+      addRuntimeDependency()
+      registerGenerateFormattedResourcesTask(variant)
+    }
   }
 
-  private fun <T : BaseExtension> Project.configureAndroidPlugin(
-    androidPluginType: Class<out Plugin<Project>>,
-    androidExtensionType: Class<T>,
-    getVariants: T.() -> DomainObjectSet<out InternalBaseVariant>
-  ) = plugins.withType(androidPluginType) {
-    val isInternal = project.properties["app.cash.gingham.internal"].toString() == "true"
+  private fun Project.addRuntimeDependency() {
+    val isInternal = properties["app.cash.gingham.internal"].toString() == "true"
     dependencies.add(
       "implementation",
       if (isInternal) "app.cash.gingham:runtime:android"
       else "app.cash.gingham:gingham-runtime-android:${BuildConfig.VERSION}"
     )
-
-    extensions.getByType(androidExtensionType).getVariants().all { variant ->
-      registerGenerateFormattedResourcesTask(variant = variant)
-    }
   }
 
-  private fun Project.registerGenerateFormattedResourcesTask(
-    variant: InternalBaseVariant
-  ) = tasks.register(
-    "generateFormattedResources${variant.name.capitalized()}",
-    GenerateFormattedResources::class.java
-  ).apply {
-    val outputDirectory = File("$buildDir/generated/source/gingham/${variant.dirName}")
-    variant.registerJavaGeneratingTask(this, outputDirectory)
-    configure { task ->
-      task.description = "Generates type-safe formatters for ${variant.name} string resources"
-      task.namespace.set(variant.applicationId)
-      task.resourceDirectories.from(variant.sourceSets.flatMap { it.resDirectories })
-      task.outputDirectory.set(outputDirectory)
+  @Suppress("UnstableApiUsage")
+  private fun Project.registerGenerateFormattedResourcesTask(variant: Variant) {
+    val javaSources = variant.sources.java ?: return
+    val resSources = variant.sources.res ?: return
+    tasks.register(
+      "generateFormattedResources${variant.name.capitalized()}",
+      GenerateFormattedResources::class.java
+    ).apply {
+      javaSources.addGeneratedSourceDirectory(this, GenerateFormattedResources::outputDirectory)
+      configure { task ->
+        task.description = "Generates type-safe formatters for ${variant.name} string resources"
+        task.namespace.set(variant.namespace)
+        task.resourceDirectories.from(resSources.all)
+        task.outputDirectory.set(File("$buildDir/generated/source/gingham/${variant.name}"))
+      }
     }
   }
 }
