@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.cash.gingham.FormattedResource
 import app.cash.gingham.getString
-import java.util.Date
 import app.cash.gingham.sample.app.FormattedResources as AppFormattedResources
 import app.cash.gingham.sample.library.FormattedResources as LibraryFormattedResources
+import java.time.Instant
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
       ),
       Sample(
         label = "Date Argument",
-        resource = AppFormattedResources.app_date_argument(release_date = Date())
+        resource = AppFormattedResources.app_date_argument(release_date = Instant.now())
       ),
       Sample(
         label = "Number Argument",
@@ -82,7 +82,7 @@ class MainActivity : ComponentActivity() {
       ),
       Sample(
         label = "Time Argument",
-        resource = AppFormattedResources.app_time_argument(showtime = Date())
+        resource = AppFormattedResources.app_time_argument(showtime = Instant.now())
       ),
       Sample(
         label = "Plural Argument",
@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
       ),
       Sample(
         label = "Date Argument",
-        resource = LibraryFormattedResources.library_date_argument(release_date = Date())
+        resource = LibraryFormattedResources.library_date_argument(release_date = Instant.now())
       ),
       Sample(
         label = "Number Argument",
@@ -113,7 +113,7 @@ class MainActivity : ComponentActivity() {
       ),
       Sample(
         label = "Time Argument",
-        resource = LibraryFormattedResources.library_time_argument(showtime = Date())
+        resource = LibraryFormattedResources.library_time_argument(showtime = Instant.now())
       ),
       Sample(
         label = "Plural Argument",

@@ -17,9 +17,8 @@ import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
-import java.util.Date
+import java.time.Instant
 import kotlin.reflect.KClass
-import kotlin.reflect.KAnnotatedElement
 
 /**
  * Parses the given resource and extracts the ICU argument tokens.
@@ -45,8 +44,8 @@ internal fun tokenizeResource(rawResource: RawResource): TokenizedResource {
         type = when (part.argType) {
           NONE -> Any::class
           SIMPLE -> when (pattern.getSubstring(pattern.getPart(index + 2)).lowercase()) {
-            "date" -> Date::class
-            "time" -> Date::class
+            "date" -> Instant::class
+            "time" -> Instant::class
             "number" -> Number::class
             else -> Any::class
           }

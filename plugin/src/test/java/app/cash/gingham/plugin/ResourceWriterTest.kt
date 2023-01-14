@@ -5,8 +5,8 @@ import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
 import com.google.common.truth.Truth.assertThat
+import java.time.Instant
 import org.junit.Test
-import java.util.Date
 
 class ResourceWriterTest {
   @Test
@@ -16,7 +16,7 @@ class ResourceWriterTest {
       description = "Named Description",
       tokens = listOf(
         NamedToken(name = "first", type = Any::class),
-        NamedToken(name = "second", type = Date::class),
+        NamedToken(name = "second", type = Instant::class),
         NamedToken(name = "third", type = Int::class),
         NamedToken(name = "fourth", type = Number::class),
         NamedToken(name = "fifth", type = String::class),
@@ -29,6 +29,7 @@ class ResourceWriterTest {
 
       import app.cash.gingham.FormattedResource
       import com.gingham.test.R
+      import java.time.Instant
       import java.util.Date
       import kotlin.Any
       import kotlin.Int
@@ -41,13 +42,13 @@ class ResourceWriterTest {
          */
         public fun test_named(
           first: Any,
-          second: Date,
+          second: Instant,
           third: Int,
           fourth: Number,
           fifth: String,
         ): FormattedResource {
-          val arguments = mapOf("first" to first, "second" to second, "third" to third, "fourth" to
-              fourth, "fifth" to fifth)
+          val arguments = mapOf("first" to first, "second" to Date.from(second), "third" to third,
+              "fourth" to fourth, "fifth" to fifth)
           return FormattedResource(
             id = R.string.test_named,
             arguments = arguments
@@ -66,7 +67,7 @@ class ResourceWriterTest {
       description = "Numbered Description",
       tokens = listOf(
         NumberedToken(number = 0, type = Any::class),
-        NumberedToken(number = 1, type = Date::class),
+        NumberedToken(number = 1, type = Instant::class),
         NumberedToken(number = 2, type = Int::class),
         NumberedToken(number = 3, type = Number::class),
         NumberedToken(number = 4, type = String::class),
@@ -79,6 +80,7 @@ class ResourceWriterTest {
 
       import app.cash.gingham.FormattedResource
       import com.gingham.test.R
+      import java.time.Instant
       import java.util.Date
       import kotlin.Any
       import kotlin.Int
@@ -91,12 +93,13 @@ class ResourceWriterTest {
          */
         public fun test_numbered(
           arg0: Any,
-          arg1: Date,
+          arg1: Instant,
           arg2: Int,
           arg3: Number,
           arg4: String,
         ): FormattedResource {
-          val arguments = mapOf("0" to arg0, "1" to arg1, "2" to arg2, "3" to arg3, "4" to arg4)
+          val arguments = mapOf("0" to arg0, "1" to Date.from(arg1), "2" to arg2, "3" to arg3, "4" to
+              arg4)
           return FormattedResource(
             id = R.string.test_numbered,
             arguments = arguments
