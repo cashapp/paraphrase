@@ -43,4 +43,6 @@ dependencies {
   implementation(libs.androidMaterial)
   implementation(libs.composeMaterial)
   implementation(libs.composeUi)
+
+  coreLibraryDesugaring(libs.coreLibraryDesugaring)
 }

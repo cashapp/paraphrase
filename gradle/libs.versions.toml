@@ -24,6 +24,7 @@ icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinPoet = { module = "com.squareup:kotlinpoet", version.ref = "kotlinPoet" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
+coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:1.2.2"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
