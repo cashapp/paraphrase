@@ -1,7 +1,6 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.FormattedResource
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
@@ -51,7 +50,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
   return FunSpec.builder(name)
     .apply { if (description != null) addKdoc(description) }
     .apply { tokens.forEach { addParameter(it.toParameterSpec()) } }
-    .returns(FormattedResource::class.java)
+    .returns(Types.FormattedResource)
     .apply {
       addStatement(
         "val arguments = mapOf(%L)",
@@ -59,7 +58,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
       )
       addCode(
         buildCodeBlock {
-          add("return %T(⇥\n", FormattedResource::class.java)
+          add("return %T(⇥\n", Types.FormattedResource)
           addStatement("id = %T.%L,", packageStringsType, name)
           addStatement("arguments = arguments")
           add("⇤)\n")
@@ -95,3 +94,7 @@ private fun Token.toParameterCodeBlock(): CodeBlock =
       else -> add(parameterName)
     }
   }
+
+private object Types {
+  val FormattedResource = ClassName("app.cash.gingham", "FormattedResource")
+}

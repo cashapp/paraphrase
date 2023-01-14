@@ -33,7 +33,6 @@ include(
 includeBuild("..") {
   dependencySubstitution {
     substitute(module("app.cash.gingham:plugin")).using(project(":plugin"))
-    substitute(module("app.cash.gingham:runtime:android")).using(project(":runtime:android"))
-    substitute(module("app.cash.gingham:runtime:model")).using(project(":runtime:model"))
+    substitute(module("app.cash.gingham:runtime")).using(project(":runtime"))
   }
 }

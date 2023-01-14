@@ -23,8 +23,8 @@ class GinghamPlugin : Plugin<Project> {
     val isInternal = properties["app.cash.gingham.internal"].toString() == "true"
     dependencies.add(
       "implementation",
-      if (isInternal) "app.cash.gingham:runtime:android"
-      else "app.cash.gingham:gingham-runtime-android:${BuildConfig.VERSION}"
+      if (isInternal) "app.cash.gingham:runtime"
+      else "app.cash.gingham:gingham-runtime:${BuildConfig.VERSION}"
     )
   }
 
