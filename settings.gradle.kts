@@ -20,6 +20,5 @@ dependencyResolutionManagement {
 rootProject.name = "gingham"
 include(
   ":plugin",
-  ":runtime:android",
-  ":runtime:model",
+  ":runtime",
 )

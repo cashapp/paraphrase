@@ -25,5 +25,5 @@ android {
 }
 
 dependencies {
-  api(projects.runtime.model)
+  api(libs.androidAnnotation)
 }

@@ -27,7 +27,6 @@ java {
 dependencies {
   compileOnly(libs.agp)
 
-  implementation(projects.runtime.model)
   implementation(libs.icu4j)
   implementation(libs.kotlinPoet)
 
