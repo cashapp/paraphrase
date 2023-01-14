@@ -13,8 +13,8 @@ import java.io.File
  */
 class GinghamPlugin : Plugin<Project> {
   override fun apply(target: Project) = target.run {
+    addRuntimeDependency()
     extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
-      addRuntimeDependency()
       registerGenerateFormattedResourcesTask(variant)
     }
   }
@@ -26,7 +26,7 @@ class GinghamPlugin : Plugin<Project> {
     } else {
       "app.cash.gingham:gingham-runtime:${BuildConfig.VERSION}"
     }
-    dependencies.add("implementation", runtimeDependency)
+    dependencies.add("api", runtimeDependency)
   }
 
   @Suppress("UnstableApiUsage")
