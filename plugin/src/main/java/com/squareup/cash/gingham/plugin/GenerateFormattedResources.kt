@@ -17,7 +17,6 @@ import org.gradle.workers.WorkAction
 import org.gradle.workers.WorkParameters
 import org.gradle.workers.WorkerExecutor
 
-
 /**
  * A Gradle task that reads all of the Android string resources in a module and then generates
  * formatted resource methods for any that contain ICU arguments.
