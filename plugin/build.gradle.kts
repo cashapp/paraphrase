@@ -7,6 +7,9 @@ plugins {
 }
 
 buildConfig {
+  useKotlinOutput {
+    internalVisibility = true
+  }
   packageName("app.cash.gingham.plugin")
   buildConfigField("String", "VERSION", "\"${project.version}\"")
 }
