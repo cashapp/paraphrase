@@ -7,8 +7,8 @@ import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
 import com.google.common.truth.Truth.assertThat
+import java.time.Instant
 import org.junit.Test
-import java.util.Date
 
 class ResourceTokenizerTest {
   @Test
@@ -21,8 +21,8 @@ class ResourceTokenizerTest {
     "Test {test} {test_number, number} {test_date, date} {test_time, time}".assertTokens(
       NamedToken(name = "test", type = Any::class),
       NamedToken(name = "test_number", type = Number::class),
-      NamedToken(name = "test_date", type = Date::class),
-      NamedToken(name = "test_time", type = Date::class),
+      NamedToken(name = "test_date", type = Instant::class),
+      NamedToken(name = "test_time", type = Instant::class),
     )
   }
 
@@ -31,8 +31,8 @@ class ResourceTokenizerTest {
     "Test {0} {1, number} {2, date} {3, time}".assertTokens(
       NumberedToken(number = 0, type = Any::class),
       NumberedToken(number = 1, type = Number::class),
-      NumberedToken(number = 2, type = Date::class),
-      NumberedToken(number = 3, type = Date::class),
+      NumberedToken(number = 2, type = Instant::class),
+      NumberedToken(number = 3, type = Instant::class),
     )
   }
 

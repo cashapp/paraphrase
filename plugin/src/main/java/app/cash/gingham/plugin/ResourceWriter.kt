@@ -7,6 +7,7 @@ import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
@@ -14,6 +15,9 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
+import com.squareup.kotlinpoet.joinToCode
+import java.time.Instant
+import java.util.Date
 
 /**
  * Writes the given tokenized resources to a Kotlin source file.
@@ -51,7 +55,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
     .apply {
       addStatement(
         "val arguments = mapOf(%L)",
-        tokens.joinToString { "\"${it.argumentName}\" to ${it.parameterName}" }
+        tokens.map { it.toParameterCodeBlock() }.joinToCode()
       )
       addCode(
         buildCodeBlock {
@@ -82,3 +86,12 @@ private fun Token.toParameterSpec(): ParameterSpec =
     name = parameterName,
     type = type.asClassName()
   )
+
+private fun Token.toParameterCodeBlock(): CodeBlock =
+  buildCodeBlock {
+    add("%S to ", argumentName)
+    when (type) {
+      Instant::class -> add("%T.from(%L)", Date::class, parameterName)
+      else -> add(parameterName)
+    }
+  }
