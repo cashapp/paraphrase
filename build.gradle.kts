@@ -1,12 +1,18 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.vanniktech.maven.publish.MavenPublishPlugin
 
+buildscript {
+  dependencies {
+    classpath("app.cash.gingham:plugin")
+  }
+}
+
 @Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 plugins {
-  kotlin("android") version libs.versions.kotlin apply false
-  kotlin("jvm") version libs.versions.kotlin apply false
   alias(libs.plugins.androidApplication) apply false
   alias(libs.plugins.androidLibrary) apply false
+  alias(libs.plugins.kotlinAndroid) apply false
+  alias(libs.plugins.kotlinJvm) apply false
   alias(libs.plugins.mavenPublish)
   alias(libs.plugins.spotless)
 }

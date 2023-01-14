@@ -1,10 +1,7 @@
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
 pluginManagement {
   repositories {
     google()
     mavenCentral()
-    mavenLocal()
     gradlePluginPortal()
   }
 }
@@ -21,18 +18,12 @@ dependencyResolutionManagement {
   repositories {
     google()
     mavenCentral()
-    mavenLocal()
   }
 }
 
-rootProject.name = "sample"
+rootProject.name = "build-logic"
 include(
-  ":app",
-  ":library",
+  ":",
+  ":plugin"
 )
-includeBuild("..") {
-  dependencySubstitution {
-    substitute(module("app.cash.gingham:plugin")).using(project(":plugin"))
-    substitute(module("app.cash.gingham:runtime")).using(project(":runtime"))
-  }
-}
+project(":plugin").projectDir = File("../plugin")

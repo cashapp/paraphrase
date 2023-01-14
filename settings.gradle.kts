@@ -21,4 +21,12 @@ rootProject.name = "gingham"
 include(
   ":plugin",
   ":runtime",
+  ":sample:app",
+  ":sample:library",
 )
+
+includeBuild("build-logic") {
+  dependencySubstitution {
+    substitute(module("app.cash.gingham:plugin")).using(project(":plugin"))
+  }
+}
