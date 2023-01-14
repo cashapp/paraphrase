@@ -5,16 +5,18 @@ import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
+import com.squareup.kotlinpoet.ANY
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.STRING
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
-import com.squareup.kotlinpoet.joinToCode
 import java.time.Instant
 import java.util.Date
 
@@ -51,20 +53,20 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
     .apply { if (description != null) addKdoc(description) }
     .apply { tokens.forEach { addParameter(it.toParameterSpec()) } }
     .returns(Types.FormattedResource)
+    .addStatement("val arguments = %T(%L)", Types.ArrayMap.parameterizedBy(STRING, ANY), tokens.size)
     .apply {
-      addStatement(
-        "val arguments = mapOf(%L)",
-        tokens.map { it.toParameterCodeBlock() }.joinToCode()
-      )
-      addCode(
-        buildCodeBlock {
-          add("return %T(⇥\n", Types.FormattedResource)
-          addStatement("id = %T.%L,", packageStringsType, name)
-          addStatement("arguments = arguments")
-          add("⇤)\n")
-        }
-      )
+      for (token in tokens) {
+        addStatement("arguments.put(%S, %L)", token.argumentName, token.toParameterCodeBlock())
+      }
     }
+    .addCode(
+      buildCodeBlock {
+        add("return %T(⇥\n", Types.FormattedResource)
+        addStatement("id = %T.%L,", packageStringsType, name)
+        addStatement("arguments = arguments")
+        add("⇤)\n")
+      }
+    )
     .build()
 }
 
@@ -87,14 +89,12 @@ private fun Token.toParameterSpec(): ParameterSpec =
   )
 
 private fun Token.toParameterCodeBlock(): CodeBlock =
-  buildCodeBlock {
-    add("%S to ", argumentName)
-    when (type) {
-      Instant::class -> add("%T.from(%L)", Date::class, parameterName)
-      else -> add(parameterName)
-    }
+  when (type) {
+    Instant::class -> CodeBlock.of("%T.from(%L)", Date::class, parameterName)
+    else -> CodeBlock.of("%L", parameterName)
   }
 
 private object Types {
+  val ArrayMap = ClassName("android.util", "ArrayMap")
   val FormattedResource = ClassName("app.cash.gingham", "FormattedResource")
 }
