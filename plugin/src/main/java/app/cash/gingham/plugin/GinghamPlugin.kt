@@ -21,11 +21,12 @@ class GinghamPlugin : Plugin<Project> {
 
   private fun Project.addRuntimeDependency() {
     val isInternal = properties["app.cash.gingham.internal"].toString() == "true"
-    dependencies.add(
-      "implementation",
-      if (isInternal) "app.cash.gingham:runtime"
-      else "app.cash.gingham:gingham-runtime:${BuildConfig.VERSION}"
-    )
+    val runtimeDependency: Any = if (isInternal) {
+      dependencies.project(mapOf("path" to ":runtime"))
+    } else {
+      "app.cash.gingham:gingham-runtime:${BuildConfig.VERSION}"
+    }
+    dependencies.add("implementation", runtimeDependency)
   }
 
   @Suppress("UnstableApiUsage")

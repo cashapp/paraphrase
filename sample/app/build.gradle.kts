@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-  kotlin("android")
+  alias(libs.plugins.kotlinAndroid)
   alias(libs.plugins.androidApplication)
   id("app.cash.gingham")
 }
@@ -38,7 +38,7 @@ android {
 }
 
 dependencies {
-  implementation(projects.library)
+  implementation(projects.sample.library)
   implementation(libs.androidActivityCompose)
   implementation(libs.androidMaterial)
   implementation(libs.composeMaterial)
