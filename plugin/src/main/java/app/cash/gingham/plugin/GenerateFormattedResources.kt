@@ -6,10 +6,13 @@ import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.FileCollection
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity.RELATIVE
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import javax.inject.Inject
@@ -18,6 +21,7 @@ import javax.inject.Inject
  * A Gradle task that reads all of the Android string resources in a module and then generates
  * formatted resource methods for any that contain ICU arguments.
  */
+@CacheableTask
 internal abstract class GenerateFormattedResources @Inject constructor() : DefaultTask() {
   @get:Input
   abstract val namespace: Property<String>
@@ -26,6 +30,7 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
   abstract val resourceDirectories: ConfigurableFileCollection
 
   @get:InputFiles
+  @get:PathSensitive(RELATIVE)
   val stringResourceFiles: FileCollection
     get() = resourceDirectories
       .asFileTree
