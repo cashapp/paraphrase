@@ -4,7 +4,6 @@ package app.cash.gingham.plugin
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.api.variant.HasAndroidTest
 import com.android.build.api.variant.Sources
-import java.io.File
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -60,7 +59,7 @@ class GinghamPlugin : Plugin<Project> {
         task.description = "Generates type-safe formatters for $name string resources"
         task.namespace.set(namespace)
         task.resourceDirectories.from(resSources.all)
-        task.outputDirectory.set(File("$buildDir/generated/source/gingham/$name"))
+        task.outputDirectory.set(layout.buildDirectory.dir("generated/source/gingham/$name"))
       }
     }
   }
