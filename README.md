@@ -51,7 +51,7 @@ Or run the Gingham gradle task for the relevant build flavor:
 ./gradlew my-app:generateFormattedResourcesRelease
 ```
 
-That generates a formatted resource method that looks like this:
+That generates a formatted resource function that looks like this:
 ```kotlin
 /**
  * Describes an order placed at the deli.
