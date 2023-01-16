@@ -2,20 +2,35 @@
 package app.cash.gingham.plugin
 
 import com.android.build.api.variant.AndroidComponentsExtension
-import com.android.build.api.variant.Variant
+import com.android.build.api.variant.HasAndroidTest
+import com.android.build.api.variant.Sources
+import java.io.File
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
 import org.gradle.configurationcache.extensions.capitalized
-import java.io.File
 
 /**
  * A Gradle plugin that generates type checked formatters for patterned Android string resources.
  */
+@Suppress("UnstableApiUsage") // For 'Sources' type.
 class GinghamPlugin : Plugin<Project> {
   override fun apply(target: Project) = target.run {
     addRuntimeDependency()
     extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
-      registerGenerateFormattedResourcesTask(variant)
+      registerGenerateFormattedResourcesTask(
+        sources = variant.sources,
+        name = variant.name,
+        namespace = variant.namespace,
+      )
+
+      (variant as? HasAndroidTest)?.androidTest?.let { androidTest ->
+        registerGenerateFormattedResourcesTask(
+          sources = androidTest.sources,
+          name = androidTest.name,
+          namespace = androidTest.namespace,
+        )
+      }
     }
   }
 
@@ -29,20 +44,23 @@ class GinghamPlugin : Plugin<Project> {
     dependencies.add("api", runtimeDependency)
   }
 
-  @Suppress("UnstableApiUsage")
-  private fun Project.registerGenerateFormattedResourcesTask(variant: Variant) {
-    val javaSources = variant.sources.java ?: return
-    val resSources = variant.sources.res ?: return
+  private fun Project.registerGenerateFormattedResourcesTask(
+    sources: Sources,
+    name: String,
+    namespace: Provider<String>,
+  ) {
+    val javaSources = sources.java ?: return
+    val resSources = sources.res ?: return
     tasks.register(
-      "generateFormattedResources${variant.name.capitalized()}",
+      "generateFormattedResources${name.capitalized()}",
       GenerateFormattedResources::class.java
     ).apply {
       javaSources.addGeneratedSourceDirectory(this, GenerateFormattedResources::outputDirectory)
       configure { task ->
-        task.description = "Generates type-safe formatters for ${variant.name} string resources"
-        task.namespace.set(variant.namespace)
+        task.description = "Generates type-safe formatters for $name string resources"
+        task.namespace.set(namespace)
         task.resourceDirectories.from(resSources.all)
-        task.outputDirectory.set(File("$buildDir/generated/source/gingham/${variant.name}"))
+        task.outputDirectory.set(File("$buildDir/generated/source/gingham/$name"))
       }
     }
   }
