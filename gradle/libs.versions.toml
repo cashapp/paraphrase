@@ -10,7 +10,8 @@ junit = "4.13.2"
 kotlin = "1.7.10"
 kotlinPoet = "1.12.0"
 mavenPublish = "0.22.0"
-spotless = "6.11.0"
+spotless = "6.13.0"
+ktlint = "0.48.1"
 truth = "1.1.3"
 
 [libraries]

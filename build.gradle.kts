@@ -20,26 +20,11 @@ plugins {
 configure<SpotlessExtension> {
   kotlin {
     target("src/**/*.kt")
+    ktlint(libs.versions.ktlint.get())
     licenseHeader("// Copyright Square, Inc.")
-    // ktlint doesn't honour .editorconfig yet: https://github.com/diffplug/spotless/issues/142
-    ktlint("0.41.0").userData(
-      mapOf(
-        "insert_final_newline" to "true",
-        "end_of_line" to "lf",
-        "charset" to "utf-8",
-        "indent_size" to "2",
-      )
-    )
   }
   kotlinGradle {
-    ktlint("0.41.0").userData(
-      mapOf(
-        "insert_final_newline" to "true",
-        "end_of_line" to "lf",
-        "charset" to "utf-8",
-        "indent_size" to "2",
-      )
-    )
+    ktlint(libs.versions.ktlint.get())
   }
 }
 
