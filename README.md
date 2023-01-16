@@ -44,7 +44,7 @@ Build the module:
 ./gradlew my-app:build
 ```
 
-Or run the Gingham gradle task for the relevant build flavor:
+Or run the Gingham gradle task for the relevant variant:
 
 ```shell
 ./gradlew my-app:generateFormattedResourcesDebug
