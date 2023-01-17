@@ -56,7 +56,7 @@ class ResourceWriterTest {
           arguments.put("fifth", fifth)
           return FormattedResource(
             id = R.string.test_named,
-            arguments = arguments
+            arguments = arguments,
           )
         }
       }
@@ -112,7 +112,7 @@ class ResourceWriterTest {
           arguments.put("4", arg4)
           return FormattedResource(
             id = R.string.test_numbered,
-            arguments = arguments
+            arguments = arguments,
           )
         }
       }

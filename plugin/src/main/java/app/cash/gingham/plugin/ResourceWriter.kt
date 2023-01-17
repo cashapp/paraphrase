@@ -63,7 +63,7 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
       buildCodeBlock {
         add("return %T(⇥\n", Types.FormattedResource)
         addStatement("id = %T.%L,", packageStringsType, name)
-        addStatement("arguments = arguments")
+        addStatement("arguments = arguments,")
         add("⇤)\n")
       }
     )
