@@ -53,10 +53,22 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
     .apply { if (description != null) addKdoc(description) }
     .apply { tokens.forEach { addParameter(it.toParameterSpec()) } }
     .returns(Types.FormattedResource)
-    .addStatement("val arguments = %T(%L)", Types.ArrayMap.parameterizedBy(STRING, ANY), tokens.size)
     .apply {
-      for (token in tokens) {
-        addStatement("arguments.put(%S, %L)", token.argumentName, token.toParameterCodeBlock())
+      if (hasContiguousNumberedTokens) {
+        addCode(
+          buildCodeBlock {
+            add("val arguments = arrayOf(⇥\n")
+            for (token in tokens) {
+              addStatement("%L,", token.toParameterCodeBlock())
+            }
+            add("⇤)\n")
+          }
+        )
+      } else {
+        addStatement("val arguments = %T(%L)", Types.ArrayMap.parameterizedBy(STRING, ANY), tokens.size)
+        for (token in tokens) {
+          addStatement("arguments.put(%S, %L)", token.argumentName, token.toParameterCodeBlock())
+        }
       }
     }
     .addCode(

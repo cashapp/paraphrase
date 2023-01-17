@@ -1,6 +1,7 @@
 // Copyright Square, Inc.
 package app.cash.gingham
 
+import android.icu.text.MessageFormat
 import androidx.annotation.StringRes
 
 /**
@@ -23,5 +24,10 @@ import androidx.annotation.StringRes
  * - The R.string.detective_has_suspects resource ID
  * - An integer value for the suspects argument
  * - A string value for the detective argument
+ *
+ * @property arguments Arguments passed directly to [MessageFormat.format].
  */
-data class FormattedResource(@StringRes val id: Int, val arguments: Map<String, Any>)
+data class FormattedResource constructor(
+  @StringRes val id: Int,
+  val arguments: Any,
+)
