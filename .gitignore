@@ -2,7 +2,7 @@
 .idea
 
 # Gradle
-/.gradle
+.gradle
 build
 /reports
 
