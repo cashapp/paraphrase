@@ -1,19 +1,10 @@
-*.iml
-local.properties
+# IntelliJ IDEA
 .idea
-.DS_Store
-reports
-captures
-.externalNativeBuild
-.cxx
 
 # Gradle
 .gradle
 build
-build-cache
-generated
+/reports
 
-# Mkdocs files
-docs/1.x
-docs/changelog.md
-docs/index.md
+# Android
+local.properties
