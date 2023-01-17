@@ -16,4 +16,4 @@ fun Context.getString(formattedResource: FormattedResource): String =
  * Resolves and returns the final formatted version of the given formatted string.
  */
 fun Resources.getString(formattedResource: FormattedResource): String =
-  MessageFormat.format(getString(formattedResource.id), formattedResource.arguments)
+  MessageFormat(getString(formattedResource.id)).format(formattedResource.arguments)

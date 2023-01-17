@@ -11,6 +11,10 @@ internal data class TokenizedResource(
   val description: String?,
   val tokens: List<Token>,
 ) {
+  /* True when the tokens represent a contiguous set of integers counting from 0. */
+  val hasContiguousNumberedTokens: Boolean =
+    tokens.indices.toList() == tokens.map { (it as? Token.NumberedToken)?.number }
+
   sealed interface Token {
     val type: KClass<*>
 
