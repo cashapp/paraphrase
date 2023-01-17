@@ -32,7 +32,7 @@ android {
 dependencies {
   implementation(projects.sample.library)
   implementation(libs.androidActivityCompose)
-  implementation(libs.androidMaterial)
+  implementation(libs.googleMaterial)
   implementation(libs.composeMaterial)
   implementation(libs.composeUi)
 
