@@ -19,6 +19,7 @@ import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
 import java.time.Instant
 import kotlin.reflect.KClass
+import kotlin.time.Duration
 
 /**
  * Parses the given resource and extracts the ICU argument tokens.
@@ -45,8 +46,11 @@ internal fun tokenizeResource(rawResource: RawResource): TokenizedResource {
           NONE -> Any::class
           SIMPLE -> when (pattern.getSubstring(pattern.getPart(index + 2)).lowercase()) {
             "date" -> Instant::class
-            "time" -> Instant::class
+            "duration" -> Duration::class
+            "ordinal" -> Int::class
             "number" -> Number::class
+            "spellout" -> Int::class
+            "time" -> Instant::class
             else -> Any::class
           }
           CHOICE -> Int::class
