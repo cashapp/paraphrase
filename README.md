@@ -21,7 +21,6 @@ plugins {
 In the `strings.xml` file within the module:
 
 ```xml
-
 <resources>
   <!-- Describes an order placed at the deli. -->
   <string name="order_description">
