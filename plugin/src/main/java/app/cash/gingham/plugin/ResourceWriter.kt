@@ -18,7 +18,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 import java.time.Instant
-import java.util.Date
 
 /**
  * Writes the given tokenized resources to a Kotlin source file.
@@ -102,7 +101,7 @@ private fun Token.toParameterSpec(): ParameterSpec =
 
 private fun Token.toParameterCodeBlock(): CodeBlock =
   when (type) {
-    Instant::class -> CodeBlock.of("%T.from(%L)", Date::class, parameterName)
+    Instant::class -> CodeBlock.of("%L.toEpochMilli()", parameterName)
     else -> CodeBlock.of("%L", parameterName)
   }
 
