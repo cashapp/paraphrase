@@ -1,0 +1,42 @@
+<resources>
+  <string name="type_none">A {value} B</string>
+
+  <string name="type_number">A {value,number} B</string>
+  <string name="type_number_integer">A {value,number,integer} B</string>
+  <string name="type_number_currency">A {value,number,currency} B</string>
+  <string name="type_number_percent">A {value,number,percent} B</string>
+  <string name="type_number_custom">A {value,number,#,##,###} B</string>
+
+  <string name="type_date">A {value,date} B</string>
+  <string name="type_date_short">A {value,date,short} B</string>
+  <string name="type_date_medium">A {value,date,medium} B</string>
+  <string name="type_date_long">A {value,date,long} B</string>
+  <string name="type_date_full">A {value,date,full} B</string>
+  <string name="type_date_custom">A {value,date,YYYY-MM-dd} B</string>
+
+  <string name="type_time">A {value,time} B</string>
+  <string name="type_time_short">A {value,time,short} B</string>
+  <string name="type_time_medium">A {value,time,medium} B</string>
+  <string name="type_time_long">A {value,time,long} B</string>
+  <string name="type_time_full">A {value,time,full} B</string>
+  <string name="type_time_custom">A {value,time,HH-mm-ss} B</string>
+
+  <string name="type_count_plural">A {count, plural,
+      =0 {Z}
+      =1 {Y}
+      other {X}
+    } B</string>
+
+  <string name="type_count_select_ordinal">A {count, selectordinal,
+      one {Z #st}
+      two {Z #nd}
+      few {Z #rd}
+      other {Z #th time}
+    } B</string>
+
+  <string name="type_verse_select">A {verse, select,
+      alpha {Z}
+      beta {Y}
+      other {X}
+    } B</string>
+</resources>

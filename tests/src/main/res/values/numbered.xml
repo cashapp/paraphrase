@@ -1,0 +1,6 @@
+<resources>
+  <string name="numbered_contiguous_one">A {0} B</string>
+  <string name="numbered_contiguous_three">A {0} B {1} C {2} D</string>
+  <string name="numbered_sparse_one">A {1} B</string>
+  <string name="numbered_sparse_three">A {1} B {3} C {5} D</string>
+</resources>

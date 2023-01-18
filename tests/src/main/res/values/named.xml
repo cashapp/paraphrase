@@ -1,0 +1,4 @@
+<resources>
+  <string name="named_one">A {one} B</string>
+  <string name="named_three">A {one} B {two} C {three} D</string>
+</resources>

@@ -23,6 +23,7 @@ include(
   ":runtime",
   ":sample:app",
   ":sample:library",
+  ":tests",
 )
 
 includeBuild("build-logic") {
