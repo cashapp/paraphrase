@@ -21,6 +21,10 @@
   <string name="type_time_full">A {value,time,full} B</string>
   <string name="type_time_custom">A {value,time,HH-mm-ss} B</string>
 
+  <string name="type_duration">A {value,duration} B</string>
+  <string name="type_ordinal">A {value,ordinal} B</string>
+  <string name="type_spellout">A {value,spellout} B</string>
+
   <string name="type_count_plural">A {count, plural,
       =0 {Z}
       =1 {Y}

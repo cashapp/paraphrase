@@ -4,6 +4,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import app.cash.gingham.getString
 import com.google.common.truth.Truth.assertThat
 import java.time.Instant
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 import org.junit.Test
 
 class TypesTest {
@@ -106,6 +109,37 @@ class TypesTest {
   @Test fun typeTimeCustom() {
     val formatted = context.getString(FormattedResources.type_time_custom(releaseDate))
     assertThat(formatted).isEqualTo("A 01-23-45 B")
+  }
+
+  @Test fun typeDuration() {
+    val formattedSeconds = context.getString(FormattedResources.type_duration(3.seconds))
+    assertThat(formattedSeconds).isEqualTo("A 3 sec. B")
+    val formattedMinutes = context.getString(FormattedResources.type_duration(3.minutes + 2.seconds))
+    assertThat(formattedMinutes).isEqualTo("A 3:02 B")
+    val formattedHours = context.getString(FormattedResources.type_duration(3.hours + 2.minutes + 1.seconds))
+    assertThat(formattedHours).isEqualTo("A 3:02:01 B")
+  }
+
+  @Test fun typeOrdinal() {
+    val formattedZero = context.getString(FormattedResources.type_ordinal(0))
+    assertThat(formattedZero).isEqualTo("A 0th B")
+    val formattedOne = context.getString(FormattedResources.type_ordinal(1))
+    assertThat(formattedOne).isEqualTo("A 1st B")
+    val formattedTwo = context.getString(FormattedResources.type_ordinal(2))
+    assertThat(formattedTwo).isEqualTo("A 2nd B")
+    val formattedThree = context.getString(FormattedResources.type_ordinal(3))
+    assertThat(formattedThree).isEqualTo("A 3rd B")
+    val formattedFour = context.getString(FormattedResources.type_ordinal(4))
+    assertThat(formattedFour).isEqualTo("A 4th B")
+  }
+
+  @Test fun typeSpellout() {
+    val formattedOnes = context.getString(FormattedResources.type_spellout(3))
+    assertThat(formattedOnes).isEqualTo("A three B")
+    val formattedTens = context.getString(FormattedResources.type_spellout(32))
+    assertThat(formattedTens).isEqualTo("A thirty-two B")
+    val formattedHundreds = context.getString(FormattedResources.type_spellout(321))
+    assertThat(formattedHundreds).isEqualTo("A three hundred twenty-one B")
   }
 
   @Test fun typePlural() {
