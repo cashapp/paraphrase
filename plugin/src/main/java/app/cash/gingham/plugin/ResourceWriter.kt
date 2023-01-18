@@ -18,7 +18,6 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 import java.time.Instant
-import java.util.Date
 import kotlin.time.Duration
 
 /**
@@ -104,7 +103,7 @@ private fun Token.toParameterSpec(): ParameterSpec =
 private fun Token.toParameterCodeBlock(): CodeBlock =
   when (type) {
     Duration::class -> CodeBlock.of("%L.inWholeSeconds", parameterName)
-    Instant::class -> CodeBlock.of("%T.from(%L)", Date::class, parameterName)
+    Instant::class -> CodeBlock.of("%L.toEpochMilli()", parameterName)
     else -> CodeBlock.of("%L", parameterName)
   }
 
