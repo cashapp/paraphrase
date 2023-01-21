@@ -2,11 +2,11 @@
 package app.cash.gingham.plugin
 
 import app.cash.gingham.plugin.model.RawResource
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import java.io.File
 import java.io.InputStream
 import javax.xml.parsers.DocumentBuilderFactory
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 
 /**
  * Parses and returns all of the Android <string> resources declared in the given file.

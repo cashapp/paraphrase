@@ -1,6 +1,11 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
+import app.cash.gingham.plugin.model.RawResource
+import app.cash.gingham.plugin.model.TokenizedResource
+import app.cash.gingham.plugin.model.TokenizedResource.Token
+import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
+import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
 import com.ibm.icu.text.MessagePattern
 import com.ibm.icu.text.MessagePattern.ArgType.CHOICE
 import com.ibm.icu.text.MessagePattern.ArgType.NONE
@@ -12,11 +17,6 @@ import com.ibm.icu.text.MessagePattern.Part
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_NAME
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_NUMBER
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_START
-import app.cash.gingham.plugin.model.RawResource
-import app.cash.gingham.plugin.model.TokenizedResource
-import app.cash.gingham.plugin.model.TokenizedResource.Token
-import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
-import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
 import java.time.Instant
 import kotlin.reflect.KClass
 import kotlin.time.Duration
@@ -58,7 +58,7 @@ internal fun tokenizeResource(rawResource: RawResource): TokenizedResource {
           SELECT -> String::class
           SELECTORDINAL -> Int::class
           else -> error("Unexpected argument type: ${part.argType.name}")
-        }
+        },
       )
     }
 

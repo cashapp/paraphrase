@@ -167,15 +167,15 @@ class ResourceTokenizerTest {
         RawResource(
           name = "test",
           description = "Test Description",
-          text = this
-        )
-      )
+          text = this,
+        ),
+      ),
     ).isEqualTo(
       TokenizedResource(
         name = "test",
         description = "Test Description",
-        tokens = tokens.toList()
-      )
+        tokens = tokens.toList(),
+      ),
     )
   }
 }

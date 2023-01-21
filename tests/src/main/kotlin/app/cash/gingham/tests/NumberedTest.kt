@@ -1,7 +1,7 @@
+// Copyright Square, Inc.
 package app.cash.gingham.tests
 
 import androidx.test.platform.app.InstrumentationRegistry
-import app.cash.gingham.FormattedResource
 import app.cash.gingham.getString
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

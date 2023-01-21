@@ -1,7 +1,6 @@
 // Copyright Square, Inc.
 package app.cash.gingham
 
-
 import android.content.Context
 import android.content.res.Resources
 import android.icu.text.MessageFormat
