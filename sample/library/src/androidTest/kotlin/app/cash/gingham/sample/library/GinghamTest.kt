@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham.sample.library
 
 import app.cash.gingham.sample.library.test.FormattedResources

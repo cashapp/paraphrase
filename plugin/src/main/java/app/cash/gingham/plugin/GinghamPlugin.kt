@@ -52,7 +52,7 @@ class GinghamPlugin : Plugin<Project> {
     val resSources = sources.res ?: return
     tasks.register(
       "generateFormattedResources${name.capitalized()}",
-      GenerateFormattedResources::class.java
+      GenerateFormattedResources::class.java,
     ).apply {
       javaSources.addGeneratedSourceDirectory(this, GenerateFormattedResources::outputDirectory)
       configure { task ->

@@ -20,7 +20,7 @@ plugins {
 
 configure<SpotlessExtension> {
   kotlin {
-    target("src/**/*.kt")
+    target("**/*.kt")
     ktlint(libs.versions.ktlint.get())
     licenseHeader("// Copyright Square, Inc.")
   }

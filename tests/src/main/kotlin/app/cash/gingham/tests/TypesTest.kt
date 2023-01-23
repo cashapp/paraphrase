@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham.tests
 
 import androidx.test.platform.app.InstrumentationRegistry
