@@ -17,4 +17,7 @@ android {
 
 dependencies {
   api(libs.androidAnnotation)
+
+  testImplementation(libs.junit)
+  testImplementation(libs.truth)
 }
