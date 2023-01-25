@@ -1,3 +1,4 @@
+// Copyright Square, Inc.
 package app.cash.gingham
 
 import com.google.common.truth.Truth.assertThat
