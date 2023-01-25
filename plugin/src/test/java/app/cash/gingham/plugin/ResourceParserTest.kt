@@ -1,7 +1,8 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.model.RawResource
+import app.cash.gingham.plugin.model.ResourceName
+import app.cash.gingham.plugin.model.StringResource
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -14,7 +15,7 @@ class ResourceParserTest {
         <string name="test">Test</string>
       </resources>
     """.trimIndent().assertParse(
-      RawResource(name = "test", description = null, text = "Test"),
+      StringResource(name = ResourceName("test"), description = null, text = "Test"),
     )
   }
 
@@ -28,9 +29,9 @@ class ResourceParserTest {
         <string name="test_3">Test 3</string>
       </resources>
     """.trimIndent().assertParse(
-      RawResource(name = "test_1", description = null, text = "Test 1"),
-      RawResource(name = "test_2", description = null, text = "Test 2"),
-      RawResource(name = "test_3", description = null, text = "Test 3"),
+      StringResource(name = ResourceName("test_1"), description = null, text = "Test 1"),
+      StringResource(name = ResourceName("test_2"), description = null, text = "Test 2"),
+      StringResource(name = ResourceName("test_3"), description = null, text = "Test 3"),
     )
   }
 
@@ -43,7 +44,7 @@ class ResourceParserTest {
         <string name="test">Test</string>
       </resources>
     """.trimIndent().assertParse(
-      RawResource(name = "test", description = "Test Description", text = "Test"),
+      StringResource(name = ResourceName("test"), description = "Test Description", text = "Test"),
     )
   }
 
@@ -55,7 +56,7 @@ class ResourceParserTest {
         <string name="test" translatable="false">Test</string>
       </resources>
     """.trimIndent().assertParse(
-      RawResource(name = "test", description = null, text = "Test"),
+      StringResource(name = ResourceName("test"), description = null, text = "Test"),
     )
   }
 
@@ -87,7 +88,7 @@ class ResourceParserTest {
     """.trimIndent().assertParse()
   }
 
-  private fun String.assertParse(vararg expectedResources: RawResource) {
+  private fun String.assertParse(vararg expectedResources: StringResource) {
     assertThat(parseResources(byteInputStream())).containsExactly(*expectedResources)
   }
 }

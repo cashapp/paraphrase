@@ -1,13 +1,20 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.model.RawResource
+import app.cash.gingham.plugin.TokenType.Date
+import app.cash.gingham.plugin.TokenType.None
+import app.cash.gingham.plugin.TokenType.Number
+import app.cash.gingham.plugin.TokenType.Plural
+import app.cash.gingham.plugin.TokenType.Select
+import app.cash.gingham.plugin.TokenType.SelectOrdinal
+import app.cash.gingham.plugin.TokenType.Time
+import app.cash.gingham.plugin.model.ResourceName
+import app.cash.gingham.plugin.model.StringResource
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
 import com.google.common.truth.Truth.assertThat
-import java.time.Instant
 import org.junit.Test
 
 class ResourceTokenizerTest {
@@ -19,20 +26,20 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithNamedSimpleTokens() {
     "Test {test} {test_number, number} {test_date, date} {test_time, time}".assertTokens(
-      NamedToken(name = "test", type = Any::class),
-      NamedToken(name = "test_number", type = Number::class),
-      NamedToken(name = "test_date", type = Instant::class),
-      NamedToken(name = "test_time", type = Instant::class),
+      NamedToken(name = "test", type = None),
+      NamedToken(name = "test_number", type = Number),
+      NamedToken(name = "test_date", type = Date),
+      NamedToken(name = "test_time", type = Time),
     )
   }
 
   @Test
   fun tokenizeResourceWithNumberedSimpleTokens() {
     "Test {0} {1, number} {2, date} {3, time}".assertTokens(
-      NumberedToken(number = 0, type = Any::class),
-      NumberedToken(number = 1, type = Number::class),
-      NumberedToken(number = 2, type = Instant::class),
-      NumberedToken(number = 3, type = Instant::class),
+      NumberedToken(number = 0, type = None),
+      NumberedToken(number = 1, type = Number),
+      NumberedToken(number = 2, type = Date),
+      NumberedToken(number = 3, type = Time),
     )
   }
 
@@ -46,8 +53,10 @@ class ResourceTokenizerTest {
       }
     """.trimIndent()
       .assertTokens(
-        NamedToken(name = "test", type = Int::class),
-        NamedToken(name = "test_nested", type = Any::class),
+        NamedToken(name = "test", type = Plural),
+        NamedToken(name = "test_nested", type = None),
+        NamedToken(name = "test_nested", type = None),
+        NamedToken(name = "test_nested", type = None),
       )
   }
 
@@ -61,8 +70,10 @@ class ResourceTokenizerTest {
       }
     """.trimIndent()
       .assertTokens(
-        NumberedToken(number = 0, type = Int::class),
-        NumberedToken(number = 1, type = Any::class),
+        NumberedToken(number = 0, type = Plural),
+        NumberedToken(number = 1, type = None),
+        NumberedToken(number = 1, type = None),
+        NumberedToken(number = 1, type = None),
       )
   }
 
@@ -77,8 +88,11 @@ class ResourceTokenizerTest {
       }
     """.trimIndent()
       .assertTokens(
-        NamedToken(name = "test", type = String::class),
-        NamedToken(name = "test_nested", type = Any::class),
+        NamedToken(name = "test", type = Select),
+        NamedToken(name = "test_nested", type = None),
+        NamedToken(name = "test_nested", type = None),
+        NamedToken(name = "test_nested", type = None),
+        NamedToken(name = "test_nested", type = None),
       )
   }
 
@@ -93,8 +107,11 @@ class ResourceTokenizerTest {
       }
     """.trimIndent()
       .assertTokens(
-        NumberedToken(number = 0, type = String::class),
-        NumberedToken(number = 1, type = Any::class),
+        NumberedToken(number = 0, type = Select),
+        NumberedToken(number = 1, type = None),
+        NumberedToken(number = 1, type = None),
+        NumberedToken(number = 1, type = None),
+        NumberedToken(number = 1, type = None),
       )
   }
 
@@ -108,8 +125,10 @@ class ResourceTokenizerTest {
       }
     """.trimIndent()
       .assertTokens(
-        NamedToken(name = "test", type = Int::class),
-        NamedToken(name = "test_nested", type = Any::class),
+        NamedToken(name = "test", type = SelectOrdinal),
+        NamedToken(name = "test_nested", type = None),
+        NamedToken(name = "test_nested", type = None),
+        NamedToken(name = "test_nested", type = None),
       )
   }
 
@@ -123,8 +142,10 @@ class ResourceTokenizerTest {
       }
     """.trimIndent()
       .assertTokens(
-        NumberedToken(number = 0, type = Int::class),
-        NumberedToken(number = 1, type = Any::class),
+        NumberedToken(number = 0, type = SelectOrdinal),
+        NumberedToken(number = 1, type = None),
+        NumberedToken(number = 1, type = None),
+        NumberedToken(number = 1, type = None),
       )
   }
 
@@ -138,7 +159,10 @@ class ResourceTokenizerTest {
       }
     """.trimIndent()
       .assertTokens(
-        NamedToken(name = "count", type = Int::class),
+        NamedToken(name = "count", type = Plural),
+        NamedToken(name = "count", type = None),
+        NamedToken(name = "count", type = None),
+        NamedToken(name = "count", type = None),
       )
   }
 
@@ -152,29 +176,58 @@ class ResourceTokenizerTest {
       }
     """.trimIndent()
       .assertTokens(
-        NumberedToken(number = 0, type = Int::class),
+        NumberedToken(number = 0, type = Plural),
+        NumberedToken(number = 0, type = None),
+        NumberedToken(number = 0, type = None),
+        NumberedToken(number = 0, type = None),
       )
   }
 
   @Test
   fun tokenizeResourceWithInvalidIcuFormat() {
-    "Test {{test}}".assertTokens()
+    "Test {{test}}".assertNoTokensWithError(
+      """Bad argument syntax: [at pattern index 6] "{test}}"""",
+    )
   }
 
-  private fun String.assertTokens(vararg tokens: Token) {
+  private fun String.assertTokens(
+    vararg tokens: Token,
+  ) {
     assertThat(
       tokenizeResource(
-        RawResource(
-          name = "test",
+        StringResource(
+          name = ResourceName("test"),
           description = "Test Description",
           text = this,
         ),
       ),
     ).isEqualTo(
       TokenizedResource(
-        name = "test",
+        name = ResourceName("test"),
         description = "Test Description",
         tokens = tokens.toList(),
+        parsingError = null,
+      ),
+    )
+  }
+
+  private fun String.assertNoTokensWithError(
+    message: String,
+  ) {
+    assertThat(
+      tokenizeResource(
+        StringResource(
+          name = ResourceName("test"),
+          description = "Test Description",
+          text = this,
+        ),
+      ),
+    ).isEqualTo(
+      TokenizedResource(
+        name = ResourceName("test"),
+        description = "Test Description",
+        tokens = emptyList(),
+        parsingError = message,
       ),
     )
   }

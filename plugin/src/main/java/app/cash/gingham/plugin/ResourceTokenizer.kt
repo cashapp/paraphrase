@@ -1,7 +1,7 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.model.RawResource
+import app.cash.gingham.plugin.model.StringResource
 import app.cash.gingham.plugin.model.TokenizedResource
 import app.cash.gingham.plugin.model.TokenizedResource.Token
 import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
@@ -17,22 +17,22 @@ import com.ibm.icu.text.MessagePattern.Part
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_NAME
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_NUMBER
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_START
-import java.time.Instant
-import kotlin.reflect.KClass
-import kotlin.time.Duration
 
 /**
  * Parses the given resource and extracts the ICU argument tokens.
  */
-internal fun tokenizeResource(rawResource: RawResource): TokenizedResource {
+internal fun tokenizeResource(stringResource: StringResource): TokenizedResource {
   val pattern = try {
-    MessagePattern(rawResource.text)
+    MessagePattern(stringResource.text)
   } catch (throwable: Throwable) {
-    return rawResource.toTokenizedResource(tokens = emptyList())
+    return stringResource.toTokenizedResource(
+      tokens = emptyList(),
+      parsingError = throwable.message,
+    )
   }
 
   if (!pattern.hasNamedArguments() && !pattern.hasNumberedArguments()) {
-    return rawResource.toTokenizedResource(tokens = emptyList())
+    return stringResource.toTokenizedResource(tokens = emptyList())
   }
 
   val tokens = pattern.partsIterator()
@@ -43,38 +43,32 @@ internal fun tokenizeResource(rawResource: RawResource): TokenizedResource {
       pattern.getToken(
         identifier = pattern.getPart(index + 1),
         type = when (part.argType) {
-          NONE -> Any::class
-          SIMPLE -> when (pattern.getSubstring(pattern.getPart(index + 2)).lowercase()) {
-            "date" -> Instant::class
-            "duration" -> Duration::class
-            "ordinal" -> Int::class
-            "number" -> Number::class
-            "spellout" -> Int::class
-            "time" -> Instant::class
-            else -> Any::class
+          NONE -> TokenType.None
+          SIMPLE -> when (val simpleType = pattern.getSubstring(pattern.getPart(index + 2)).lowercase()) {
+            "date" -> TokenType.Date
+            "duration" -> TokenType.Duration
+            "ordinal" -> TokenType.Ordinal
+            "number" -> TokenType.Number
+            "spellout" -> TokenType.SpellOut
+            "time" -> TokenType.Time
+            else -> error("Unexpected simple argument type: $simpleType")
           }
-          CHOICE -> Int::class
-          PLURAL -> Int::class
-          SELECT -> String::class
-          SELECTORDINAL -> Int::class
+          CHOICE -> TokenType.Choice
+          PLURAL -> TokenType.Plural
+          SELECT -> TokenType.Select
+          SELECTORDINAL -> TokenType.SelectOrdinal
           else -> error("Unexpected argument type: ${part.argType.name}")
         },
       )
     }
 
-  val deduplicatedTokens = buildMap {
-    tokens.forEach { token ->
-      putIfAbsent(token.key, token)
-    }
-  }
-
-  return rawResource.toTokenizedResource(tokens = deduplicatedTokens.values.toList())
+  return stringResource.toTokenizedResource(tokens = tokens.toList())
 }
 
-private fun RawResource.toTokenizedResource(tokens: List<Token>): TokenizedResource =
-  TokenizedResource(name = name, description = description, tokens = tokens)
+private fun StringResource.toTokenizedResource(tokens: List<Token>, parsingError: String? = null): TokenizedResource =
+  TokenizedResource(name = name, description = description, tokens = tokens, parsingError = parsingError)
 
-private fun MessagePattern.getToken(identifier: Part, type: KClass<*>): Token =
+private fun MessagePattern.getToken(identifier: Part, type: TokenType): Token =
   when (identifier.type) {
     ARG_NAME -> NamedToken(name = getSubstring(identifier), type = type)
     ARG_NUMBER -> NumberedToken(number = identifier.value, type = type)
@@ -88,8 +82,16 @@ private fun MessagePattern.partsIterator(): Iterator<Part> =
     override fun next(): Part = getPart(index++)
   }
 
-private val Token.key: String
-  get() = when (this) {
-    is NamedToken -> name
-    is NumberedToken -> number.toString()
-  }
+internal enum class TokenType {
+  None,
+  Number,
+  Date,
+  Time,
+  SpellOut,
+  Ordinal,
+  Duration,
+  Choice,
+  Plural,
+  Select,
+  SelectOrdinal,
+}
