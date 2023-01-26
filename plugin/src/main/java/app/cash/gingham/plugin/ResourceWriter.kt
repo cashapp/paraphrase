@@ -1,10 +1,8 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.model.TokenizedResource
-import app.cash.gingham.plugin.model.TokenizedResource.Token
-import app.cash.gingham.plugin.model.TokenizedResource.Token.NamedToken
-import app.cash.gingham.plugin.model.TokenizedResource.Token.NumberedToken
+import app.cash.gingham.plugin.model.MergedResource
+import app.cash.gingham.plugin.model.MergedResource.Argument
 import com.squareup.kotlinpoet.ANY
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
@@ -25,7 +23,7 @@ import kotlin.time.Duration
  */
 internal fun writeResources(
   packageName: String,
-  tokenizedResources: List<TokenizedResource>,
+  mergedResources: List<MergedResource>,
 ): FileSpec {
   val packageStringsType = ClassName(packageName = packageName, "R", "string")
   return FileSpec.builder(packageName = packageName, fileName = "FormattedResources")
@@ -39,8 +37,8 @@ internal fun writeResources(
     .addType(
       TypeSpec.objectBuilder("FormattedResources")
         .apply {
-          tokenizedResources.forEach { tokenizedResource ->
-            addFunction(tokenizedResource.toFunSpec(packageStringsType))
+          mergedResources.forEach { mergedResource ->
+            addFunction(mergedResource.toFunSpec(packageStringsType))
           }
         }
         .build(),
@@ -48,33 +46,33 @@ internal fun writeResources(
     .build()
 }
 
-private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
-  return FunSpec.builder(name)
+private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
+  return FunSpec.builder(name.value)
     .apply { if (description != null) addKdoc(description) }
-    .apply { tokens.forEach { addParameter(it.toParameterSpec()) } }
+    .apply { arguments.forEach { addParameter(it.toParameterSpec()) } }
     .returns(Types.FormattedResource)
     .apply {
       if (hasContiguousNumberedTokens) {
         addCode(
           buildCodeBlock {
             add("val arguments = arrayOf(⇥\n")
-            for (token in tokens) {
-              addStatement("%L,", token.toParameterCodeBlock())
+            for (argument in arguments) {
+              addStatement("%L,", argument.toParameterCodeBlock())
             }
             add("⇤)\n")
           },
         )
       } else {
-        addStatement("val arguments = %T(%L)", Types.ArrayMap.parameterizedBy(STRING, ANY), tokens.size)
-        for (token in tokens) {
-          addStatement("arguments.put(%S, %L)", token.argumentName, token.toParameterCodeBlock())
+        addStatement("val arguments = %T(%L)", Types.ArrayMap.parameterizedBy(STRING, ANY), arguments.size)
+        for (argument in arguments) {
+          addStatement("arguments.put(%S, %L)", argument.key, argument.toParameterCodeBlock())
         }
       }
     }
     .addCode(
       buildCodeBlock {
         add("return %T(⇥\n", Types.FormattedResource)
-        addStatement("id = %T.%L,", packageStringsType, name)
+        addStatement("id = %T.%L,", packageStringsType, name.value)
         addStatement("arguments = arguments,")
         add("⇤)\n")
       },
@@ -82,29 +80,17 @@ private fun TokenizedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
     .build()
 }
 
-private val Token.argumentName: String
-  get() = when (this) {
-    is NamedToken -> name
-    is NumberedToken -> number.toString()
-  }
-
-private val Token.parameterName: String
-  get() = when (this) {
-    is NamedToken -> name
-    is NumberedToken -> "arg$number"
-  }
-
-private fun Token.toParameterSpec(): ParameterSpec =
+private fun Argument.toParameterSpec(): ParameterSpec =
   ParameterSpec(
-    name = parameterName,
+    name = name,
     type = type.asClassName(),
   )
 
-private fun Token.toParameterCodeBlock(): CodeBlock =
+private fun Argument.toParameterCodeBlock(): CodeBlock =
   when (type) {
-    Duration::class -> CodeBlock.of("%L.inWholeSeconds", parameterName)
-    Instant::class -> CodeBlock.of("%L.toEpochMilli()", parameterName)
-    else -> CodeBlock.of("%L", parameterName)
+    Duration::class -> CodeBlock.of("%L.inWholeSeconds", name)
+    Instant::class -> CodeBlock.of("%L.toEpochMilli()", name)
+    else -> CodeBlock.of("%L", name)
   }
 
 private object Types {
