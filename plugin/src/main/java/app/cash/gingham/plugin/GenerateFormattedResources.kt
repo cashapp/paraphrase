@@ -1,6 +1,7 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
+import app.cash.gingham.plugin.model.PublicResource
 import app.cash.gingham.plugin.model.ResourceFolder
 import javax.inject.Inject
 import org.gradle.api.DefaultTask
@@ -84,7 +85,25 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
       }
       .filter { it.arguments.isNotEmpty() }
 
-    writeResources(namespace.get(), mergedResources)
+    // Parse the files in each folder into a set of public resource declarations.
+    val publicResources = filesByConfiguration.values
+      .flatten()
+      .flatMap(::parsePublicResources)
+      .toSet()
+    // If no public resource declarations exist, then all resources are public. Otherwise, only
+    // those declared public are public.
+    val resourceVisibilityResolver = if (publicResources.isEmpty()) {
+      ResourceVisibilityResolver.EverythingIsPublic
+    } else {
+      ResourceVisibilityResolver.AllowlistIsPublic(
+        allowlist = publicResources
+          .filterIsInstance<PublicResource.Named>()
+          .filter { it.type == "string" }
+          .map { it.name },
+      )
+    }
+
+    writeResources(namespace.get(), mergedResources, resourceVisibilityResolver)
       .writeTo(outputDirectory.get().asFile)
 
     // TODO Fail on errors which make it this far.

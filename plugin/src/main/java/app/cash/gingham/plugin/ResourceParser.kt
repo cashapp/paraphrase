@@ -7,7 +7,6 @@ import java.io.File
 import java.io.InputStream
 import javax.xml.parsers.DocumentBuilderFactory
 import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 
 /**
  * Parses and returns all of the Android <string> resources declared in the given file.
@@ -53,10 +52,4 @@ private fun Node.precedingComment(): Node? {
       null
     }
   }
-}
-
-private fun NodeList.asIterator(): Iterator<Node> = object : Iterator<Node> {
-  private var index = 0
-  override fun hasNext(): Boolean = index < length
-  override fun next(): Node = item(index++)
 }

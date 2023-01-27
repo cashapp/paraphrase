@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STRING
@@ -24,8 +25,10 @@ import kotlin.time.Duration
 internal fun writeResources(
   packageName: String,
   mergedResources: List<MergedResource>,
+  resourceVisibilityResolver: ResourceVisibilityResolver,
 ): FileSpec {
   val packageStringsType = ClassName(packageName = packageName, "R", "string")
+  var hasPublicFunction = false
   return FileSpec.builder(packageName = packageName, fileName = "FormattedResources")
     .addFileComment(
       """
@@ -38,15 +41,21 @@ internal fun writeResources(
       TypeSpec.objectBuilder("FormattedResources")
         .apply {
           mergedResources.forEach { mergedResource ->
-            addFunction(mergedResource.toFunSpec(packageStringsType))
+            val isPublic = resourceVisibilityResolver.isPublic(mergedResource.name)
+            addFunction(mergedResource.toFunSpec(packageStringsType, isPublic))
+            hasPublicFunction = hasPublicFunction || isPublic
           }
         }
+        .addModifiers(if (hasPublicFunction) KModifier.PUBLIC else KModifier.INTERNAL)
         .build(),
     )
     .build()
 }
 
-private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
+private fun MergedResource.toFunSpec(
+  packageStringsType: TypeName,
+  isPublic: Boolean,
+): FunSpec {
   return FunSpec.builder(name.value)
     .apply { if (description != null) addKdoc(description) }
     .apply { arguments.forEach { addParameter(it.toParameterSpec()) } }
@@ -77,6 +86,7 @@ private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
         add("⇤)\n")
       },
     )
+    .addModifiers(if (isPublic) KModifier.PUBLIC else KModifier.INTERNAL)
     .build()
 }
 
