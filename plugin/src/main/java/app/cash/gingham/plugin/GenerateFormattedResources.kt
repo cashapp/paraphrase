@@ -1,7 +1,6 @@
 // Copyright Square, Inc.
 package app.cash.gingham.plugin
 
-import app.cash.gingham.plugin.model.PublicResource
 import app.cash.gingham.plugin.model.ResourceFolder
 import javax.inject.Inject
 import org.gradle.api.DefaultTask
@@ -78,32 +77,22 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
         value.toMap()
       }
 
+    // Parse the files in each folder into a set of public resource declarations.
+    // TODO: Can limit parsing to only public.xml? The wording used at
+    //  https://developer.android.com/studio/projects/android-library#PrivateResources suggests this
+    //  is the case. Check AGP source.
+    val publicResources = (filesByConfiguration[ResourceFolder.Default] ?: emptyList())
+      .flatMap(::parsePublicResources)
+      .toSet()
+
     // Merge each resource's configuration map into final, canonical versions.
     val mergedResources = resourceConfigurationsByName
       .mapNotNull { (name, resourceByConfiguration) ->
-        mergeResources(name, resourceByConfiguration)
+        mergeResources(name, resourceByConfiguration, publicResources)
       }
       .filter { it.arguments.isNotEmpty() }
 
-    // Parse the files in each folder into a set of public resource declarations.
-    val publicResources = filesByConfiguration.values
-      .flatten()
-      .flatMap(::parsePublicResources)
-      .toSet()
-    // If no public resource declarations exist, then all resources are public. Otherwise, only
-    // those declared public are public.
-    val resourceVisibilityResolver = if (publicResources.isEmpty()) {
-      ResourceVisibilityResolver.EverythingIsPublic
-    } else {
-      ResourceVisibilityResolver.AllowlistIsPublic(
-        allowlist = publicResources
-          .filterIsInstance<PublicResource.Named>()
-          .filter { it.type == "string" }
-          .map { it.name },
-      )
-    }
-
-    writeResources(namespace.get(), mergedResources, resourceVisibilityResolver)
+    writeResources(namespace.get(), mergedResources)
       .writeTo(outputDirectory.get().asFile)
 
     // TODO Fail on errors which make it this far.

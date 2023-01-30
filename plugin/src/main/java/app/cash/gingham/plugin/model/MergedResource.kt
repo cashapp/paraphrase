@@ -9,6 +9,7 @@ import kotlin.reflect.KClass
 internal data class MergedResource(
   val name: ResourceName,
   val description: String?,
+  val visibility: Visibility,
   val arguments: List<Argument>,
   /* True when the arguments bind to a contiguous set of integer tokens counting from 0. */
   val hasContiguousNumberedTokens: Boolean,
@@ -21,4 +22,9 @@ internal data class MergedResource(
     val name: String,
     val type: KClass<*>,
   )
+
+  enum class Visibility {
+    Private,
+    Public,
+  }
 }

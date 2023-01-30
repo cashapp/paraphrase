@@ -25,10 +25,9 @@ import kotlin.time.Duration
 internal fun writeResources(
   packageName: String,
   mergedResources: List<MergedResource>,
-  resourceVisibilityResolver: ResourceVisibilityResolver,
 ): FileSpec {
   val packageStringsType = ClassName(packageName = packageName, "R", "string")
-  var hasPublicFunction = false
+  val maxVisibility = mergedResources.maxOf { it.visibility }
   return FileSpec.builder(packageName = packageName, fileName = "FormattedResources")
     .addFileComment(
       """
@@ -41,21 +40,16 @@ internal fun writeResources(
       TypeSpec.objectBuilder("FormattedResources")
         .apply {
           mergedResources.forEach { mergedResource ->
-            val isPublic = resourceVisibilityResolver.isPublic(mergedResource.name)
-            addFunction(mergedResource.toFunSpec(packageStringsType, isPublic))
-            hasPublicFunction = hasPublicFunction || isPublic
+            addFunction(mergedResource.toFunSpec(packageStringsType))
           }
         }
-        .addModifiers(if (hasPublicFunction) KModifier.PUBLIC else KModifier.INTERNAL)
+        .addModifiers(maxVisibility.toKModifier())
         .build(),
     )
     .build()
 }
 
-private fun MergedResource.toFunSpec(
-  packageStringsType: TypeName,
-  isPublic: Boolean,
-): FunSpec {
+private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
   return FunSpec.builder(name.value)
     .apply { if (description != null) addKdoc(description) }
     .apply { arguments.forEach { addParameter(it.toParameterSpec()) } }
@@ -86,7 +80,7 @@ private fun MergedResource.toFunSpec(
         add("⇤)\n")
       },
     )
-    .addModifiers(if (isPublic) KModifier.PUBLIC else KModifier.INTERNAL)
+    .addModifiers(visibility.toKModifier())
     .build()
 }
 
@@ -102,6 +96,13 @@ private fun Argument.toParameterCodeBlock(): CodeBlock =
     Instant::class -> CodeBlock.of("%L.toEpochMilli()", name)
     else -> CodeBlock.of("%L", name)
   }
+
+private fun MergedResource.Visibility.toKModifier(): KModifier {
+  return when (this) {
+    MergedResource.Visibility.Public -> KModifier.PUBLIC
+    MergedResource.Visibility.Private -> KModifier.INTERNAL
+  }
+}
 
 private object Types {
   val ArrayMap = ClassName("android.util", "ArrayMap")
