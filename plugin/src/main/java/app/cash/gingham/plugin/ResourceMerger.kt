@@ -29,10 +29,22 @@ internal fun mergeResources(
   // TODO For now, we only process strings in the default "values" folder.
   val defaultResource = tokenizedResources[ResourceFolder.Default] ?: return null
 
-  val tokenNumbers = defaultResource.tokens
-    .filterIsInstance<NumberedToken>()
-    .mapTo(mutableSetOf()) { it.number }
-  val hasContiguousNumberedTokens = (0 until tokenNumbers.size).toList() == tokenNumbers
+  val hasContiguousNumberedTokens = run {
+    val argumentCount = defaultResource.tokens
+      .mapTo(mutableSetOf()) {
+        when (it) {
+          is NamedToken -> it.name
+          is NumberedToken -> it.number.toString()
+        }
+      }
+      .size
+
+    val tokenNumbers = defaultResource.tokens
+      .filterIsInstance<NumberedToken>()
+      .mapTo(mutableSetOf()) { it.number }
+
+    (0 until argumentCount).toSet() == tokenNumbers
+  }
 
   val arguments = defaultResource.tokens.map { token ->
     val argumentName = when (token) {
