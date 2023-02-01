@@ -1,5 +1,4 @@
-Paraphrase
-==========
+# Paraphrase
 
 A Gradle plugin that generates type checked formatters for patterned Android string resources.
 
