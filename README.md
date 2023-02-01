@@ -1,18 +1,18 @@
-Gingham
-=======
+Paraphrase
+==========
 
 A Gradle plugin that generates type checked formatters for patterned Android string resources.
 
 Usage
 -----
 
-### Step 1: Add the Gingham Plugin
+### Step 1: Add the Paraphrase Plugin
 
 In the `build.gradle.kts` file of an Android application or library module:
 
 ```kotlin
 plugins {
-  id("app.cash.gingham")
+  id("app.cash.paraphrase")
 }
 ```
 
@@ -43,7 +43,7 @@ Build the module:
 ./gradlew my-app:build
 ```
 
-Or run the Gingham gradle task for the relevant variant:
+Or run the Paraphrase gradle task for the relevant variant:
 
 ```shell
 ./gradlew my-app:generateFormattedResourcesDebug
@@ -70,7 +70,7 @@ public fun order_description(count: Int, name: Any): FormattedResource {
 In your view modules:
 
 ```kotlin
-import app.cash.gingham.android.getString
+import app.cash.paraphrase.getString
 
 val orderDescription = resources.getString(
   FormattedResources.order_description(
@@ -101,6 +101,5 @@ Modules
 -------
 
 * `plugin`: The Gradle plugin, with logic to parse string resources and generate formatter methods.
-* `runtime:android`: The Android extensions that Gingham requires to work at runtime.
-* `runtime:model`: The data types that Gingham requires to work at runtime.
-* `sample`: A sample Android project that demonstrates usage of Gingham.
+* `runtime`: The data types and Android extensions that Paraphrase requires to work at runtime.
+* `sample`: A sample Android project that demonstrates usage of Paraphrase.

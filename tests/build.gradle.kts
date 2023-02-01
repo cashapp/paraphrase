@@ -2,11 +2,11 @@
 plugins {
   alias(libs.plugins.kotlinAndroid)
   alias(libs.plugins.androidTest)
-  id("app.cash.gingham")
+  id("app.cash.paraphrase")
 }
 
 android {
-  namespace = "app.cash.gingham.tests"
+  namespace = "app.cash.paraphrase.tests"
   compileSdk = 33
 
   // This must point at an application module, although we won't use it.

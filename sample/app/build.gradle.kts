@@ -2,11 +2,11 @@
 plugins {
   alias(libs.plugins.kotlinAndroid)
   alias(libs.plugins.androidApplication)
-  id("app.cash.gingham")
+  id("app.cash.paraphrase")
 }
 
 android {
-  namespace = "app.cash.gingham.sample.app"
+  namespace = "app.cash.paraphrase.sample.app"
   compileSdk = 33
 
   buildFeatures {

@@ -17,7 +17,7 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "gingham"
+rootProject.name = "paraphrase"
 include(
   ":plugin",
   ":runtime",
@@ -28,6 +28,6 @@ include(
 
 includeBuild("build-logic") {
   dependencySubstitution {
-    substitute(module("app.cash.gingham:plugin")).using(project(":plugin"))
+    substitute(module("app.cash.paraphrase:plugin")).using(project(":plugin"))
   }
 }

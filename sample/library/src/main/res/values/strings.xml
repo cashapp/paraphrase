@@ -1,5 +1,5 @@
 <resources>
-  <string name="library_name">Gingham Sample Library</string>
+  <string name="library_name">Paraphrase Sample Library</string>
   <string name="library_text_argument">{name}</string>
   <string name="library_date_argument">{release_date, date}</string>
   <string name="library_number_argument">{budget, number}</string>

@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">Gingham Sample App</string>
+  <string name="app_name">Paraphrase Sample App</string>
   <string name="app_text_argument">{name}</string>
   <string name="app_date_argument">{release_date, date}</string>
   <string name="app_number_argument">{budget, number}</string>

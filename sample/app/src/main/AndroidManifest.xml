@@ -7,9 +7,9 @@
       android:label="@string/app_name"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
-      android:theme="@style/Theme.Gingham">
+      android:theme="@style/Theme.Paraphrase">
     <activity
-        android:name="app.cash.gingham.sample.app.MainActivity"
+        android:name="app.cash.paraphrase.sample.app.MainActivity"
         android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />

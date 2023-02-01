@@ -3,7 +3,7 @@ import com.vanniktech.maven.publish.MavenPublishPlugin
 
 buildscript {
   dependencies {
-    classpath("app.cash.gingham:plugin")
+    classpath("app.cash.paraphrase:plugin")
   }
 }
 

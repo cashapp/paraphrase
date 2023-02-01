@@ -1,0 +1,102 @@
+// Copyright Square, Inc.
+package app.cash.paraphrase.plugin
+
+import app.cash.paraphrase.plugin.TokenType.Choice
+import app.cash.paraphrase.plugin.TokenType.Date
+import app.cash.paraphrase.plugin.TokenType.Duration
+import app.cash.paraphrase.plugin.TokenType.None
+import app.cash.paraphrase.plugin.TokenType.Number
+import app.cash.paraphrase.plugin.TokenType.Ordinal
+import app.cash.paraphrase.plugin.TokenType.Plural
+import app.cash.paraphrase.plugin.TokenType.Select
+import app.cash.paraphrase.plugin.TokenType.SelectOrdinal
+import app.cash.paraphrase.plugin.TokenType.SpellOut
+import app.cash.paraphrase.plugin.TokenType.Time
+import app.cash.paraphrase.plugin.model.MergedResource
+import app.cash.paraphrase.plugin.model.PublicResource
+import app.cash.paraphrase.plugin.model.ResourceFolder
+import app.cash.paraphrase.plugin.model.ResourceName
+import app.cash.paraphrase.plugin.model.TokenizedResource
+import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NamedToken
+import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
+import java.time.Instant
+import kotlin.Number as KotlinNumber
+import kotlin.time.Duration as KotlinDuration
+
+internal fun mergeResources(
+  name: ResourceName,
+  tokenizedResources: Map<ResourceFolder, TokenizedResource>,
+  publicResources: Collection<PublicResource>,
+): MergedResource? {
+  // TODO For now, we only process strings in the default "values" folder.
+  val defaultResource = tokenizedResources[ResourceFolder.Default] ?: return null
+
+  val hasContiguousNumberedTokens = run {
+    val argumentCount = defaultResource.tokens
+      .mapTo(mutableSetOf()) {
+        when (it) {
+          is NamedToken -> it.name
+          is NumberedToken -> it.number.toString()
+        }
+      }
+      .size
+
+    val tokenNumbers = defaultResource.tokens
+      .filterIsInstance<NumberedToken>()
+      .mapTo(mutableSetOf()) { it.number }
+
+    (0 until argumentCount).toSet() == tokenNumbers
+  }
+
+  val arguments = defaultResource.tokens.map { token ->
+    val argumentName = when (token) {
+      is NamedToken -> token.name
+      is NumberedToken -> "arg${token.number}"
+    }
+    val argumentKey = when (token) {
+      is NamedToken -> token.name
+      is NumberedToken -> token.number.toString()
+    }
+    val argumentType = when (token.type) {
+      None -> Any::class
+      Number -> KotlinNumber::class
+      Date, Time -> Instant::class
+      Duration -> KotlinDuration::class
+      Choice, Ordinal, Plural, SelectOrdinal, SpellOut -> Int::class
+      Select -> String::class
+    }
+    MergedResource.Argument(
+      key = argumentKey,
+      name = argumentName,
+      type = argumentType,
+    )
+  }
+
+  // TODO For now, we only take the first argument for each key.
+  val deduplicatedArguments = buildMap {
+    arguments.forEach { argument ->
+      putIfAbsent(argument.name, argument)
+    }
+  }
+
+  return MergedResource(
+    name = name,
+    description = defaultResource.description,
+    visibility = publicResources.resolveVisibility(name = name, type = "string"),
+    arguments = deduplicatedArguments.values.toList(),
+    hasContiguousNumberedTokens = hasContiguousNumberedTokens,
+    parsingErrors = emptyList(),
+  )
+}
+
+/**
+ * If no public resource declarations exist, then all resources are public. Otherwise, only those
+ * declared public are public.
+ */
+private fun Collection<PublicResource>.resolveVisibility(
+  name: ResourceName,
+  type: String,
+): MergedResource.Visibility {
+  val public = isEmpty() || any { it is PublicResource.Named && it.type == type && it.name == name }
+  return if (public) MergedResource.Visibility.Public else MergedResource.Visibility.Private
+}

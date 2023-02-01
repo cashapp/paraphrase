@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-  namespace = "app.cash.gingham"
+  namespace = "app.cash.paraphrase"
   compileSdk = 33
 
   defaultConfig {
