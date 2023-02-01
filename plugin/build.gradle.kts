@@ -10,15 +10,15 @@ buildConfig {
   useKotlinOutput {
     internalVisibility = true
   }
-  packageName("app.cash.gingham.plugin")
+  packageName("app.cash.paraphrase.plugin")
   buildConfigField("String", "VERSION", "\"${project.version}\"")
 }
 
 gradlePlugin {
   plugins {
-    create("gingham") {
-      id = "app.cash.gingham"
-      implementationClass = "app.cash.gingham.plugin.GinghamPlugin"
+    create("paraphrase") {
+      id = "app.cash.paraphrase"
+      implementationClass = "app.cash.paraphrase.plugin.ParaphrasePlugin"
     }
   }
 }
