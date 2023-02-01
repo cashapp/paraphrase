@@ -13,6 +13,7 @@ import app.cash.gingham.plugin.TokenType.SelectOrdinal
 import app.cash.gingham.plugin.TokenType.SpellOut
 import app.cash.gingham.plugin.TokenType.Time
 import app.cash.gingham.plugin.model.MergedResource
+import app.cash.gingham.plugin.model.PublicResource
 import app.cash.gingham.plugin.model.ResourceFolder
 import app.cash.gingham.plugin.model.ResourceName
 import app.cash.gingham.plugin.model.TokenizedResource
@@ -25,6 +26,7 @@ import kotlin.time.Duration as KotlinDuration
 internal fun mergeResources(
   name: ResourceName,
   tokenizedResources: Map<ResourceFolder, TokenizedResource>,
+  publicResources: Collection<PublicResource>,
 ): MergedResource? {
   // TODO For now, we only process strings in the default "values" folder.
   val defaultResource = tokenizedResources[ResourceFolder.Default] ?: return null
@@ -80,8 +82,21 @@ internal fun mergeResources(
   return MergedResource(
     name = name,
     description = defaultResource.description,
+    visibility = publicResources.resolveVisibility(name = name, type = "string"),
     arguments = deduplicatedArguments.values.toList(),
     hasContiguousNumberedTokens = hasContiguousNumberedTokens,
     parsingErrors = emptyList(),
   )
+}
+
+/**
+ * If no public resource declarations exist, then all resources are public. Otherwise, only those
+ * declared public are public.
+ */
+private fun Collection<PublicResource>.resolveVisibility(
+  name: ResourceName,
+  type: String,
+): MergedResource.Visibility {
+  val public = isEmpty() || any { it is PublicResource.Named && it.type == type && it.name == name }
+  return if (public) MergedResource.Visibility.Public else MergedResource.Visibility.Private
 }

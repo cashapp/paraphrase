@@ -8,6 +8,7 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STRING
@@ -26,6 +27,7 @@ internal fun writeResources(
   mergedResources: List<MergedResource>,
 ): FileSpec {
   val packageStringsType = ClassName(packageName = packageName, "R", "string")
+  val maxVisibility = mergedResources.maxOf { it.visibility }
   return FileSpec.builder(packageName = packageName, fileName = "FormattedResources")
     .addFileComment(
       """
@@ -41,6 +43,7 @@ internal fun writeResources(
             addFunction(mergedResource.toFunSpec(packageStringsType))
           }
         }
+        .addModifiers(maxVisibility.toKModifier())
         .build(),
     )
     .build()
@@ -77,6 +80,7 @@ private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
         add("⇤)\n")
       },
     )
+    .addModifiers(visibility.toKModifier())
     .build()
 }
 
@@ -92,6 +96,13 @@ private fun Argument.toParameterCodeBlock(): CodeBlock =
     Instant::class -> CodeBlock.of("%L.toEpochMilli()", name)
     else -> CodeBlock.of("%L", name)
   }
+
+private fun MergedResource.Visibility.toKModifier(): KModifier {
+  return when (this) {
+    MergedResource.Visibility.Public -> KModifier.PUBLIC
+    MergedResource.Visibility.Private -> KModifier.INTERNAL
+  }
+}
 
 private object Types {
   val ArrayMap = ClassName("android.util", "ArrayMap")
