@@ -59,10 +59,10 @@ internal fun mergeResources(
     }
     val argumentType = when (token.type) {
       None -> Any::class
-      Number -> KotlinNumber::class
+      Number, SpellOut -> KotlinNumber::class
       Date, Time -> Instant::class
       Duration -> KotlinDuration::class
-      Choice, Ordinal, Plural, SelectOrdinal, SpellOut -> Int::class
+      Choice, Ordinal, Plural, SelectOrdinal -> Int::class
       Select -> String::class
     }
     MergedResource.Argument(
