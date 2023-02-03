@@ -2,11 +2,7 @@ name: build
 
 on:
   pull_request: {}
-  push:
-    branches:
-      - '**'
-    tags-ignore:
-      - '**'
+  workflow_dispatch: {}
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx6g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
