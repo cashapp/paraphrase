@@ -23,10 +23,20 @@ jobs:
 
       - uses: gradle/gradle-build-action@v2
 
-      - run: ./gradlew build
+      - run: ./gradlew build :runtime:dokkaHtml
 
       - name: Run integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 24
           script: ./gradlew :tests:connectedCheck
+
+      - name: Deploy docs to website
+        if: ${{ github.ref == 'refs/heads/main' && github.repository == 'cashapp/paraphrase' }}
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: site
+          FOLDER: runtime/build/dokka/html
+          TARGET_FOLDER: docs/latest/
+          CLEAN: true
