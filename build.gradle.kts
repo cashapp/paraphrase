@@ -23,7 +23,7 @@ configure<SpotlessExtension> {
   kotlin {
     target("**/*.kt")
     ktlint(libs.versions.ktlint.get())
-    licenseHeader("// Copyright Square, Inc.")
+    licenseHeaderFile(file("gradle/license-header.txt"))
   }
   kotlinGradle {
     ktlint(libs.versions.ktlint.get())
