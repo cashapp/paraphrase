@@ -1,0 +1,14 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:app.cash.paraphrase////PointingToDeclaration/runtime/app.cash.paraphrase/index.html
+$dokka.location:app.cash.paraphrase//getString/android.content.Context#app.cash.paraphrase.FormattedResource/PointingToDeclaration/runtime/app.cash.paraphrase/get-string.html
+$dokka.location:app.cash.paraphrase//getString/android.content.res.Resources#app.cash.paraphrase.FormattedResource/PointingToDeclaration/runtime/app.cash.paraphrase/get-string.html
+$dokka.location:app.cash.paraphrase/FormattedResource///PointingToDeclaration/runtime/app.cash.paraphrase/-formatted-resource/index.html
+$dokka.location:app.cash.paraphrase/FormattedResource/FormattedResource/#kotlin.Int#kotlin.Any/PointingToDeclaration/runtime/app.cash.paraphrase/-formatted-resource/-formatted-resource.html
+$dokka.location:app.cash.paraphrase/FormattedResource/arguments/#/PointingToDeclaration/runtime/app.cash.paraphrase/-formatted-resource/arguments.html
+$dokka.location:app.cash.paraphrase/FormattedResource/equals/#kotlin.Any?/PointingToDeclaration/runtime/app.cash.paraphrase/-formatted-resource/equals.html
+$dokka.location:app.cash.paraphrase/FormattedResource/hashCode/#/PointingToDeclaration/runtime/app.cash.paraphrase/-formatted-resource/hash-code.html
+$dokka.location:app.cash.paraphrase/FormattedResource/id/#/PointingToDeclaration/runtime/app.cash.paraphrase/-formatted-resource/id.html
+$dokka.location:app.cash.paraphrase/FormattedResource/toString/#/PointingToDeclaration/runtime/app.cash.paraphrase/-formatted-resource/to-string.html
+app.cash.paraphrase
+
