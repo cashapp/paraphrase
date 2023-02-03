@@ -29,6 +29,14 @@ android {
   }
 }
 
+androidComponents {
+  beforeVariants {
+    if (it.buildType == "release") {
+      it.enable = false
+    }
+  }
+}
+
 dependencies {
   implementation(projects.sample.library)
   implementation(libs.androidActivityCompose)

@@ -14,3 +14,11 @@ android {
     targetSdk = 33
   }
 }
+
+androidComponents {
+  beforeVariants {
+    if (it.buildType == "release") {
+      it.enable = false
+    }
+  }
+}
