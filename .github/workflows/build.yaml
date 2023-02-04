@@ -3,6 +3,11 @@ name: build
 on:
   pull_request: {}
   workflow_dispatch: {}
+  push:
+    branches:
+      - 'main'
+    tags-ignore:
+      - '**'
 
 env:
   GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx6g -Dorg.gradle.daemon=false -Dkotlin.incremental=false"
@@ -26,6 +31,12 @@ jobs:
         with:
           api-level: 24
           script: ./gradlew :tests:connectedCheck
+
+      - run: ./gradlew publish
+        if: ${{ github.ref == 'refs/heads/main' && github.repository == 'cashapp/paraphrase' }}
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
 
       - name: Deploy docs to website
         if: ${{ github.ref == 'refs/heads/main' && github.repository == 'cashapp/paraphrase' }}
