@@ -31,6 +31,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 import java.time.Instant
+import java.time.LocalDate
 import kotlin.time.Duration
 
 /**
@@ -108,6 +109,13 @@ private fun Argument.toParameterCodeBlock(): CodeBlock =
   when (type) {
     Duration::class -> CodeBlock.of("%L.inWholeSeconds", name)
     Instant::class -> CodeBlock.of("%L.toEpochMilli()", name)
+    LocalDate::class -> CodeBlock.of(
+      "1000 * %T.of(%L, %T.NOON, %T.systemDefault()).toEpochSecond()",
+      Types.ZonedDateTime,
+      name,
+      Types.LocalTime,
+      Types.ZoneId,
+    )
     else -> CodeBlock.of("%L", name)
   }
 
@@ -121,4 +129,7 @@ private fun MergedResource.Visibility.toKModifier(): KModifier {
 private object Types {
   val ArrayMap = ClassName("android.util", "ArrayMap")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
+  val LocalTime = ClassName("java.time", "LocalTime")
+  val ZoneId = ClassName("java.time", "ZoneId")
+  val ZonedDateTime = ClassName("java.time", "ZonedDateTime")
 }
