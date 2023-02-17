@@ -30,8 +30,9 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
-import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZonedDateTime
 import kotlin.time.Duration
 
 /**
@@ -108,13 +109,26 @@ private fun Argument.toParameterSpec(): ParameterSpec =
 private fun Argument.toParameterCodeBlock(): CodeBlock =
   when (type) {
     Duration::class -> CodeBlock.of("%L.inWholeSeconds", name)
-    Instant::class -> CodeBlock.of("%L.toEpochMilli()", name)
     LocalDate::class -> CodeBlock.of(
       "1000 * %T.of(%L, %T.NOON, %T.systemDefault()).toEpochSecond()",
       Types.ZonedDateTime,
       name,
       Types.LocalTime,
       Types.ZoneId,
+    )
+    LocalTime::class -> CodeBlock.of(
+      "1000 * %T.of(%T.now(), %L, %T.systemDefault()).toEpochSecond()",
+      Types.ZonedDateTime,
+      Types.LocalDate,
+      name,
+      Types.ZoneId,
+    )
+    ZonedDateTime::class -> CodeBlock.of(
+      "%T(%T.getTimeZone(%L.zone.id)).apply { timeInMillis = 1000 * %L.toEpochSecond() }",
+      Types.GregorianCalendar,
+      Types.TimeZone,
+      name,
+      name,
     )
     else -> CodeBlock.of("%L", name)
   }
@@ -129,7 +143,10 @@ private fun MergedResource.Visibility.toKModifier(): KModifier {
 private object Types {
   val ArrayMap = ClassName("android.util", "ArrayMap")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
+  val GregorianCalendar = ClassName("android.icu.util", "GregorianCalendar")
+  val LocalDate = ClassName("java.time", "LocalDate")
   val LocalTime = ClassName("java.time", "LocalTime")
+  val TimeZone = ClassName("android.icu.util", "TimeZone")
   val ZoneId = ClassName("java.time", "ZoneId")
   val ZonedDateTime = ClassName("java.time", "ZonedDateTime")
 }

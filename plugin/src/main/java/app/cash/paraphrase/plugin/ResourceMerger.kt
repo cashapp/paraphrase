@@ -26,6 +26,7 @@ import app.cash.paraphrase.plugin.TokenType.Select
 import app.cash.paraphrase.plugin.TokenType.SelectOrdinal
 import app.cash.paraphrase.plugin.TokenType.SpellOut
 import app.cash.paraphrase.plugin.TokenType.Time
+import app.cash.paraphrase.plugin.TokenType.TimeWithZone
 import app.cash.paraphrase.plugin.model.MergedResource
 import app.cash.paraphrase.plugin.model.PublicResource
 import app.cash.paraphrase.plugin.model.ResourceFolder
@@ -33,8 +34,9 @@ import app.cash.paraphrase.plugin.model.ResourceName
 import app.cash.paraphrase.plugin.model.TokenizedResource
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
-import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZonedDateTime
 import kotlin.Number as KotlinNumber
 import kotlin.time.Duration as KotlinDuration
 
@@ -76,7 +78,8 @@ internal fun mergeResources(
       None -> Any::class
       Number, SpellOut -> KotlinNumber::class
       Date -> LocalDate::class
-      Time -> Instant::class
+      Time -> LocalTime::class
+      TimeWithZone -> ZonedDateTime::class
       Duration -> KotlinDuration::class
       Choice, Ordinal, Plural, SelectOrdinal -> Int::class
       Select -> String::class

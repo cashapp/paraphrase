@@ -33,8 +33,9 @@ import app.cash.paraphrase.FormattedResource
 import app.cash.paraphrase.getString
 import app.cash.paraphrase.sample.app.FormattedResources as AppFormattedResources
 import app.cash.paraphrase.sample.library.FormattedResources as LibraryFormattedResources
-import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZonedDateTime
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +98,7 @@ class MainActivity : ComponentActivity() {
       ),
       Sample(
         label = "Time Argument",
-        resource = AppFormattedResources.app_time_argument(showtime = Instant.now()),
+        resource = AppFormattedResources.app_time_argument(showtime = ZonedDateTime.now()),
       ),
       Sample(
         label = "Plural Argument",
@@ -128,7 +129,7 @@ class MainActivity : ComponentActivity() {
       ),
       Sample(
         label = "Time Argument",
-        resource = LibraryFormattedResources.library_time_argument(showtime = Instant.now()),
+        resource = LibraryFormattedResources.library_time_argument(showtime = LocalTime.now()),
       ),
       Sample(
         label = "Plural Argument",
