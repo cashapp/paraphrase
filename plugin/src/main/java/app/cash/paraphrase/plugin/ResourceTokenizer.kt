@@ -31,6 +31,7 @@ import com.ibm.icu.text.MessagePattern.Part
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_NAME
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_NUMBER
 import com.ibm.icu.text.MessagePattern.Part.Type.ARG_START
+import com.ibm.icu.text.MessagePattern.Part.Type.ARG_STYLE
 
 /**
  * Parses the given resource and extracts the ICU argument tokens.
@@ -64,7 +65,18 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
             "ordinal" -> TokenType.Ordinal
             "number" -> TokenType.Number
             "spellout" -> TokenType.SpellOut
-            "time" -> TokenType.Time
+            "time" -> {
+              val stylePart = pattern.getPart(index + 3)
+              if (stylePart.type == ARG_STYLE) {
+                when (pattern.getSubstring(stylePart).lowercase().trim()) {
+                  "short", "medium" -> TokenType.Time
+                  "long", "full" -> TokenType.TimeWithZone
+                  else -> TokenType.TimeWithZone // TODO: https://github.com/cashapp/paraphrase/issues/92
+                }
+              } else {
+                TokenType.Time
+              }
+            }
             else -> error("Unexpected simple argument type: $simpleType")
           }
           CHOICE -> TokenType.Choice
@@ -101,6 +113,7 @@ internal enum class TokenType {
   Number,
   Date,
   Time,
+  TimeWithZone,
   SpellOut,
   Ordinal,
   Duration,

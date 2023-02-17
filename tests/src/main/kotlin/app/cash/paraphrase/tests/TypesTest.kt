@@ -18,10 +18,12 @@ package app.cash.paraphrase.tests
 import androidx.test.platform.app.InstrumentationRegistry
 import app.cash.paraphrase.getString
 import com.google.common.truth.Truth.assertThat
-import java.time.Instant
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.Month
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.Locale
-import java.util.TimeZone
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -31,12 +33,16 @@ import org.junit.Test
 class TypesTest {
   @get:Rule val localeRule = LocaleAndTimeZoneRule(
     locale = Locale("en", "US"),
-    timeZone = TimeZone.getTimeZone("Pacific/Honolulu"),
   )
 
   private val context = InstrumentationRegistry.getInstrumentation().context
-  private val releaseInstant = Instant.ofEpochSecond(1648185825)
-  private val releaseDate = releaseInstant.atZone(ZoneId.of("Pacific/Honolulu")).toLocalDate()
+  private val releaseDate = LocalDate.of(2022, Month.MARCH, 24)
+  private val releaseTime = LocalTime.of(19, 23, 45)
+  private val releaseDateTime = ZonedDateTime.of(
+    releaseDate,
+    releaseTime,
+    ZoneId.of("Pacific/Honolulu"),
+  )
 
   @Test fun typeNone() {
     val formattedString = context.getString(FormattedResources.type_none("Z"))
@@ -45,7 +51,8 @@ class TypesTest {
     assertThat(formattedInteger).isEqualTo("A 2 B")
     val formattedDouble = context.getString(FormattedResources.type_none(2.345))
     assertThat(formattedDouble).isEqualTo("A 2.345 B")
-    val formattedInstant = context.getString(FormattedResources.type_none(releaseInstant))
+    val formattedInstant =
+      context.getString(FormattedResources.type_none(releaseDateTime.toInstant()))
     assertThat(formattedInstant).isEqualTo("A 2022-03-25T05:23:45Z B")
   }
 
@@ -107,33 +114,53 @@ class TypesTest {
   }
 
   @Test fun typeTime() {
-    val formatted = context.getString(FormattedResources.type_time(releaseInstant))
+    val formatted = context.getString(FormattedResources.type_time(releaseTime))
     assertThat(formatted).isEqualTo("A 7:23:45 PM B")
   }
 
   @Test fun typeTimeShort() {
-    val formatted = context.getString(FormattedResources.type_time_short(releaseInstant))
+    val formatted = context.getString(FormattedResources.type_time_short(releaseTime))
     assertThat(formatted).isEqualTo("A 7:23 PM B")
   }
 
   @Test fun typeTimeMedium() {
-    val formatted = context.getString(FormattedResources.type_time_medium(releaseInstant))
+    val formatted = context.getString(FormattedResources.type_time_medium(releaseTime))
     assertThat(formatted).isEqualTo("A 7:23:45 PM B")
   }
 
   @Test fun typeTimeLong() {
-    val formatted = context.getString(FormattedResources.type_time_long(releaseInstant))
+    val formatted = context.getString(FormattedResources.type_time_long(releaseDateTime))
     assertThat(formatted).isEqualTo("A 7:23:45 PM HST B")
   }
 
   @Test fun typeTimeFull() {
-    val formatted = context.getString(FormattedResources.type_time_full(releaseInstant))
+    val formatted = context.getString(FormattedResources.type_time_full(releaseDateTime))
     assertThat(formatted).isEqualTo("A 7:23:45 PM Hawaii-Aleutian Standard Time B")
   }
 
   @Test fun typeTimeCustom() {
-    val formatted = context.getString(FormattedResources.type_time_custom(releaseInstant))
+    val formatted = context.getString(FormattedResources.type_time_custom(releaseDateTime))
     assertThat(formatted).isEqualTo("A 19-23-45 B")
+  }
+
+  @Test fun typeTimeWithWinterTimeZone() {
+    val winterDateTime = ZonedDateTime.of(
+      LocalDate.of(2023, Month.FEBRUARY, 17),
+      LocalTime.NOON,
+      ZoneId.of("America/Chicago"),
+    )
+    val formatted = context.getString(FormattedResources.type_time_long(winterDateTime))
+    assertThat(formatted).isEqualTo("A 12:00:00 PM CST B")
+  }
+
+  @Test fun typeTimeWithSummerTimeZone() {
+    val summerDateTime = ZonedDateTime.of(
+      LocalDate.of(2023, Month.JULY, 17),
+      LocalTime.NOON,
+      ZoneId.of("America/Chicago"),
+    )
+    val formatted = context.getString(FormattedResources.type_time_long(summerDateTime))
+    assertThat(formatted).isEqualTo("A 12:00:00 PM CDT B")
   }
 
   @Test fun typeDuration() {
