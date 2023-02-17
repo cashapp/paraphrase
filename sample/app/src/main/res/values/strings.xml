@@ -1,7 +1,7 @@
 <resources>
   <string name="app_name">Paraphrase Sample App</string>
   <string name="app_text_argument">{name}</string>
-  <string name="app_date_argument">{release_date, date}</string>
+  <string name="app_date_argument">{release_date, date, full}</string>
   <string name="app_number_argument">{budget, number}</string>
   <string name="app_time_argument">{showtime, time, short}</string>
   <string name="app_plural_argument">

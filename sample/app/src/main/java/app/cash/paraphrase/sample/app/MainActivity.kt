@@ -34,6 +34,7 @@ import app.cash.paraphrase.getString
 import app.cash.paraphrase.sample.app.FormattedResources as AppFormattedResources
 import app.cash.paraphrase.sample.library.FormattedResources as LibraryFormattedResources
 import java.time.Instant
+import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +89,7 @@ class MainActivity : ComponentActivity() {
       ),
       Sample(
         label = "Date Argument",
-        resource = AppFormattedResources.app_date_argument(release_date = Instant.now()),
+        resource = AppFormattedResources.app_date_argument(release_date = LocalDate.now()),
       ),
       Sample(
         label = "Number Argument",
@@ -119,7 +120,7 @@ class MainActivity : ComponentActivity() {
       ),
       Sample(
         label = "Date Argument",
-        resource = LibraryFormattedResources.library_date_argument(release_date = Instant.now()),
+        resource = LibraryFormattedResources.library_date_argument(release_date = LocalDate.now()),
       ),
       Sample(
         label = "Number Argument",

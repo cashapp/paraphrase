@@ -34,6 +34,7 @@ import app.cash.paraphrase.plugin.model.TokenizedResource
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
 import java.time.Instant
+import java.time.LocalDate
 import kotlin.Number as KotlinNumber
 import kotlin.time.Duration as KotlinDuration
 
@@ -74,7 +75,8 @@ internal fun mergeResources(
     val argumentType = when (token.type) {
       None -> Any::class
       Number, SpellOut -> KotlinNumber::class
-      Date, Time -> Instant::class
+      Date -> LocalDate::class
+      Time -> Instant::class
       Duration -> KotlinDuration::class
       Choice, Ordinal, Plural, SelectOrdinal -> Int::class
       Select -> String::class
