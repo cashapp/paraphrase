@@ -12,14 +12,28 @@
   <string name="type_date_medium">A {value,date,medium} B</string>
   <string name="type_date_long">A {value,date,long} B</string>
   <string name="type_date_full">A {value,date,full} B</string>
-  <string name="type_date_custom">A {value,date,YYYY-MM-dd} B</string>
+  <string name="type_date_pattern_date_time_zone">A {value,date,M-dd, ha z} B</string>
+  <string name="type_date_pattern_date_time">A {value,date,M-dd ha} B</string>
+  <string name="type_date_pattern_date_zone">A {value,date,MMMM (z)} B</string>
+  <string name="type_date_pattern_date">A {value,date,YYYY-MM-dd} B</string>
+  <string name="type_date_pattern_time_zone">A {value,date,HH:mm zz} B</string>
+  <string name="type_date_pattern_time">A {value,date,m \'past\' h} B</string>
+  <string name="type_date_pattern_zone">A {value,date,zzzz} B</string>
+  <string name="type_date_pattern_none">A {value,date,\'What is this for?\'} B</string>
 
   <string name="type_time">A {value,time} B</string>
   <string name="type_time_short">A {value,time,short} B</string>
   <string name="type_time_medium">A {value,time,medium} B</string>
   <string name="type_time_long">A {value,time,long} B</string>
   <string name="type_time_full">A {value,time,full} B</string>
-  <string name="type_time_custom">A {value,time,HH-mm-ss} B</string>
+  <string name="type_time_pattern_date_time_zone">A {value,time,M-dd, ha z} B</string>
+  <string name="type_time_pattern_date_time">A {value,time,M-dd ha} B</string>
+  <string name="type_time_pattern_date_zone">A {value,time,MMMM (z)} B</string>
+  <string name="type_time_pattern_date">A {value,time,YYYY-MM-dd} B</string>
+  <string name="type_time_pattern_time_zone">A {value,time,HH:mm zz} B</string>
+  <string name="type_time_pattern_time">A {value,time,HH-mm-ss} B</string>
+  <string name="type_time_pattern_zone">A {value,time,zzzz} B</string>
+  <string name="type_time_pattern_none">A {value,time,\'What is this for?\'} B</string>
 
   <string name="type_duration">A {value,duration} B</string>
   <string name="type_ordinal">A {value,ordinal} B</string>

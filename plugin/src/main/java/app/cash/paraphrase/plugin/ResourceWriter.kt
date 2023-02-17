@@ -31,6 +31,7 @@ import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.buildCodeBlock
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZonedDateTime
 import kotlin.time.Duration
@@ -120,6 +121,12 @@ private fun Argument.toParameterCodeBlock(): CodeBlock =
       "1000 * %T.of(%T.now(), %L, %T.systemDefault()).toEpochSecond()",
       Types.ZonedDateTime,
       Types.LocalDate,
+      name,
+      Types.ZoneId,
+    )
+    LocalDateTime::class -> CodeBlock.of(
+      "1000 * %T.of(%L, %T.systemDefault()).toEpochSecond()",
+      Types.ZonedDateTime,
       name,
       Types.ZoneId,
     )

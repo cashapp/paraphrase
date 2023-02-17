@@ -108,9 +108,48 @@ class TypesTest {
     assertThat(formatted).isEqualTo("A Thursday, March 24, 2022 B")
   }
 
-  @Test fun typeDateCustom() {
-    val formatted = context.getString(FormattedResources.type_date_custom(releaseDate))
+  @Test fun typeDatePatternDateTimeZone() {
+    val formatted =
+      context.getString(FormattedResources.type_date_pattern_date_time_zone(releaseDateTime))
+    assertThat(formatted).isEqualTo("A 3-24, 7PM HST B")
+  }
+
+  @Test fun typeDatePatternDateTime() {
+    val localDateTime = releaseDateTime.toLocalDateTime()
+    val formatted = context.getString(FormattedResources.type_date_pattern_date_time(localDateTime))
+    assertThat(formatted).isEqualTo("A 3-24 7PM B")
+  }
+
+  @Test fun typeDatePatternDateZone() {
+    val formatted =
+      context.getString(FormattedResources.type_date_pattern_date_zone(releaseDateTime))
+    assertThat(formatted).isEqualTo("A March (HST) B")
+  }
+
+  @Test fun typeDatePatternDate() {
+    val formatted = context.getString(FormattedResources.type_date_pattern_date(releaseDate))
     assertThat(formatted).isEqualTo("A 2022-03-24 B")
+  }
+
+  @Test fun typeDatePatternTimeZone() {
+    val formatted =
+      context.getString(FormattedResources.type_date_pattern_time_zone(releaseDateTime))
+    assertThat(formatted).isEqualTo("A 19:23 HST B")
+  }
+
+  @Test fun typeDatePatternTime() {
+    val formatted = context.getString(FormattedResources.type_date_pattern_time(releaseTime))
+    assertThat(formatted).isEqualTo("A 23 past 7 B")
+  }
+
+  @Test fun typeDatePatternZone() {
+    val formatted = context.getString(FormattedResources.type_date_pattern_zone(releaseDateTime))
+    assertThat(formatted).isEqualTo("A Hawaii-Aleutian Standard Time B")
+  }
+
+  @Test fun typeDatePatternNone() {
+    val formatted = context.getString(FormattedResources.type_date_pattern_none(releaseDateTime))
+    assertThat(formatted).isEqualTo("A What is this for? B")
   }
 
   @Test fun typeTime() {
@@ -138,9 +177,48 @@ class TypesTest {
     assertThat(formatted).isEqualTo("A 7:23:45 PM Hawaii-Aleutian Standard Time B")
   }
 
-  @Test fun typeTimeCustom() {
-    val formatted = context.getString(FormattedResources.type_time_custom(releaseDateTime))
+  @Test fun typeTimePatternDateTimeZone() {
+    val formatted =
+      context.getString(FormattedResources.type_time_pattern_date_time_zone(releaseDateTime))
+    assertThat(formatted).isEqualTo("A 3-24, 7PM HST B")
+  }
+
+  @Test fun typeTimePatternDateTime() {
+    val localDateTime = releaseDateTime.toLocalDateTime()
+    val formatted = context.getString(FormattedResources.type_time_pattern_date_time(localDateTime))
+    assertThat(formatted).isEqualTo("A 3-24 7PM B")
+  }
+
+  @Test fun typeTimePatternDateZone() {
+    val formatted =
+      context.getString(FormattedResources.type_time_pattern_date_zone(releaseDateTime))
+    assertThat(formatted).isEqualTo("A March (HST) B")
+  }
+
+  @Test fun typeTimePatternDate() {
+    val formatted = context.getString(FormattedResources.type_time_pattern_date(releaseDate))
+    assertThat(formatted).isEqualTo("A 2022-03-24 B")
+  }
+
+  @Test fun typeTimePatternTimeZone() {
+    val formatted =
+      context.getString(FormattedResources.type_time_pattern_time_zone(releaseDateTime))
+    assertThat(formatted).isEqualTo("A 19:23 HST B")
+  }
+
+  @Test fun typeTimePatternTime() {
+    val formatted = context.getString(FormattedResources.type_time_pattern_time(releaseTime))
     assertThat(formatted).isEqualTo("A 19-23-45 B")
+  }
+
+  @Test fun typeTimePatternZone() {
+    val formatted = context.getString(FormattedResources.type_time_pattern_zone(releaseDateTime))
+    assertThat(formatted).isEqualTo("A Hawaii-Aleutian Standard Time B")
+  }
+
+  @Test fun typeTimePatternNone() {
+    val formatted = context.getString(FormattedResources.type_time_pattern_none(releaseDateTime))
+    assertThat(formatted).isEqualTo("A What is this for? B")
   }
 
   @Test fun typeTimeWithWinterTimeZone() {
