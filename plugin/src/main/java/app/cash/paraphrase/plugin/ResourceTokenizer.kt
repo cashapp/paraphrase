@@ -140,12 +140,12 @@ private fun getTokenType(dateTimeFormatPattern: String): TokenType {
   var hasDate = false
   var hasTime = false
   var hasZone = false
-  dateTimeFormatPattern.getDateTimeSymbols().forEach { patternItem ->
+  for (patternItem in dateTimeFormatPattern.getDateTimeSymbols()) {
     if (patternItem in DateSymbols) hasDate = true
     if (patternItem in TimeSymbols) hasTime = true
     if (patternItem in ZoneSymbols) hasZone = true
 
-    if (hasDate && hasTime && hasZone) return@forEach
+    if (hasDate && hasTime && hasZone) break
   }
 
   return when {
