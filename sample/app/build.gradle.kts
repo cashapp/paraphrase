@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-  alias(libs.plugins.kotlinAndroid)
   alias(libs.plugins.androidApplication)
+  alias(libs.plugins.kotlinAndroid)
   id("app.cash.paraphrase")
 }
 
@@ -14,7 +14,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.3.1"
+    kotlinCompilerExtensionVersion = "1.4.0"
   }
 
   defaultConfig {

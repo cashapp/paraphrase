@@ -1,5 +1,6 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.vanniktech.maven.publish.MavenPublishPlugin
+import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 
 buildscript {
   dependencies {
@@ -53,6 +54,12 @@ subprojects {
           }
         }
       }
+    }
+  }
+
+  plugins.withId("org.jetbrains.kotlin.android") {
+    extensions.getByType<KotlinTopLevelExtension>().jvmToolchain {
+      languageVersion.set(JavaLanguageVersion.of(8))
     }
   }
 }
