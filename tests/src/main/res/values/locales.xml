@@ -1,0 +1,3 @@
+<resources>
+  <string name="locale_date">A {value,date} B</string>
+</resources>
