@@ -60,7 +60,18 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
         type = when (part.argType) {
           NONE -> TokenType.None
           SIMPLE -> when (val simpleType = pattern.getSubstring(pattern.getPart(index + 2)).lowercase()) {
-            "date" -> TokenType.Date
+            "date" -> {
+              val stylePart = pattern.getPart(index + 3)
+              if (stylePart.type == ARG_STYLE) {
+                val style = pattern.getSubstring(stylePart).trim()
+                when (style.lowercase()) {
+                  "short", "medium", "long", "full" -> TokenType.Date
+                  else -> getTokenType(dateTimeFormatPattern = style)
+                }
+              } else {
+                TokenType.Date
+              }
+            }
             "duration" -> TokenType.Duration
             "ordinal" -> TokenType.Ordinal
             "number" -> TokenType.Number
@@ -68,10 +79,11 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
             "time" -> {
               val stylePart = pattern.getPart(index + 3)
               if (stylePart.type == ARG_STYLE) {
-                when (pattern.getSubstring(stylePart).lowercase().trim()) {
+                val style = pattern.getSubstring(stylePart).trim()
+                when (style.lowercase()) {
                   "short", "medium" -> TokenType.Time
-                  "long", "full" -> TokenType.TimeWithZone
-                  else -> TokenType.TimeWithZone // TODO: https://github.com/cashapp/paraphrase/issues/92
+                  "long", "full" -> TokenType.DateTimeWithZone
+                  else -> getTokenType(dateTimeFormatPattern = style)
                 }
               } else {
                 TokenType.Time
@@ -113,7 +125,8 @@ internal enum class TokenType {
   Number,
   Date,
   Time,
-  TimeWithZone,
+  DateTime,
+  DateTimeWithZone,
   SpellOut,
   Ordinal,
   Duration,
@@ -122,3 +135,146 @@ internal enum class TokenType {
   Select,
   SelectOrdinal,
 }
+
+private fun getTokenType(dateTimeFormatPattern: String): TokenType {
+  var hasDate = false
+  var hasTime = false
+  var hasZone = false
+  for (patternItem in dateTimeFormatPattern.getDateTimeSymbols()) {
+    if (patternItem in DateSymbols) hasDate = true
+    if (patternItem in TimeSymbols) hasTime = true
+    if (patternItem in ZoneSymbols) hasZone = true
+
+    if (hasDate && hasTime && hasZone) break
+  }
+
+  return when {
+    hasDate && hasTime && hasZone -> TokenType.DateTimeWithZone
+    hasDate && hasTime -> TokenType.DateTime
+    hasDate && hasZone -> TokenType.DateTimeWithZone // TODO: Accept a date + zone without time?
+    hasDate -> TokenType.Date
+    hasTime && hasZone -> TokenType.DateTimeWithZone
+    hasTime -> TokenType.Time
+    hasZone -> TokenType.DateTimeWithZone // TODO: Accept a date + zone without time?
+    else -> TokenType.DateTimeWithZone // TODO: Require no argument?
+  }
+}
+
+//region Date/time format symbols
+// https://unicode-org.github.io/icu/userguide/format_parse/datetime/#date-field-symbol-table
+
+// Adapted from android.icu.text.SimpleDateFormat.getPatternItems
+//  https://cs.android.com/android/platform/superproject/+/master:external/icu/android_icu4j/src/main/java/android/icu/text/SimpleDateFormat.java;l=2146
+private fun String.getDateTimeSymbols(): List<Char> {
+  var isPrevQuote = false
+  var inQuote = false
+  val text = StringBuilder()
+  var itemType = Char(0)
+  var itemLength = 1
+
+  val items = mutableListOf<Char>()
+
+  forEach { ch ->
+    if (ch == '\'') {
+      if (isPrevQuote) {
+        text.append(ch)
+        isPrevQuote = false
+      } else {
+        isPrevQuote = true
+        if (itemType != Char(0)) {
+          items.add(itemType)
+          itemType = Char(0)
+        }
+      }
+      inQuote = !inQuote
+    } else {
+      isPrevQuote = false
+      if (inQuote) {
+        text.append(ch)
+      } else {
+        if (ch in DateSymbols || ch in TimeSymbols || ch in ZoneSymbols) {
+          // a date/time pattern character
+          if (ch == itemType) {
+            itemLength++
+          } else {
+            if (itemType == Char(0)) {
+              if (text.isNotEmpty()) {
+                // Skip adding string literals to the pattern items list
+                text.setLength(0)
+              }
+            } else {
+              items.add(itemType)
+            }
+            itemType = ch
+            itemLength = 1
+          }
+        } else {
+          // a string literal
+          if (itemType != Char(0)) {
+            items.add(itemType)
+            itemType = Char(0)
+          }
+          text.append(ch)
+        }
+      }
+    }
+  }
+  // handle last item
+  if (itemType == Char(0)) {
+    if (text.isNotEmpty()) {
+      // Skip adding string literals to the pattern items list
+      text.setLength(0)
+    }
+  } else {
+    items.add(itemType)
+  }
+
+  return items.filter { it != Char(0) }
+}
+
+private val DateSymbols = setOf(
+  'G', // era designator
+  'y', // year
+  'Y', // year of "Week of Year"
+  'u', // extended year
+  'U', // cyclic year name, as in Chinese lunar calendar
+  'r', // related Gregorian year
+  'Q', // quarter
+  'q', // stand-alone quarter
+  'M', // month in year
+  'L', // stand-alone month in year
+  'w', // week of year
+  'W', // week of month
+  'd', // day in month
+  'D', // day of year
+  'F', // day of week in month
+  'g', // modified julian day
+  'E', // day of week
+  'e', // local day of week (example: if Monday is 1st day, Tuesday is 2nd)
+  'c', // stand-alone local day of week
+)
+
+private val TimeSymbols = setOf(
+  'a', // AM or PM
+  'b', // am, pm, noon, midnight
+  'B', // flexible day periods
+  'h', // hour in am/pm (1~12)
+  'H', // hour in day (0~23)
+  'k', // hour in day (1~24)
+  'K', // hour in am/pm (0~11)
+  'm', // minute in hour
+  's', // second in minute
+  'S', // fractional second - truncates/appends zeros to the count of letters when formatting
+  'A', // milliseconds in day
+)
+
+private val ZoneSymbols = setOf(
+  'z', // specific non-location
+  'Z', // ISO8601 basic/extended hms? / long localized GMT
+  'O', // short/long localized GMT
+  'v', // generic non-location (falls back first to VVVV)
+  'V', // short/long time zone ID / exemplar city / generic location (falls back to OOOO)
+  'X', // ISO8601 variants, with Z for 0
+  'x', // ISO8601 variants, without Z for 0
+)
+//endregion

@@ -17,6 +17,8 @@ package app.cash.paraphrase.plugin
 
 import app.cash.paraphrase.plugin.TokenType.Choice
 import app.cash.paraphrase.plugin.TokenType.Date
+import app.cash.paraphrase.plugin.TokenType.DateTime
+import app.cash.paraphrase.plugin.TokenType.DateTimeWithZone
 import app.cash.paraphrase.plugin.TokenType.Duration
 import app.cash.paraphrase.plugin.TokenType.None
 import app.cash.paraphrase.plugin.TokenType.Number
@@ -26,7 +28,6 @@ import app.cash.paraphrase.plugin.TokenType.Select
 import app.cash.paraphrase.plugin.TokenType.SelectOrdinal
 import app.cash.paraphrase.plugin.TokenType.SpellOut
 import app.cash.paraphrase.plugin.TokenType.Time
-import app.cash.paraphrase.plugin.TokenType.TimeWithZone
 import app.cash.paraphrase.plugin.model.MergedResource
 import app.cash.paraphrase.plugin.model.PublicResource
 import app.cash.paraphrase.plugin.model.ResourceFolder
@@ -35,6 +36,7 @@ import app.cash.paraphrase.plugin.model.TokenizedResource
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZonedDateTime
 import kotlin.Number as KotlinNumber
@@ -79,7 +81,8 @@ internal fun mergeResources(
       Number, SpellOut -> KotlinNumber::class
       Date -> LocalDate::class
       Time -> LocalTime::class
-      TimeWithZone -> ZonedDateTime::class
+      DateTime -> LocalDateTime::class
+      DateTimeWithZone -> ZonedDateTime::class
       Duration -> KotlinDuration::class
       Choice, Ordinal, Plural, SelectOrdinal -> Int::class
       Select -> String::class
