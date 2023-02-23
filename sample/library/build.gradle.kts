@@ -1,7 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-  alias(libs.plugins.kotlinAndroid)
   alias(libs.plugins.androidLibrary)
+  alias(libs.plugins.kotlinAndroid)
   id("app.cash.paraphrase")
 }
 
