@@ -1,5 +1,4 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
-import com.vanniktech.maven.publish.MavenPublishPlugin
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 
 buildscript {
@@ -34,7 +33,7 @@ configure<SpotlessExtension> {
 subprojects {
   version = extra["VERSION_NAME"]!!
 
-  plugins.withType(MavenPublishPlugin::class) {
+  plugins.withId("com.vanniktech.maven.publish") {
     publishing {
       repositories {
         /**
