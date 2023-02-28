@@ -82,7 +82,7 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
                 val style = pattern.getSubstring(stylePart).trim()
                 when (style.lowercase()) {
                   "short", "medium" -> TokenType.Time
-                  "long", "full" -> TokenType.DateTimeWithZone
+                  "long", "full" -> TokenType.DateTimeWithZoneId
                   else -> getTokenType(dateTimeFormatPattern = style)
                 }
               } else {
@@ -124,9 +124,14 @@ internal enum class TokenType {
   None,
   Number,
   Date,
+  DateWithZoneOffset,
+  DateWithZoneId,
   Time,
+  TimeWithZoneOffset,
   DateTime,
-  DateTimeWithZone,
+  DateTimeWithZoneOffset,
+  DateTimeWithZoneId,
+  ZoneOffset,
   SpellOut,
   Ordinal,
   Duration,
@@ -134,29 +139,37 @@ internal enum class TokenType {
   Plural,
   Select,
   SelectOrdinal,
+  NoArg,
 }
 
 private fun getTokenType(dateTimeFormatPattern: String): TokenType {
   var hasDate = false
   var hasTime = false
-  var hasZone = false
+  var hasZoneOffset = false
+  var hasZoneId = false
   for (patternItem in dateTimeFormatPattern.getDateTimeSymbols()) {
     if (patternItem in DateSymbols) hasDate = true
     if (patternItem in TimeSymbols) hasTime = true
-    if (patternItem in ZoneSymbols) hasZone = true
+    if (patternItem in ZoneOffsetSymbols) hasZoneOffset = true
+    if (patternItem in ZoneIdSymbols) hasZoneId = true
 
-    if (hasDate && hasTime && hasZone) break
+    // Break if we already satisfy the highest-priority condition:
+    if (hasDate && hasTime && hasZoneId) break
   }
 
   return when {
-    hasDate && hasTime && hasZone -> TokenType.DateTimeWithZone
+    hasDate && hasTime && hasZoneId -> TokenType.DateTimeWithZoneId
+    hasDate && hasTime && hasZoneOffset -> TokenType.DateTimeWithZoneOffset
     hasDate && hasTime -> TokenType.DateTime
-    hasDate && hasZone -> TokenType.DateTimeWithZone // TODO: Accept a date + zone without time?
+    hasDate && hasZoneId -> TokenType.DateWithZoneId
+    hasDate && hasZoneOffset -> TokenType.DateWithZoneOffset
     hasDate -> TokenType.Date
-    hasTime && hasZone -> TokenType.DateTimeWithZone
+    hasTime && hasZoneId -> TokenType.DateTimeWithZoneId
+    hasTime && hasZoneOffset -> TokenType.TimeWithZoneOffset
     hasTime -> TokenType.Time
-    hasZone -> TokenType.DateTimeWithZone // TODO: Accept a date + zone without time?
-    else -> TokenType.DateTimeWithZone // TODO: Require no argument?
+    hasZoneId -> TokenType.DateWithZoneId
+    hasZoneOffset -> TokenType.ZoneOffset
+    else -> TokenType.NoArg
   }
 }
 
@@ -192,7 +205,7 @@ private fun String.getDateTimeSymbols(): List<Char> {
       if (inQuote) {
         text.append(ch)
       } else {
-        if (ch in DateSymbols || ch in TimeSymbols || ch in ZoneSymbols) {
+        if (ch.isDateTimeFormatSymbol) {
           // a date/time pattern character
           if (ch == itemType) {
             itemLength++
@@ -268,13 +281,29 @@ private val TimeSymbols = setOf(
   'A', // milliseconds in day
 )
 
-private val ZoneSymbols = setOf(
-  'z', // specific non-location
+/**
+ * Time zone formats that only depict an offset from GMT, and thus require only a
+ * [java.time.ZoneOffset].
+ */
+private val ZoneOffsetSymbols = setOf(
   'Z', // ISO8601 basic/extended hms? / long localized GMT
   'O', // short/long localized GMT
-  'v', // generic non-location (falls back first to VVVV)
-  'V', // short/long time zone ID / exemplar city / generic location (falls back to OOOO)
   'X', // ISO8601 variants, with Z for 0
   'x', // ISO8601 variants, without Z for 0
 )
+
+/**
+ * Time zone formats that depict a named time zone, and thus require a [java.time.ZoneId].
+ */
+private val ZoneIdSymbols = setOf(
+  'z', // specific non-location
+  'v', // generic non-location (falls back first to VVVV)
+  'V', // short/long time zone ID / exemplar city / generic location (falls back to OOOO)
+)
+
+private val Char.isDateTimeFormatSymbol: Boolean
+  get() = this in DateSymbols ||
+    this in TimeSymbols ||
+    this in ZoneOffsetSymbols ||
+    this in ZoneIdSymbols
 //endregion

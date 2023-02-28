@@ -16,12 +16,20 @@
 package app.cash.paraphrase.plugin
 
 import app.cash.paraphrase.plugin.TokenType.Date
+import app.cash.paraphrase.plugin.TokenType.DateTime
+import app.cash.paraphrase.plugin.TokenType.DateTimeWithZoneId
+import app.cash.paraphrase.plugin.TokenType.DateTimeWithZoneOffset
+import app.cash.paraphrase.plugin.TokenType.DateWithZoneId
+import app.cash.paraphrase.plugin.TokenType.DateWithZoneOffset
+import app.cash.paraphrase.plugin.TokenType.NoArg
 import app.cash.paraphrase.plugin.TokenType.None
 import app.cash.paraphrase.plugin.TokenType.Number
 import app.cash.paraphrase.plugin.TokenType.Plural
 import app.cash.paraphrase.plugin.TokenType.Select
 import app.cash.paraphrase.plugin.TokenType.SelectOrdinal
 import app.cash.paraphrase.plugin.TokenType.Time
+import app.cash.paraphrase.plugin.TokenType.TimeWithZoneOffset
+import app.cash.paraphrase.plugin.TokenType.ZoneOffset
 import app.cash.paraphrase.plugin.model.ResourceName
 import app.cash.paraphrase.plugin.model.StringResource
 import app.cash.paraphrase.plugin.model.TokenizedResource
@@ -195,6 +203,75 @@ class ResourceTokenizerTest {
         NumberedToken(number = 0, type = None),
         NumberedToken(number = 0, type = None),
       )
+  }
+
+  @Test
+  fun tokenizeResourceWithDateFormat() {
+    """
+      Test
+      {short, date, short}
+      {medium, date, medium}
+      {long, date, long}
+      {full, date, full}
+    """.trimIndent()
+      .assertTokens(
+        NamedToken(name = "short", type = Date),
+        NamedToken(name = "medium", type = Date),
+        NamedToken(name = "long", type = Date),
+        NamedToken(name = "full", type = Date),
+      )
+  }
+
+  @Test
+  fun tokenizeResourceWithTimeFormat() {
+    """
+      Test
+      {short, time, short}
+      {medium, time, medium}
+      {long, time, long}
+      {full, time, full}
+    """.trimIndent()
+      .assertTokens(
+        NamedToken(name = "short", type = Time),
+        NamedToken(name = "medium", type = Time),
+        NamedToken(name = "long", type = DateTimeWithZoneId),
+        NamedToken(name = "full", type = DateTimeWithZoneId),
+      )
+  }
+
+  @Test
+  fun tokenizeResourceWithDateTimeFormatPattern() {
+    for (type in setOf("date", "time")) {
+      """
+        Test
+        {date_time_id, $type, yaz}
+        {date_time_offset, $type, MbZ}
+        {date_time, $type, Lh}
+        {date_id, $type, wz}
+        {date_offset, $type, WO}
+        {date, $type, d}
+        {time_id, $type, Hv}
+        {time_offset, $type, mX}
+        {time, $type, s}
+        {id, $type, V}
+        {offset, $type, x}
+        {no_arg, $type, 'yaz'}
+      """.trimIndent()
+        .assertTokens(
+          NamedToken(name = "date_time_id", type = DateTimeWithZoneId),
+          NamedToken(name = "date_time_offset", type = DateTimeWithZoneOffset),
+          NamedToken(name = "date_time", type = DateTime),
+          NamedToken(name = "date_id", type = DateWithZoneId),
+          NamedToken(name = "date_offset", type = DateWithZoneOffset),
+          NamedToken(name = "date", type = Date),
+          NamedToken(name = "time_id", type = DateTimeWithZoneId),
+          NamedToken(name = "time_offset", type = TimeWithZoneOffset),
+          NamedToken(name = "time", type = Time),
+          NamedToken(name = "id", type = DateWithZoneId),
+          NamedToken(name = "offset", type = ZoneOffset),
+          NamedToken(name = "no_arg", type = NoArg),
+        )
+    }
   }
 
   @Test
