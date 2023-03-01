@@ -1,5 +1,7 @@
+import com.android.build.gradle.LibraryExtension
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
   dependencies {
@@ -56,9 +58,26 @@ subprojects {
     }
   }
 
-  plugins.withId("org.jetbrains.kotlin.android") {
-    extensions.getByType<KotlinTopLevelExtension>().jvmToolchain {
-      languageVersion.set(JavaLanguageVersion.of(8))
+  val javaVersion = JavaVersion.VERSION_1_8.toString()
+  tasks.withType<KotlinJvmCompile> {
+    kotlinOptions {
+      jvmTarget = javaVersion
+    }
+  }
+  plugins.withId("com.android.library") {
+    with(extensions.getByType<LibraryExtension>()) {
+      compileOptions {
+        sourceCompatibility(javaVersion)
+        targetCompatibility(javaVersion)
+      }
+    }
+  }
+  plugins.withId("com.android.application") {
+    with(extensions.getByType<BaseAppModuleExtension>()) {
+      compileOptions {
+        sourceCompatibility(javaVersion)
+        targetCompatibility(javaVersion)
+      }
     }
   }
 }
