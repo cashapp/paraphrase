@@ -85,7 +85,10 @@ private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
       } else {
         addStatement("val arguments = %T(%L)", Types.ArrayMap.parameterizedBy(STRING, ANY), arguments.size)
         for (argument in arguments) {
-          addStatement("arguments.put(%S, %L)", argument.key, argument.toParameterCodeBlock())
+          addCode("arguments.put(\n⇥")
+          addCode("%S,\n", argument.key)
+          addCode("%L,\n", argument.toParameterCodeBlock())
+          addCode("⇤)\n")
         }
       }
     }
@@ -110,33 +113,49 @@ private fun Argument.toParameterSpec(): ParameterSpec =
 private fun Argument.toParameterCodeBlock(): CodeBlock =
   when (type) {
     Duration::class -> CodeBlock.of("%L.inWholeSeconds", name)
-    LocalDate::class -> CodeBlock.of(
-      "1000 * %T.of(%L, %T.NOON, %T.systemDefault()).toEpochSecond()",
-      Types.ZonedDateTime,
-      name,
-      Types.LocalTime,
-      Types.ZoneId,
-    )
-    LocalTime::class -> CodeBlock.of(
-      "1000 * %T.of(%T.now(), %L, %T.systemDefault()).toEpochSecond()",
-      Types.ZonedDateTime,
-      Types.LocalDate,
-      name,
-      Types.ZoneId,
-    )
-    LocalDateTime::class -> CodeBlock.of(
-      "1000 * %T.of(%L, %T.systemDefault()).toEpochSecond()",
-      Types.ZonedDateTime,
-      name,
-      Types.ZoneId,
-    )
-    ZonedDateTime::class -> CodeBlock.of(
-      "%T(%T.getTimeZone(%L.zone.id)).apply { timeInMillis = 1000 * %L.toEpochSecond() }",
-      Types.GregorianCalendar,
-      Types.TimeZone,
-      name,
-      name,
-    )
+    LocalDate::class -> buildCodeBlock {
+      add("%T.getInstance(%T.GMT_ZONE).apply·{\n⇥", Types.Calendar, Types.TimeZone)
+      addStatement("set(%1L.year, %1L.monthValue·-·1, %1L.dayOfMonth)", name)
+      add("⇤}")
+    }
+
+    LocalTime::class -> buildCodeBlock {
+      add("%T.getInstance(%T.GMT_ZONE).apply·{\n⇥", Types.Calendar, Types.TimeZone)
+      addStatement("set(%T.HOUR_OF_DAY, %L.hour)", Types.Calendar, name)
+      addStatement("set(%T.MINUTE, %L.minute)", Types.Calendar, name)
+      addStatement("set(%T.SECOND, %L.second)", Types.Calendar, name)
+      addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
+      add("⇤}")
+    }
+
+    LocalDateTime::class -> buildCodeBlock {
+      add("%T.getInstance(%T.GMT_ZONE).apply·{\n⇥", Types.Calendar, Types.TimeZone)
+      add("set(\n⇥")
+      addStatement("%L.year,", name)
+      addStatement("%L.monthValue·-·1,", name)
+      addStatement("%L.dayOfMonth,", name)
+      addStatement("%L.hour,", name)
+      addStatement("%L.minute,", name)
+      addStatement("%L.second,", name)
+      add("⇤)\n")
+      addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
+      add("⇤}")
+    }
+
+    ZonedDateTime::class -> buildCodeBlock {
+      add("%T.getInstance(%T.getTimeZone(%L.zone.id)).apply·{\n⇥", Types.Calendar, Types.TimeZone, name)
+      add("set(\n⇥")
+      addStatement("%L.year,", name)
+      addStatement("%L.monthValue·-·1,", name)
+      addStatement("%L.dayOfMonth,", name)
+      addStatement("%L.hour,", name)
+      addStatement("%L.minute,", name)
+      addStatement("%L.second,", name)
+      add("⇤)\n")
+      addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
+      add("⇤}")
+    }
+
     else -> CodeBlock.of("%L", name)
   }
 
@@ -149,11 +168,7 @@ private fun MergedResource.Visibility.toKModifier(): KModifier {
 
 private object Types {
   val ArrayMap = ClassName("android.util", "ArrayMap")
+  val Calendar = ClassName("android.icu.util", "Calendar")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
-  val GregorianCalendar = ClassName("android.icu.util", "GregorianCalendar")
-  val LocalDate = ClassName("java.time", "LocalDate")
-  val LocalTime = ClassName("java.time", "LocalTime")
   val TimeZone = ClassName("android.icu.util", "TimeZone")
-  val ZoneId = ClassName("java.time", "ZoneId")
-  val ZonedDateTime = ClassName("java.time", "ZonedDateTime")
 }
