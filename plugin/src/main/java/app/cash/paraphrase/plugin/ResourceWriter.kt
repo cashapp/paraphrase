@@ -23,6 +23,7 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.NOTHING
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STRING
@@ -110,7 +111,10 @@ private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
 private fun Argument.toParameterSpec(): ParameterSpec =
   ParameterSpec(
     name = name,
-    type = type.asClassName(),
+    type = when (type) {
+      Nothing::class -> NOTHING.copy(nullable = true)
+      else -> type.asClassName()
+    },
   )
 
 private fun Argument.toParameterCodeBlock(): CodeBlock =
@@ -136,6 +140,10 @@ private fun Argument.toParameterCodeBlock(): CodeBlock =
         addDateTimeSetStatements(name)
       }
     }
+
+    // `Nothing` arg must be null, but passing null to the formatter replaces the whole format with
+    //  "null". Passing an `Int` allows the formatter to function as expected.
+    Nothing::class -> CodeBlock.of("-1")
 
     OffsetTime::class -> buildCodeBlock {
       addCalendarInstance(timeZoneId = "\"GMT\${%L.offset.id}\"", name) {

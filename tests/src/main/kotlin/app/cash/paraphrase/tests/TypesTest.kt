@@ -181,7 +181,7 @@ class TypesTest {
   }
 
   @Test fun typeDatePatternNone() {
-    val formatted = context.getString(FormattedResources.type_date_pattern_none(releaseDateTime))
+    val formatted = context.getString(FormattedResources.type_date_pattern_none(null))
     assertThat(formatted).isEqualTo("A What is this for? B")
   }
 
@@ -280,7 +280,7 @@ class TypesTest {
   }
 
   @Test fun typeTimePatternNone() {
-    val formatted = context.getString(FormattedResources.type_time_pattern_none(releaseDateTime))
+    val formatted = context.getString(FormattedResources.type_time_pattern_none(null))
     assertThat(formatted).isEqualTo("A What is this for? B")
   }
 
