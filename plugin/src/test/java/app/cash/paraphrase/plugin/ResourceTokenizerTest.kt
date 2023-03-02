@@ -17,19 +17,17 @@ package app.cash.paraphrase.plugin
 
 import app.cash.paraphrase.plugin.TokenType.Date
 import app.cash.paraphrase.plugin.TokenType.DateTime
-import app.cash.paraphrase.plugin.TokenType.DateTimeWithZoneId
-import app.cash.paraphrase.plugin.TokenType.DateTimeWithZoneOffset
-import app.cash.paraphrase.plugin.TokenType.DateWithZoneId
-import app.cash.paraphrase.plugin.TokenType.DateWithZoneOffset
+import app.cash.paraphrase.plugin.TokenType.DateTimeWithOffset
+import app.cash.paraphrase.plugin.TokenType.DateTimeWithZone
 import app.cash.paraphrase.plugin.TokenType.NoArg
 import app.cash.paraphrase.plugin.TokenType.None
 import app.cash.paraphrase.plugin.TokenType.Number
+import app.cash.paraphrase.plugin.TokenType.Offset
 import app.cash.paraphrase.plugin.TokenType.Plural
 import app.cash.paraphrase.plugin.TokenType.Select
 import app.cash.paraphrase.plugin.TokenType.SelectOrdinal
 import app.cash.paraphrase.plugin.TokenType.Time
-import app.cash.paraphrase.plugin.TokenType.TimeWithZoneOffset
-import app.cash.paraphrase.plugin.TokenType.ZoneOffset
+import app.cash.paraphrase.plugin.TokenType.TimeWithOffset
 import app.cash.paraphrase.plugin.model.ResourceName
 import app.cash.paraphrase.plugin.model.StringResource
 import app.cash.paraphrase.plugin.model.TokenizedResource
@@ -234,8 +232,8 @@ class ResourceTokenizerTest {
       .assertTokens(
         NamedToken(name = "short", type = Time),
         NamedToken(name = "medium", type = Time),
-        NamedToken(name = "long", type = DateTimeWithZoneId),
-        NamedToken(name = "full", type = DateTimeWithZoneId),
+        NamedToken(name = "long", type = DateTimeWithZone),
+        NamedToken(name = "full", type = DateTimeWithZone),
       )
   }
 
@@ -258,17 +256,17 @@ class ResourceTokenizerTest {
         {no_arg, $type, 'yaz'}
       """.trimIndent()
         .assertTokens(
-          NamedToken(name = "date_time_id", type = DateTimeWithZoneId),
-          NamedToken(name = "date_time_offset", type = DateTimeWithZoneOffset),
+          NamedToken(name = "date_time_id", type = DateTimeWithZone),
+          NamedToken(name = "date_time_offset", type = DateTimeWithOffset),
           NamedToken(name = "date_time", type = DateTime),
-          NamedToken(name = "date_id", type = DateWithZoneId),
-          NamedToken(name = "date_offset", type = DateWithZoneOffset),
+          NamedToken(name = "date_id", type = DateTimeWithZone),
+          NamedToken(name = "date_offset", type = DateTimeWithOffset),
           NamedToken(name = "date", type = Date),
-          NamedToken(name = "time_id", type = DateTimeWithZoneId),
-          NamedToken(name = "time_offset", type = TimeWithZoneOffset),
+          NamedToken(name = "time_id", type = DateTimeWithZone),
+          NamedToken(name = "time_offset", type = TimeWithOffset),
           NamedToken(name = "time", type = Time),
-          NamedToken(name = "id", type = DateWithZoneId),
-          NamedToken(name = "offset", type = ZoneOffset),
+          NamedToken(name = "id", type = DateTimeWithZone),
+          NamedToken(name = "offset", type = Offset),
           NamedToken(name = "no_arg", type = NoArg),
         )
     }

@@ -18,22 +18,20 @@ package app.cash.paraphrase.plugin
 import app.cash.paraphrase.plugin.TokenType.Choice
 import app.cash.paraphrase.plugin.TokenType.Date
 import app.cash.paraphrase.plugin.TokenType.DateTime
-import app.cash.paraphrase.plugin.TokenType.DateTimeWithZoneId
-import app.cash.paraphrase.plugin.TokenType.DateTimeWithZoneOffset
-import app.cash.paraphrase.plugin.TokenType.DateWithZoneId
-import app.cash.paraphrase.plugin.TokenType.DateWithZoneOffset
+import app.cash.paraphrase.plugin.TokenType.DateTimeWithOffset
+import app.cash.paraphrase.plugin.TokenType.DateTimeWithZone
 import app.cash.paraphrase.plugin.TokenType.Duration
 import app.cash.paraphrase.plugin.TokenType.NoArg
 import app.cash.paraphrase.plugin.TokenType.None
 import app.cash.paraphrase.plugin.TokenType.Number
+import app.cash.paraphrase.plugin.TokenType.Offset
 import app.cash.paraphrase.plugin.TokenType.Ordinal
 import app.cash.paraphrase.plugin.TokenType.Plural
 import app.cash.paraphrase.plugin.TokenType.Select
 import app.cash.paraphrase.plugin.TokenType.SelectOrdinal
 import app.cash.paraphrase.plugin.TokenType.SpellOut
 import app.cash.paraphrase.plugin.TokenType.Time
-import app.cash.paraphrase.plugin.TokenType.TimeWithZoneOffset
-import app.cash.paraphrase.plugin.TokenType.ZoneOffset
+import app.cash.paraphrase.plugin.TokenType.TimeWithOffset
 import app.cash.paraphrase.plugin.model.MergedResource
 import app.cash.paraphrase.plugin.model.PublicResource
 import app.cash.paraphrase.plugin.model.ResourceFolder
@@ -44,6 +42,9 @@ import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.OffsetTime
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import kotlin.Number as KotlinNumber
 import kotlin.time.Duration as KotlinDuration
@@ -87,9 +88,12 @@ internal fun mergeResources(
       Number, SpellOut -> KotlinNumber::class
       Date -> LocalDate::class
       Time -> LocalTime::class
+      TimeWithOffset -> OffsetTime::class
       DateTime -> LocalDateTime::class
-      // TODO: Map these to correct types
-      DateWithZoneOffset, DateWithZoneId, TimeWithZoneOffset, DateTimeWithZoneOffset, DateTimeWithZoneId, ZoneOffset, NoArg -> ZonedDateTime::class
+      DateTimeWithOffset -> OffsetDateTime::class
+      // TODO: Handle NoArg?
+      DateTimeWithZone, NoArg -> ZonedDateTime::class
+      Offset -> ZoneOffset::class
       Duration -> KotlinDuration::class
       Choice, Ordinal, Plural, SelectOrdinal -> Int::class
       Select -> String::class
