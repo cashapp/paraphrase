@@ -33,6 +33,9 @@ import com.squareup.kotlinpoet.buildCodeBlock
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.OffsetTime
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import kotlin.time.Duration
 
@@ -114,50 +117,81 @@ private fun Argument.toParameterCodeBlock(): CodeBlock =
   when (type) {
     Duration::class -> CodeBlock.of("%L.inWholeSeconds", name)
     LocalDate::class -> buildCodeBlock {
-      add("%T.getInstance(%T.GMT_ZONE).apply·{\n⇥", Types.Calendar, Types.TimeZone)
-      addStatement("set(%1L.year, %1L.monthValue·-·1, %1L.dayOfMonth)", name)
-      add("⇤}")
+      addCalendarInstance {
+        addStatement("set(%1L.year, %1L.monthValue·-·1, %1L.dayOfMonth)", name)
+      }
     }
 
     LocalTime::class -> buildCodeBlock {
-      add("%T.getInstance(%T.GMT_ZONE).apply·{\n⇥", Types.Calendar, Types.TimeZone)
-      addStatement("set(%T.HOUR_OF_DAY, %L.hour)", Types.Calendar, name)
-      addStatement("set(%T.MINUTE, %L.minute)", Types.Calendar, name)
-      addStatement("set(%T.SECOND, %L.second)", Types.Calendar, name)
-      addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
-      add("⇤}")
+      addCalendarInstance {
+        addStatement("set(%T.HOUR_OF_DAY, %L.hour)", Types.Calendar, name)
+        addStatement("set(%T.MINUTE, %L.minute)", Types.Calendar, name)
+        addStatement("set(%T.SECOND, %L.second)", Types.Calendar, name)
+        addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
+      }
     }
 
     LocalDateTime::class -> buildCodeBlock {
-      add("%T.getInstance(%T.GMT_ZONE).apply·{\n⇥", Types.Calendar, Types.TimeZone)
-      add("set(\n⇥")
-      addStatement("%L.year,", name)
-      addStatement("%L.monthValue·-·1,", name)
-      addStatement("%L.dayOfMonth,", name)
-      addStatement("%L.hour,", name)
-      addStatement("%L.minute,", name)
-      addStatement("%L.second,", name)
-      add("⇤)\n")
-      addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
-      add("⇤}")
+      addCalendarInstance {
+        addDateTimeSetStatements(name)
+      }
+    }
+
+    OffsetTime::class -> buildCodeBlock {
+      addCalendarInstance(timeZoneId = "\"GMT\${%L.offset.id}\"", name) {
+        addStatement("set(%T.HOUR_OF_DAY, %L.hour)", Types.Calendar, name)
+        addStatement("set(%T.MINUTE, %L.minute)", Types.Calendar, name)
+        addStatement("set(%T.SECOND, %L.second)", Types.Calendar, name)
+        addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
+      }
+    }
+
+    OffsetDateTime::class -> buildCodeBlock {
+      addCalendarInstance(timeZoneId = "\"GMT\${%L.offset.id}\"", name) {
+        addDateTimeSetStatements(name)
+      }
     }
 
     ZonedDateTime::class -> buildCodeBlock {
-      add("%T.getInstance(%T.getTimeZone(%L.zone.id)).apply·{\n⇥", Types.Calendar, Types.TimeZone, name)
-      add("set(\n⇥")
-      addStatement("%L.year,", name)
-      addStatement("%L.monthValue·-·1,", name)
-      addStatement("%L.dayOfMonth,", name)
-      addStatement("%L.hour,", name)
-      addStatement("%L.minute,", name)
-      addStatement("%L.second,", name)
-      add("⇤)\n")
-      addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
-      add("⇤}")
+      addCalendarInstance(timeZoneId = "%L.zone.id", name) {
+        addDateTimeSetStatements(name)
+      }
+    }
+
+    ZoneOffset::class -> buildCodeBlock {
+      addCalendarInstance(timeZoneId = "\"GMT\${%L.id}\"", name)
     }
 
     else -> CodeBlock.of("%L", name)
   }
+
+private fun CodeBlock.Builder.addCalendarInstance(
+  timeZoneId: String? = null,
+  vararg timeZoneIdArgs: Any? = emptyArray(),
+  applyBlock: (() -> Unit)? = null,
+) {
+  val timeZoneReference = if (timeZoneId == null) "GMT_ZONE" else "getTimeZone($timeZoneId)"
+  add("%T.getInstance(%T.", Types.Calendar, Types.TimeZone)
+  add("$timeZoneReference)", *timeZoneIdArgs)
+
+  if (applyBlock != null) {
+    add(".apply·{\n⇥")
+    applyBlock.invoke()
+    add("⇤}")
+  }
+}
+
+private fun CodeBlock.Builder.addDateTimeSetStatements(dateTimeArgName: String) {
+  add("set(\n⇥")
+  addStatement("%L.year,", dateTimeArgName)
+  addStatement("%L.monthValue·-·1,", dateTimeArgName)
+  addStatement("%L.dayOfMonth,", dateTimeArgName)
+  addStatement("%L.hour,", dateTimeArgName)
+  addStatement("%L.minute,", dateTimeArgName)
+  addStatement("%L.second,", dateTimeArgName)
+  add("⇤)\n")
+  addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, dateTimeArgName)
+}
 
 private fun MergedResource.Visibility.toKModifier(): KModifier {
   return when (this) {

@@ -82,7 +82,7 @@ internal fun tokenizeResource(stringResource: StringResource): TokenizedResource
                 val style = pattern.getSubstring(stylePart).trim()
                 when (style.lowercase()) {
                   "short", "medium" -> TokenType.Time
-                  "long", "full" -> TokenType.DateTimeWithZoneId
+                  "long", "full" -> TokenType.DateTimeWithZone
                   else -> getTokenType(dateTimeFormatPattern = style)
                 }
               } else {
@@ -124,14 +124,12 @@ internal enum class TokenType {
   None,
   Number,
   Date,
-  DateWithZoneOffset,
-  DateWithZoneId,
   Time,
-  TimeWithZoneOffset,
+  TimeWithOffset,
   DateTime,
-  DateTimeWithZoneOffset,
-  DateTimeWithZoneId,
-  ZoneOffset,
+  DateTimeWithOffset,
+  DateTimeWithZone,
+  Offset,
   SpellOut,
   Ordinal,
   Duration,
@@ -145,30 +143,30 @@ internal enum class TokenType {
 private fun getTokenType(dateTimeFormatPattern: String): TokenType {
   var hasDate = false
   var hasTime = false
-  var hasZoneOffset = false
-  var hasZoneId = false
+  var hasOffset = false
+  var hasZone = false
   for (patternItem in dateTimeFormatPattern.getDateTimeSymbols()) {
     if (patternItem in DateSymbols) hasDate = true
     if (patternItem in TimeSymbols) hasTime = true
-    if (patternItem in ZoneOffsetSymbols) hasZoneOffset = true
-    if (patternItem in ZoneIdSymbols) hasZoneId = true
+    if (patternItem in OffsetSymbols) hasOffset = true
+    if (patternItem in ZoneSymbols) hasZone = true
 
     // Break if we already satisfy the highest-priority condition:
-    if (hasDate && hasTime && hasZoneId) break
+    if (hasDate && hasTime && hasZone) break
   }
 
   return when {
-    hasDate && hasTime && hasZoneId -> TokenType.DateTimeWithZoneId
-    hasDate && hasTime && hasZoneOffset -> TokenType.DateTimeWithZoneOffset
+    hasDate && hasTime && hasZone -> TokenType.DateTimeWithZone
+    hasDate && hasTime && hasOffset -> TokenType.DateTimeWithOffset
     hasDate && hasTime -> TokenType.DateTime
-    hasDate && hasZoneId -> TokenType.DateWithZoneId
-    hasDate && hasZoneOffset -> TokenType.DateWithZoneOffset
+    hasDate && hasZone -> TokenType.DateTimeWithZone
+    hasDate && hasOffset -> TokenType.DateTimeWithOffset
     hasDate -> TokenType.Date
-    hasTime && hasZoneId -> TokenType.DateTimeWithZoneId
-    hasTime && hasZoneOffset -> TokenType.TimeWithZoneOffset
+    hasTime && hasZone -> TokenType.DateTimeWithZone
+    hasTime && hasOffset -> TokenType.TimeWithOffset
     hasTime -> TokenType.Time
-    hasZoneId -> TokenType.DateWithZoneId
-    hasZoneOffset -> TokenType.ZoneOffset
+    hasZone -> TokenType.DateTimeWithZone
+    hasOffset -> TokenType.Offset
     else -> TokenType.NoArg
   }
 }
@@ -285,7 +283,7 @@ private val TimeSymbols = setOf(
  * Time zone formats that only depict an offset from GMT, and thus require only a
  * [java.time.ZoneOffset].
  */
-private val ZoneOffsetSymbols = setOf(
+private val OffsetSymbols = setOf(
   'Z', // ISO8601 basic/extended hms? / long localized GMT
   'O', // short/long localized GMT
   'X', // ISO8601 variants, with Z for 0
@@ -295,7 +293,7 @@ private val ZoneOffsetSymbols = setOf(
 /**
  * Time zone formats that depict a named time zone, and thus require a [java.time.ZoneId].
  */
-private val ZoneIdSymbols = setOf(
+private val ZoneSymbols = setOf(
   'z', // specific non-location
   'v', // generic non-location (falls back first to VVVV)
   'V', // short/long time zone ID / exemplar city / generic location (falls back to OOOO)
@@ -304,6 +302,6 @@ private val ZoneIdSymbols = setOf(
 private val Char.isDateTimeFormatSymbol: Boolean
   get() = this in DateSymbols ||
     this in TimeSymbols ||
-    this in ZoneOffsetSymbols ||
-    this in ZoneIdSymbols
+    this in OffsetSymbols ||
+    this in ZoneSymbols
 //endregion

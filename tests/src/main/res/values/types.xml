@@ -13,12 +13,16 @@
   <string name="type_date_long">A {value,date,long} B</string>
   <string name="type_date_full">A {value,date,full} B</string>
   <string name="type_date_pattern_date_time_zone">A {value,date,M-dd, ha z} B</string>
+  <string name="type_date_pattern_date_time_offset">A {value,date,M-dd, ha xxx} B</string>
   <string name="type_date_pattern_date_time">A {value,date,M-dd ha} B</string>
   <string name="type_date_pattern_date_zone">A {value,date,MMMM (z)} B</string>
+  <string name="type_date_pattern_date_offset">A {value,date,MMMM (xxx)} B</string>
   <string name="type_date_pattern_date">A {value,date,YYYY-MM-dd} B</string>
   <string name="type_date_pattern_time_zone">A {value,date,HH:mm zz} B</string>
+  <string name="type_date_pattern_time_offset">A {value,date,HH:mmZ} B</string>
   <string name="type_date_pattern_time">A {value,date,m \'past\' h} B</string>
   <string name="type_date_pattern_zone">A {value,date,zzzz} B</string>
+  <string name="type_date_pattern_offset">A {value,date,ZZZZ} B</string>
   <string name="type_date_pattern_none">A {value,date,\'What is this for?\'} B</string>
 
   <string name="type_time">A {value,time} B</string>
@@ -27,12 +31,16 @@
   <string name="type_time_long">A {value,time,long} B</string>
   <string name="type_time_full">A {value,time,full} B</string>
   <string name="type_time_pattern_date_time_zone">A {value,time,M-dd, ha z} B</string>
+  <string name="type_time_pattern_date_time_offset">A {value,time,M-dd, ha x} B</string>
   <string name="type_time_pattern_date_time">A {value,time,M-dd ha} B</string>
   <string name="type_time_pattern_date_zone">A {value,time,MMMM (z)} B</string>
+  <string name="type_time_pattern_date_offset">A {value,time,MMMM (x)} B</string>
   <string name="type_time_pattern_date">A {value,time,YYYY-MM-dd} B</string>
   <string name="type_time_pattern_time_zone">A {value,time,HH:mm zz} B</string>
+  <string name="type_time_pattern_time_offset">A {value,time,HH:mmZ} B</string>
   <string name="type_time_pattern_time">A {value,time,HH-mm-ss} B</string>
   <string name="type_time_pattern_zone">A {value,time,zzzz} B</string>
+  <string name="type_time_pattern_offset">A {value,time,ZZZZ} B</string>
   <string name="type_time_pattern_none">A {value,time,\'What is this for?\'} B</string>
 
   <string name="type_duration">A {value,duration} B</string>
