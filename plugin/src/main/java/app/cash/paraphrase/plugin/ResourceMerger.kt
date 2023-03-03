@@ -91,12 +91,12 @@ internal fun mergeResources(
       TimeWithOffset -> OffsetTime::class
       DateTime -> LocalDateTime::class
       DateTimeWithOffset -> OffsetDateTime::class
-      // TODO: Handle NoArg?
-      DateTimeWithZone, NoArg -> ZonedDateTime::class
+      DateTimeWithZone -> ZonedDateTime::class
       Offset -> ZoneOffset::class
       Duration -> KotlinDuration::class
       Choice, Ordinal, Plural, SelectOrdinal -> Int::class
       Select -> String::class
+      NoArg -> Nothing::class
     }
     MergedResource.Argument(
       key = argumentKey,
