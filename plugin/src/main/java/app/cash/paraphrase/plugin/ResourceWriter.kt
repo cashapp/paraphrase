@@ -179,8 +179,10 @@ private fun CodeBlock.Builder.addCalendarInstance(
   applyBlock: (() -> Unit)? = null,
 ) {
   val timeZoneReference = if (timeZoneId == null) "GMT_ZONE" else "getTimeZone($timeZoneId)"
-  add("%T.getInstance(%T.", Types.Calendar, Types.TimeZone)
-  add("$timeZoneReference)", *timeZoneIdArgs)
+  add("%T.getInstance(\n⇥", Types.Calendar)
+  addStatement("%T.$timeZoneReference,", Types.TimeZone, *timeZoneIdArgs)
+  addStatement("%T.Builder().setExtension('u', \"ca-iso8601\").build(),", Types.ULocale)
+  add("⇤)")
 
   if (applyBlock != null) {
     add(".apply·{\n⇥")
@@ -213,4 +215,5 @@ private object Types {
   val Calendar = ClassName("android.icu.util", "Calendar")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
   val TimeZone = ClassName("android.icu.util", "TimeZone")
+  val ULocale = ClassName("android.icu.util", "ULocale")
 }
