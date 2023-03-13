@@ -14,7 +14,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.4.0"
+    kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
   }
 
   defaultConfig {
