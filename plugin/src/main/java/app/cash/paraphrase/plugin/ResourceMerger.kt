@@ -15,39 +15,14 @@
  */
 package app.cash.paraphrase.plugin
 
-import app.cash.paraphrase.plugin.TokenType.Choice
-import app.cash.paraphrase.plugin.TokenType.Date
-import app.cash.paraphrase.plugin.TokenType.DateTime
-import app.cash.paraphrase.plugin.TokenType.DateTimeWithOffset
-import app.cash.paraphrase.plugin.TokenType.DateTimeWithZone
-import app.cash.paraphrase.plugin.TokenType.Duration
-import app.cash.paraphrase.plugin.TokenType.NoArg
-import app.cash.paraphrase.plugin.TokenType.None
-import app.cash.paraphrase.plugin.TokenType.Number
-import app.cash.paraphrase.plugin.TokenType.Offset
-import app.cash.paraphrase.plugin.TokenType.Ordinal
-import app.cash.paraphrase.plugin.TokenType.Plural
-import app.cash.paraphrase.plugin.TokenType.Select
-import app.cash.paraphrase.plugin.TokenType.SelectOrdinal
-import app.cash.paraphrase.plugin.TokenType.SpellOut
-import app.cash.paraphrase.plugin.TokenType.Time
-import app.cash.paraphrase.plugin.TokenType.TimeWithOffset
 import app.cash.paraphrase.plugin.model.MergedResource
 import app.cash.paraphrase.plugin.model.PublicResource
 import app.cash.paraphrase.plugin.model.ResourceFolder
 import app.cash.paraphrase.plugin.model.ResourceName
 import app.cash.paraphrase.plugin.model.TokenizedResource
+import app.cash.paraphrase.plugin.model.TokenizedResource.Token
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.OffsetDateTime
-import java.time.OffsetTime
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
-import kotlin.Number as KotlinNumber
-import kotlin.time.Duration as KotlinDuration
 
 internal fun mergeResources(
   name: ResourceName,
@@ -74,53 +49,41 @@ internal fun mergeResources(
     (0 until argumentCount).toSet() == tokenNumbers
   }
 
-  val arguments = defaultResource.tokens.map { token ->
-    val argumentName = when (token) {
-      is NamedToken -> token.name
-      is NumberedToken -> "arg${token.number}"
+  val arguments = defaultResource.tokens
+    .groupBy { it.argumentKey }
+    .mapValues { (argumentKey, tokens) ->
+      resolveArgumentType(tokens.map { it.type })?.let { argumentType ->
+        MergedResource.Argument(
+          key = argumentKey,
+          name = tokens.first().argumentName,
+          type = argumentType,
+        )
+      }
     }
-    val argumentKey = when (token) {
-      is NamedToken -> token.name
-      is NumberedToken -> token.number.toString()
-    }
-    val argumentType = when (token.type) {
-      None -> Any::class
-      Number, SpellOut -> KotlinNumber::class
-      Date -> LocalDate::class
-      Time -> LocalTime::class
-      TimeWithOffset -> OffsetTime::class
-      DateTime -> LocalDateTime::class
-      DateTimeWithOffset -> OffsetDateTime::class
-      DateTimeWithZone -> ZonedDateTime::class
-      Offset -> ZoneOffset::class
-      Duration -> KotlinDuration::class
-      Choice, Ordinal, Plural, SelectOrdinal -> Int::class
-      Select -> String::class
-      NoArg -> Nothing::class
-    }
-    MergedResource.Argument(
-      key = argumentKey,
-      name = argumentName,
-      type = argumentType,
-    )
-  }
-
-  // TODO For now, we only take the first argument for each key.
-  val deduplicatedArguments = buildMap {
-    arguments.forEach { argument ->
-      putIfAbsent(argument.name, argument)
-    }
-  }
 
   return MergedResource(
     name = name,
     description = defaultResource.description,
     visibility = publicResources.resolveVisibility(name = name, type = "string"),
-    arguments = deduplicatedArguments.values.toList(),
+    arguments = arguments.values.filterNotNull(),
     hasContiguousNumberedTokens = hasContiguousNumberedTokens,
-    parsingErrors = emptyList(),
+    parsingErrors = arguments.filterValues { it == null }.keys.map {
+      "Incompatible argument types for: $it"
+    },
   )
 }
+
+private val Token.argumentKey: String
+  get() = when (this) {
+    is NamedToken -> name
+    is NumberedToken -> number.toString()
+  }
+
+private val Token.argumentName: String
+  get() = when (this) {
+    is NamedToken -> name
+    is NumberedToken -> "arg$number"
+  }
 
 /**
  * If no public resource declarations exist, then all resources are public. Otherwise, only those
