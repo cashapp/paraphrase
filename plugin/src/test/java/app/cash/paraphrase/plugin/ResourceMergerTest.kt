@@ -15,12 +15,18 @@
  */
 package app.cash.paraphrase.plugin
 
+import app.cash.paraphrase.plugin.TokenType.Date
+import app.cash.paraphrase.plugin.TokenType.Plural
+import app.cash.paraphrase.plugin.TokenType.Time
 import app.cash.paraphrase.plugin.model.MergedResource
+import app.cash.paraphrase.plugin.model.MergedResource.Argument
 import app.cash.paraphrase.plugin.model.PublicResource
 import app.cash.paraphrase.plugin.model.ResourceFolder
 import app.cash.paraphrase.plugin.model.ResourceName
 import app.cash.paraphrase.plugin.model.TokenizedResource
+import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
 import com.google.common.truth.Truth.assertThat
+import java.time.LocalDateTime
 import org.junit.Test
 
 class ResourceMergerTest {
@@ -107,5 +113,53 @@ class ResourceMergerTest {
       ),
     )
     assertThat(result!!.visibility).isEqualTo(MergedResource.Visibility.Private)
+  }
+
+  @Test
+  fun tokensWithCompatibleTypesAreCombined() {
+    val result = mergeResources(
+      name = ResourceName("test"),
+      tokenizedResources = mapOf(
+        ResourceFolder.Default to TokenizedResource(
+          name = ResourceName("test"),
+          description = null,
+          tokens = listOf(
+            NumberedToken(number = 0, type = Date),
+            NumberedToken(number = 0, type = Time),
+          ),
+          parsingError = null,
+        ),
+      ),
+      publicResources = emptyList(),
+    )
+    assertThat(result!!.arguments).containsExactly(
+      Argument(
+        key = "0",
+        name = "arg0",
+        type = LocalDateTime::class,
+      ),
+    )
+    assertThat(result.parsingErrors).isEmpty()
+  }
+
+  @Test
+  fun tokensWithIncompatibleTypesReportsParsingError() {
+    val result = mergeResources(
+      name = ResourceName("test"),
+      tokenizedResources = mapOf(
+        ResourceFolder.Default to TokenizedResource(
+          name = ResourceName("test"),
+          description = null,
+          tokens = listOf(
+            NumberedToken(number = 0, type = Date),
+            NumberedToken(number = 0, type = Plural),
+          ),
+          parsingError = null,
+        ),
+      ),
+      publicResources = emptyList(),
+    )
+    assertThat(result!!.arguments).isEmpty()
+    assertThat(result.parsingErrors).containsExactly("Incompatible argument types for: 0")
   }
 }
