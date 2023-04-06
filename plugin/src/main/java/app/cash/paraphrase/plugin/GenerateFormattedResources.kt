@@ -106,8 +106,10 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
       }
       .filter { it.arguments.isNotEmpty() }
 
-    writeResources(namespace.get(), mergedResources)
-      .writeTo(outputDirectory.get().asFile)
+    if (mergedResources.isNotEmpty()) {
+      writeResources(namespace.get(), mergedResources)
+        .writeTo(outputDirectory.get().asFile)
+    }
 
     // TODO Fail on errors which make it this far.
   }
