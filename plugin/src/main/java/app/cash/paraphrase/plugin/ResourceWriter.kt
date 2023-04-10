@@ -211,7 +211,7 @@ private fun MergedResource.Visibility.toKModifier(): KModifier {
 }
 
 private object Types {
-  val ArrayMap = ClassName("android.util", "ArrayMap")
+  val ArrayMap = ClassName("androidx.collection", "ArrayMap")
   val Calendar = ClassName("android.icu.util", "Calendar")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
   val TimeZone = ClassName("android.icu.util", "TimeZone")
