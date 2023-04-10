@@ -29,7 +29,7 @@ import org.gradle.configurationcache.extensions.capitalized
 @Suppress("UnstableApiUsage") // For 'Sources' type.
 class ParaphrasePlugin : Plugin<Project> {
   override fun apply(target: Project) = target.run {
-    addRuntimeDependency()
+    addDependencies()
     extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
       registerGenerateFormattedResourcesTask(
         sources = variant.sources,
@@ -47,7 +47,7 @@ class ParaphrasePlugin : Plugin<Project> {
     }
   }
 
-  private fun Project.addRuntimeDependency() {
+  private fun Project.addDependencies() {
     val isInternal = properties["app.cash.paraphrase.internal"].toString() == "true"
     val runtimeDependency: Any = if (isInternal) {
       dependencies.project(mapOf("path" to ":runtime"))
@@ -55,6 +55,7 @@ class ParaphrasePlugin : Plugin<Project> {
       "app.cash.paraphrase:paraphrase-runtime:${BuildConfig.VERSION}"
     }
     dependencies.add("api", runtimeDependency)
+    dependencies.add("implementation", BuildConfig.LIB_ANDROID_COLLECTION)
   }
 
   private fun Project.registerGenerateFormattedResourcesTask(

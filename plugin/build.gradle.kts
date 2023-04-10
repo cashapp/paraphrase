@@ -14,6 +14,7 @@ buildConfig {
   }
   packageName("app.cash.paraphrase.plugin")
   buildConfigField("String", "VERSION", "\"${project.version}\"")
+  buildConfigField("String", "LIB_ANDROID_COLLECTION", "\"${libs.androidCollection.get()}\"")
 }
 
 gradlePlugin {
