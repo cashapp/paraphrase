@@ -20,7 +20,6 @@ import com.android.build.api.variant.HasAndroidTest
 import com.android.build.api.variant.Sources
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.provider.Provider
 import org.gradle.configurationcache.extensions.capitalized
 
@@ -56,13 +55,7 @@ class ParaphrasePlugin : Plugin<Project> {
       "app.cash.paraphrase:paraphrase-runtime:${BuildConfig.VERSION}"
     }
     dependencies.add("api", runtimeDependency)
-    dependencies.add(
-      "implementation",
-      extensions.getByType(VersionCatalogsExtension::class.java)
-        .named("libs")
-        .findLibrary("androidCollection")
-        .get(),
-    )
+    dependencies.add("implementation", BuildConfig.LIB_ANDROID_COLLECTION)
   }
 
   private fun Project.registerGenerateFormattedResourcesTask(
