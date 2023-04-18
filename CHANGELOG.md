@@ -3,6 +3,12 @@
 ## [Unreleased]
 
 
+## [0.1.2] - 2023-04-17
+
+Changed:
+
+- Use `androidx.collection.ArrayMap` instead of `android.util.ArrayMap` to hold named arguments.
+
 ## [0.1.1] - 2023-04-07
 
 Fixed:
@@ -14,6 +20,7 @@ Fixed:
 Initial release.
 
 
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.1.1...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.1.2...HEAD
+[0.1.2]: https://github.com/cashapp/paraphrase/releases/tag/0.1.2
 [0.1.1]: https://github.com/cashapp/paraphrase/releases/tag/0.1.1
 [0.1.0]: https://github.com/cashapp/paraphrase/releases/tag/0.1.0
