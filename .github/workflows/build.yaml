@@ -14,6 +14,19 @@ env:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'zulu'
+          java-version: 19
+
+      - uses: gradle/gradle-build-action@v2
+
+      - run: ./gradlew build
+
+  emulator:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -24,22 +37,33 @@ jobs:
 
       - uses: gradle/gradle-build-action@v2
 
-      - run: ./gradlew build :runtime:dokkaHtml
-
       - name: Run integration tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 24
           script: ./gradlew :tests:connectedCheck
 
-      - run: ./gradlew publish
-        if: ${{ github.ref == 'refs/heads/main' && github.repository == 'cashapp/paraphrase' }}
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' && github.repository == 'cashapp/paraphrase' }}
+    needs:
+      - build
+      - emulator
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'zulu'
+          java-version: 19
+
+      - uses: gradle/gradle-build-action@v2
+
+      - run: ./gradlew :runtime:dokkaHtml publish
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
 
       - name: Deploy docs to website
-        if: ${{ github.ref == 'refs/heads/main' && github.repository == 'cashapp/paraphrase' }}
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
