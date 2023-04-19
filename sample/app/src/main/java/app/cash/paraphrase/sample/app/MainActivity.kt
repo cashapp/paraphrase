@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.cash.paraphrase.FormattedResource
-import app.cash.paraphrase.getString
+import app.cash.paraphrase.compose.formattedResource
 import app.cash.paraphrase.sample.app.FormattedResources as AppFormattedResources
 import app.cash.paraphrase.sample.library.FormattedResources as LibraryFormattedResources
 import java.time.LocalDate
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
       )
 
       Text(
-        text = resources.getString(sample.resource),
+        text = formattedResource(sample.resource),
         fontSize = 16.sp,
       )
     }

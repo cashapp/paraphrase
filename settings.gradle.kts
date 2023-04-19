@@ -21,6 +21,7 @@ rootProject.name = "paraphrase"
 include(
   ":plugin",
   ":runtime",
+  ":runtime-compose-ui",
   ":sample:app",
   ":sample:library",
   ":tests",
