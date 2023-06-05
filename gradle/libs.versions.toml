@@ -28,6 +28,6 @@ androidTest = { id = "com.android.test", version.ref = "agp" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version = "4.0.4" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-dokka = { id = "org.jetbrains.dokka", version = "1.8.10" }
+dokka = { id = "org.jetbrains.dokka", version = "1.8.20" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.25.2" }
 spotless = { id = "com.diffplug.spotless", version = "6.19.0" }
