@@ -9,13 +9,13 @@ buildscript {
   }
 }
 
-@Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 plugins {
   alias(libs.plugins.androidApplication) apply false
   alias(libs.plugins.androidLibrary) apply false
   alias(libs.plugins.androidTest) apply false
   alias(libs.plugins.kotlinAndroid) apply false
   alias(libs.plugins.kotlinJvm) apply false
+  alias(libs.plugins.poko) apply false
   alias(libs.plugins.dokka)
   alias(libs.plugins.mavenPublish)
   alias(libs.plugins.spotless)

@@ -109,12 +109,12 @@ class FormattedResourceTest {
   //region toString
   @Test fun `toString with map includes contents`() {
     val instance = FormattedResource(id = 123, arguments = mapOf("a" to 1, "b" to 2))
-    assertThat(instance.toString()).isEqualTo("FormattedResource(id=123, arguments={a=1, b=2}")
+    assertThat(instance.toString()).isEqualTo("FormattedResource(id=123, arguments={a=1, b=2})")
   }
 
   @Test fun `toString with array includes contents`() {
     val instance = FormattedResource(id = 123, arguments = arrayOf("a", "b"))
-    assertThat(instance.toString()).isEqualTo("FormattedResource(id=123, arguments=[a, b]")
+    assertThat(instance.toString()).isEqualTo("FormattedResource(id=123, arguments=[a, b])")
   }
   //endregion
 }
