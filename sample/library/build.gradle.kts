@@ -11,7 +11,6 @@ android {
 
   defaultConfig {
     minSdk = 24
-    targetSdk = 33
   }
 }
 
