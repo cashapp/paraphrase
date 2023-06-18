@@ -18,7 +18,7 @@ icu4j = "com.ibm.icu:icu4j:73.1"
 junit = "junit:junit:4.13.2"
 kotlinPoet = "com.squareup:kotlinpoet:1.14.2"
 testParameterInjector = "com.google.testparameterinjector:test-parameter-injector:1.12"
-truth = "com.google.truth:truth:1.1.4"
+truth = "com.google.truth:truth:1.1.5"
 coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:2.0.3"
 
 [plugins]
