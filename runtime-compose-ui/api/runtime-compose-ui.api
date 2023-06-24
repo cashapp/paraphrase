@@ -1,0 +1,6 @@
+public final class app/cash/paraphrase/compose/ComposableFormattedResourcesKt {
+	public static final fun formattedResource (Lapp/cash/paraphrase/FormattedResource;Landroid/icu/util/ULocale;Landroidx/compose/runtime/Composer;I)Ljava/lang/String;
+	public static final fun formattedResource (Lapp/cash/paraphrase/FormattedResource;Landroidx/compose/runtime/Composer;I)Ljava/lang/String;
+	public static final fun formattedResource (Lapp/cash/paraphrase/FormattedResource;Ljava/util/Locale;Landroidx/compose/runtime/Composer;I)Ljava/lang/String;
+}
+

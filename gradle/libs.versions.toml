@@ -31,3 +31,4 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version = "1.8.20" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.25.2" }
 spotless = { id = "com.diffplug.spotless", version = "6.19.0" }
+kotlinApiDump = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.13.2" }
