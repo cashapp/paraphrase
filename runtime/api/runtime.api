@@ -1,0 +1,18 @@
+public final class app/cash/paraphrase/FormattedResource {
+	public fun <init> (ILjava/lang/Object;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getArguments ()Ljava/lang/Object;
+	public final fun getId ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class app/cash/paraphrase/FormattedResourcesKt {
+	public static final fun getString (Landroid/content/Context;Lapp/cash/paraphrase/FormattedResource;)Ljava/lang/String;
+	public static final fun getString (Landroid/content/Context;Lapp/cash/paraphrase/FormattedResource;Landroid/icu/util/ULocale;)Ljava/lang/String;
+	public static final fun getString (Landroid/content/Context;Lapp/cash/paraphrase/FormattedResource;Ljava/util/Locale;)Ljava/lang/String;
+	public static final fun getString (Landroid/content/res/Resources;Lapp/cash/paraphrase/FormattedResource;)Ljava/lang/String;
+	public static final fun getString (Landroid/content/res/Resources;Lapp/cash/paraphrase/FormattedResource;Landroid/icu/util/ULocale;)Ljava/lang/String;
+	public static final fun getString (Landroid/content/res/Resources;Lapp/cash/paraphrase/FormattedResource;Ljava/util/Locale;)Ljava/lang/String;
+}
+
