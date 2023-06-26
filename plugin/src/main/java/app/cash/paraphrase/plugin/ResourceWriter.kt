@@ -88,7 +88,13 @@ private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
         )
       } else {
         addStatement("val arguments = %T(%L)", Types.ArrayMap.parameterizedBy(STRING, ANY), arguments.size)
-        for (argument in arguments) {
+
+        // The `ArrayMap` into which we place the key-argument pairs uses a backing storage of an
+        // array representing a binary tree of the keys ordered by their `hashCode()`. To maximize
+        // storage density and minimize runtime complexity, the ideal insertion order sorted, as it
+        // results in linear insertion into the array with no shifts. Thankfully `String.hashCode()`
+        // is specified by the documentation and thus safe to rely on across the JVM and Android.
+        for (argument in arguments.sortedBy { it.key.hashCode() }) {
           addCode("arguments.put(\n⇥")
           addCode("%S,\n", argument.key)
           addCode("%L,\n", argument.toParameterCodeBlock())
