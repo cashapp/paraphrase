@@ -1,6 +1,6 @@
 # Paraphrase
 
-A Gradle plugin that generates type checked formatters for patterned Android string resources.
+A Gradle plugin that generates type-safe formatters for Android string resources in the ICU message format. It integrates easily with Android Views and Compose UI.
 
 ## Usage
 
@@ -38,17 +38,17 @@ For more information on the ICU message format, see the [ICU docs](https://unico
 Build the module:
 
 ```shell
-./gradlew my-app:build
+./gradlew my-module:build
 ```
 
 Or run the Paraphrase gradle task for the relevant variant:
 
 ```shell
-./gradlew my-app:generateFormattedResourcesDebug
-./gradlew my-app:generateFormattedResourcesRelease
+./gradlew my-module:generateFormattedResourcesDebug
+./gradlew my-module:generateFormattedResourcesRelease
 ```
 
-That generates a formatted resource function that looks like this:
+That generates a formatted resource function that looks something like this:
 ```kotlin
 /**
  * Describes an order placed at the deli.
@@ -57,7 +57,7 @@ public fun order_description(count: Int, name: Any): FormattedResource {
   val arguments = mapOf("count" to count, "name" to name)
   return FormattedResource(
     id = R.string.order_description,
-    arguments = arguments
+    arguments = arguments,
   )
 }
 ```
@@ -65,7 +65,7 @@ public fun order_description(count: Int, name: Any): FormattedResource {
 
 ### Step 4: Use the Formatted Resources
 
-In your view modules:
+In an Android View:
 
 ```kotlin
 import app.cash.paraphrase.getString
@@ -73,32 +73,38 @@ import app.cash.paraphrase.getString
 val orderDescription = resources.getString(
   FormattedResources.order_description(
     count = 12,
-    name = "Jobu Tupaki"
+    name = "Jobu Tupaki",
   )
 )
 
-println(orderDescription)
 // Jobu Tupaki orders 12 everything bagels
 ```
 
-Or in your presenter modules:
+In Compose UI:
 
 ```kotlin
-val orderDescription = stringManager.getString(
+import app.cash.paraphrase.compose.formattedResource
+
+val orderDescription = formattedResource(
   FormattedResources.order_description(
     count = 12,
-    name = "Jobu Tupaki"
-  )
+    name = "Jobu Tupaki",
+  ),
 )
 
-println(orderDescription)
 // Jobu Tupaki orders 12 everything bagels
+```
+
+For Compose UI you also need one additional dependency:
+```
+implementation libs.paraphrase.runtimeComposeUi
 ```
 
 ## Modules
 
 * `plugin`: The Gradle plugin, with logic to parse string resources and generate formatter methods.
 * `runtime`: The data types and Android extensions that Paraphrase requires to work at runtime.
+* `runtime-compose-ui`: The extensions that Paraphrase requires to work with Compose UI at runtime.
 * `sample`: A sample Android project that demonstrates usage of Paraphrase.
 
 ## License
