@@ -1,6 +1,6 @@
 # Paraphrase
 
-A Gradle plugin that generates type safe formatters for Android string resources in the ICU message format. It integrates easily with Android Views and Compose UI.
+A Gradle plugin that generates type-safe formatters for Android string resources in the ICU message format. It integrates easily with Android Views and Compose UI.
 
 ## Usage
 
