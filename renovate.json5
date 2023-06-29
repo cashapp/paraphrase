@@ -5,10 +5,11 @@
   ],
   "packageRules": [
     {
-      // Compose compiler is tightly coupled to Kotlin version
-      "groupName": "Kotlin and Compose",
+      // Compiler plugins are tightly coupled to Kotlin version
+      "groupName": "Kotlin",
       "matchPackagePrefixes": [
         "androidx.compose.compiler",
+        "dev.drewhamilton.poko",
         "org.jetbrains.kotlin",
       ],
     },
