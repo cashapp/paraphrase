@@ -16,6 +16,7 @@ plugins {
   alias(libs.plugins.kotlinAndroid) apply false
   alias(libs.plugins.kotlinJvm) apply false
   alias(libs.plugins.poko) apply false
+  alias(libs.plugins.kotlinApiDump) apply false
   alias(libs.plugins.dokka)
   alias(libs.plugins.mavenPublish)
   alias(libs.plugins.spotless)
@@ -36,6 +37,9 @@ subprojects {
   version = extra["VERSION_NAME"]!!
 
   plugins.withId("com.vanniktech.maven.publish") {
+    // All published libraries must use API tracking to help maintain compatibility.
+    plugins.apply(libs.plugins.kotlinApiDump.get().pluginId)
+
     publishing {
       repositories {
         /**
