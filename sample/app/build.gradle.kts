@@ -38,7 +38,6 @@ androidComponents {
 }
 
 dependencies {
-  implementation(projects.runtimeComposeUi)
   implementation(projects.sample.library)
   implementation(libs.androidActivityCompose)
   implementation(libs.googleMaterial)
