@@ -18,6 +18,7 @@ package app.cash.paraphrase.plugin
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.api.variant.HasAndroidTest
 import com.android.build.api.variant.Sources
+import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -49,12 +50,28 @@ class ParaphrasePlugin : Plugin<Project> {
 
   private fun Project.addDependencies() {
     val isInternal = properties["app.cash.paraphrase.internal"].toString() == "true"
+
+    // Automatically add the runtime dependency.
     val runtimeDependency: Any = if (isInternal) {
       dependencies.project(mapOf("path" to ":runtime"))
     } else {
       "app.cash.paraphrase:paraphrase-runtime:${BuildConfig.VERSION}"
     }
     dependencies.add("api", runtimeDependency)
+
+    // Automatically add the runtime Compose UI dependency if the Compose build feature is present.
+    afterEvaluate {
+      if (extensions.getByType(BaseExtension::class.java).buildFeatures.compose == true) {
+        val runtimeComposeUiDependency: Any = if (isInternal) {
+          dependencies.project(mapOf("path" to ":runtime-compose-ui"))
+        } else {
+          "app.cash.paraphrase:paraphrase-runtime-compose-ui:${BuildConfig.VERSION}"
+        }
+        dependencies.add("implementation", runtimeComposeUiDependency)
+      }
+    }
+
+    // Automatically add the AndroidX Collection dependency for ArrayMap.
     dependencies.add("implementation", BuildConfig.LIB_ANDROID_COLLECTION)
   }
 

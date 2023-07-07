@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+Changed:
+
+- Automatically add the `runtime-compose-ui` dependency if buildFeatures.compose is true
+
 ## [0.2.0] - 2023-04-25
 
 New:
