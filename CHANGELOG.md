@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.2.1] - 2023-07-19
+
 Changed:
 
 - Automatically add the `runtime-compose-ui` dependency if buildFeatures.compose is true
@@ -31,7 +33,8 @@ Fixed:
 Initial release.
 
 
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.2.1...HEAD
+[0.2.1]: https://github.com/cashapp/paraphrase/releases/tag/0.2.1
 [0.2.0]: https://github.com/cashapp/paraphrase/releases/tag/0.2.0
 [0.1.2]: https://github.com/cashapp/paraphrase/releases/tag/0.1.2
 [0.1.1]: https://github.com/cashapp/paraphrase/releases/tag/0.1.1
