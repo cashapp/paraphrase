@@ -5,6 +5,8 @@
 Changed:
 
 - Automatically add the `runtime-compose-ui` dependency if buildFeatures.compose is true
+- Add missing `)` to `FormattedResource.toString`
+- Optimize insertion performance of map arguments
 
 ## [0.2.0] - 2023-04-25
 
