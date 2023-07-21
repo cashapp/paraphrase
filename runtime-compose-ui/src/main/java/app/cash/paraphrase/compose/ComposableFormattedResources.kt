@@ -28,7 +28,7 @@ import java.util.Locale
  */
 @Composable
 @ReadOnlyComposable
-fun formattedResource(formattedResource: FormattedResource): String =
+public fun formattedResource(formattedResource: FormattedResource): String =
   MessageFormat(stringResource(formattedResource.id)).format(formattedResource.arguments)
 
 /**
@@ -36,7 +36,7 @@ fun formattedResource(formattedResource: FormattedResource): String =
  */
 @Composable
 @ReadOnlyComposable
-fun formattedResource(formattedResource: FormattedResource, locale: Locale): String =
+public fun formattedResource(formattedResource: FormattedResource, locale: Locale): String =
   MessageFormat(stringResource(formattedResource.id), locale).format(formattedResource.arguments)
 
 /**
@@ -44,5 +44,5 @@ fun formattedResource(formattedResource: FormattedResource, locale: Locale): Str
  */
 @Composable
 @ReadOnlyComposable
-fun formattedResource(formattedResource: FormattedResource, locale: ULocale): String =
+public fun formattedResource(formattedResource: FormattedResource, locale: ULocale): String =
   MessageFormat(stringResource(formattedResource.id), locale).format(formattedResource.arguments)

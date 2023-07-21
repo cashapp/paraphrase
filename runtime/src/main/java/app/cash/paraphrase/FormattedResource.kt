@@ -46,7 +46,7 @@ import dev.drewhamilton.poko.Poko
  */
 @OptIn(ArrayContentSupport::class)
 @Poko
-class FormattedResource(
-  @StringRes val id: Int,
-  @ArrayContentBased val arguments: Any,
+public class FormattedResource(
+  @StringRes public val id: Int,
+  @ArrayContentBased public val arguments: Any,
 )

@@ -24,35 +24,35 @@ import java.util.Locale
 /**
  * Resolves and returns the final formatted version of the given resource in the default locale.
  */
-fun Context.getString(formattedResource: FormattedResource): String =
+public fun Context.getString(formattedResource: FormattedResource): String =
   resources.getString(formattedResource)
 
 /**
  * Resolves and returns the final formatted version of the given resource in the given locale.
  */
-fun Context.getString(formattedResource: FormattedResource, locale: Locale): String =
+public fun Context.getString(formattedResource: FormattedResource, locale: Locale): String =
   resources.getString(formattedResource, locale)
 
 /**
  * Resolves and returns the final formatted version of the given resource in the given locale.
  */
-fun Context.getString(formattedResource: FormattedResource, locale: ULocale): String =
+public fun Context.getString(formattedResource: FormattedResource, locale: ULocale): String =
   resources.getString(formattedResource, locale)
 
 /**
  * Resolves and returns the final formatted version of the given resource in the default locale.
  */
-fun Resources.getString(formattedResource: FormattedResource): String =
+public fun Resources.getString(formattedResource: FormattedResource): String =
   MessageFormat(getString(formattedResource.id)).format(formattedResource.arguments)
 
 /**
  * Resolves and returns the final formatted version of the given resource in the given locale.
  */
-fun Resources.getString(formattedResource: FormattedResource, locale: Locale): String =
+public fun Resources.getString(formattedResource: FormattedResource, locale: Locale): String =
   MessageFormat(getString(formattedResource.id), locale).format(formattedResource.arguments)
 
 /**
  * Resolves and returns the final formatted version of the given resource in the given locale.
  */
-fun Resources.getString(formattedResource: FormattedResource, locale: ULocale): String =
+public fun Resources.getString(formattedResource: FormattedResource, locale: ULocale): String =
   MessageFormat(getString(formattedResource.id), locale).format(formattedResource.arguments)
