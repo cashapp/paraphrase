@@ -1,6 +1,7 @@
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
@@ -39,6 +40,9 @@ subprojects {
   plugins.withId("com.vanniktech.maven.publish") {
     // All published libraries must use API tracking to help maintain compatibility.
     plugins.apply(libs.plugins.kotlinApiDump.get().pluginId)
+
+    val kotlin = extensions.getByName("kotlin") as KotlinTopLevelExtension
+    kotlin.explicitApi()
 
     publishing {
       repositories {
