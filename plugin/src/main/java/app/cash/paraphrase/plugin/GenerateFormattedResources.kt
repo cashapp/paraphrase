@@ -47,6 +47,8 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
 
   @TaskAction
   fun generateFormattedStringResources() {
+    outputDirectory.get().asFile.deleteRecursively()
+
     // Extract the 'values'-style directories from each resource directory.
     val valuesFolders = resourceDirectories.files
       .flatMap { it.listFiles().orEmpty().toList() }
