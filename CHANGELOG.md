@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.2.2] - 2023-07-20
+
+Fixed:
+
+- Fix build cache issue by deleting the generated class when all string resources are removed
+
 ## [0.2.1] - 2023-07-19
 
 Changed:
@@ -33,7 +39,8 @@ Fixed:
 Initial release.
 
 
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.2.1...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.2.2...HEAD
+[0.2.2]: https://github.com/cashapp/paraphrase/releases/tag/0.2.2
 [0.2.1]: https://github.com/cashapp/paraphrase/releases/tag/0.2.1
 [0.2.0]: https://github.com/cashapp/paraphrase/releases/tag/0.2.0
 [0.1.2]: https://github.com/cashapp/paraphrase/releases/tag/0.1.2
