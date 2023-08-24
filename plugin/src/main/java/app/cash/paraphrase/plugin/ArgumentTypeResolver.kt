@@ -56,7 +56,7 @@ internal fun resolveArgumentType(tokenTypes: List<TokenType>): KClass<*>? =
   when (resolveCompatibleTokenType(tokenTypes)) {
     null -> null
     None -> Any::class
-    Number, Plural, SpellOut -> KotlinNumber::class
+    Choice, Number, Plural, SpellOut -> KotlinNumber::class
     Date -> LocalDate::class
     Time -> LocalTime::class
     TimeWithOffset -> OffsetTime::class
@@ -65,7 +65,7 @@ internal fun resolveArgumentType(tokenTypes: List<TokenType>): KClass<*>? =
     DateTimeWithZone -> ZonedDateTime::class
     Offset -> ZoneOffset::class
     Duration -> KotlinDuration::class
-    Choice, Ordinal, SelectOrdinal -> Int::class
+    Ordinal, SelectOrdinal -> Int::class
     Select -> String::class
     NoArg -> Nothing::class
   }
@@ -109,11 +109,11 @@ private val compatibleTokenTypes: Map<TokenType, List<TokenType>> = mapOf(
   DateTimeWithZone to emptyList(),
   Offset to listOf(TimeWithOffset, DateTimeWithOffset, DateTimeWithZone),
   SpellOut to listOf(Choice, Number, Ordinal, Plural, SelectOrdinal),
-  Ordinal to listOf(Choice, SelectOrdinal),
+  Ordinal to listOf(SelectOrdinal),
   Duration to emptyList(),
-  Choice to listOf(Ordinal, SelectOrdinal),
+  Choice to listOf(Number, Ordinal, Plural, SelectOrdinal, SpellOut),
   Plural to listOf(Choice, Number, Ordinal, SelectOrdinal, SpellOut),
   Select to emptyList(),
-  SelectOrdinal to listOf(Choice, Ordinal),
+  SelectOrdinal to listOf(Ordinal),
   NoArg to emptyList(),
 )
