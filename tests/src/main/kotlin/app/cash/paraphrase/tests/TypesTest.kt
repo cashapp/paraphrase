@@ -315,7 +315,8 @@ class TypesTest {
   }
 
   @Test fun typeOrdinal() {
-    val formattedZero = context.getString(FormattedResources.type_ordinal(0))
+    val zero = 0 // Requires an int overload to be invoked
+    val formattedZero = context.getString(FormattedResources.type_ordinal(zero))
     assertThat(formattedZero).isEqualTo("A 0th B")
     val formattedOne = context.getString(FormattedResources.type_ordinal(1))
     assertThat(formattedOne).isEqualTo("A 1st B")

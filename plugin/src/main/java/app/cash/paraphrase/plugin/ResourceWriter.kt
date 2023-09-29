@@ -61,7 +61,14 @@ internal fun writeResources(
       TypeSpec.objectBuilder("FormattedResources")
         .apply {
           mergedResources.forEach { mergedResource ->
-            addFunction(mergedResource.toFunSpec(packageStringsType))
+            val funSpec = mergedResource.toFunSpec(packageStringsType)
+            addFunction(funSpec)
+
+            if (mergedResource.arguments.any { it.type == Long::class }) {
+              // Since Ints are used more commonly than Longs, provide an overload to accept Ints
+              // for Long arguments:
+              addFunction(mergedResource.toIntOverloadFunSpec(funSpec))
+            }
           }
         }
         .addModifiers(maxVisibility.toKModifier())
@@ -214,6 +221,43 @@ private fun MergedResource.Visibility.toKModifier(): KModifier {
     MergedResource.Visibility.Public -> KModifier.PUBLIC
     MergedResource.Visibility.Private -> KModifier.INTERNAL
   }
+}
+
+private fun MergedResource.toIntOverloadFunSpec(overloaded: FunSpec): FunSpec {
+  return FunSpec.builder(name.value)
+    .apply {
+      if (description != null) addKdoc(description)
+      arguments.forEach { argument ->
+        val parameterSpec = if (argument.type == Long::class) {
+          ParameterSpec(
+            name = argument.name,
+            type = Int::class.asClassName(),
+          )
+        } else {
+          argument.toParameterSpec()
+        }
+        addParameter(parameterSpec)
+      }
+    }
+    .returns(Types.FormattedResource)
+    .apply {
+      addCode(
+        buildCodeBlock {
+          add("return %N(⇥\n", overloaded)
+          arguments.forEach { argument ->
+            val argumentInvocation = if (argument.type == Long::class) {
+              "%L.toLong(),\n"
+            } else {
+              "%L,\n"
+            }
+            add(argumentInvocation, argument.name)
+          }
+          add("⇤)\n")
+        },
+      )
+    }
+    .addModifiers(visibility.toKModifier(), KModifier.INLINE)
+    .build()
 }
 
 private object Types {
