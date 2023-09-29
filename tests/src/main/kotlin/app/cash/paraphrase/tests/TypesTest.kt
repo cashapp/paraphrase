@@ -15,6 +15,7 @@
  */
 package app.cash.paraphrase.tests
 
+import android.os.Build
 import androidx.test.platform.app.InstrumentationRegistry
 import app.cash.paraphrase.getString
 import com.google.common.truth.Truth.assertThat
@@ -324,6 +325,14 @@ class TypesTest {
     assertThat(formattedThree).isEqualTo("A 3rd B")
     val formattedFour = context.getString(FormattedResources.type_ordinal(4))
     assertThat(formattedFour).isEqualTo("A 4th B")
+    val formattedLong = context.getString(FormattedResources.type_ordinal(Long.MAX_VALUE))
+    val expected = if (Build.VERSION.SDK_INT >= 26) {
+      "9,223,372,036,854,775,807th"
+    } else {
+      // ICU versions on older Android platforms lose bits by internally converting Long to Double:
+      "9,223,372,036,854,776,000th"
+    }
+    assertThat(formattedLong).isEqualTo("A $expected B")
   }
 
   @Test fun typeSpellout() {

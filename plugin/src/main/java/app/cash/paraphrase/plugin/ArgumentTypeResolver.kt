@@ -65,7 +65,7 @@ internal fun resolveArgumentType(tokenTypes: List<TokenType>): KClass<*>? =
     DateTimeWithZone -> ZonedDateTime::class
     Offset -> ZoneOffset::class
     Duration -> KotlinDuration::class
-    Ordinal, SelectOrdinal -> Int::class
+    Ordinal, SelectOrdinal -> Long::class
     Select -> String::class
     NoArg -> Nothing::class
   }
