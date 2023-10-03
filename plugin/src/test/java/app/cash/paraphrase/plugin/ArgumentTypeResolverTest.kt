@@ -63,7 +63,7 @@ class ArgumentTypeResolverTest {
     Number.assertArgumentTypes { other ->
       when (other) {
         None, Choice, Number, Plural, SpellOut -> KotlinNumber::class
-        Ordinal, SelectOrdinal -> Int::class
+        Ordinal, SelectOrdinal -> Long::class
         else -> null
       }
     }
@@ -159,7 +159,7 @@ class ArgumentTypeResolverTest {
     SpellOut.assertArgumentTypes { other ->
       when (other) {
         None, Choice, Number, Plural, SpellOut -> KotlinNumber::class
-        Ordinal, SelectOrdinal -> Int::class
+        Ordinal, SelectOrdinal -> Long::class
         else -> null
       }
     }
@@ -169,7 +169,7 @@ class ArgumentTypeResolverTest {
   fun resolveOrdinal() {
     Ordinal.assertArgumentTypes { other ->
       when (other) {
-        None, Choice, Number, Ordinal, Plural, SelectOrdinal, SpellOut -> Int::class
+        None, Choice, Number, Ordinal, Plural, SelectOrdinal, SpellOut -> Long::class
         else -> null
       }
     }
@@ -190,7 +190,7 @@ class ArgumentTypeResolverTest {
     Choice.assertArgumentTypes { other ->
       when (other) {
         None, Choice, Number, Plural, SpellOut -> KotlinNumber::class
-        Ordinal, SelectOrdinal -> Int::class
+        Ordinal, SelectOrdinal -> Long::class
         else -> null
       }
     }
@@ -201,7 +201,7 @@ class ArgumentTypeResolverTest {
     Plural.assertArgumentTypes { other ->
       when (other) {
         None, Choice, Number, Plural, SpellOut -> KotlinNumber::class
-        Ordinal, SelectOrdinal -> Int::class
+        Ordinal, SelectOrdinal -> Long::class
         else -> null
       }
     }
@@ -221,7 +221,7 @@ class ArgumentTypeResolverTest {
   fun resolveSelectOrdinal() {
     SelectOrdinal.assertArgumentTypes { other ->
       when (other) {
-        None, Choice, Number, Ordinal, Plural, SelectOrdinal, SpellOut -> Int::class
+        None, Choice, Number, Ordinal, Plural, SelectOrdinal, SpellOut -> Long::class
         else -> null
       }
     }
