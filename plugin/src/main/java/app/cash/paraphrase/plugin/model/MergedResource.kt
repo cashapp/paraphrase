@@ -25,6 +25,7 @@ internal data class MergedResource(
   val description: String?,
   val visibility: Visibility,
   val arguments: List<Argument>,
+  val deprecation: Deprecation,
   /* True when the arguments bind to a contiguous set of integer tokens counting from 0. */
   val hasContiguousNumberedTokens: Boolean,
   val parsingErrors: List<String>,
@@ -40,5 +41,12 @@ internal data class MergedResource(
   enum class Visibility {
     Private,
     Public,
+  }
+
+  sealed interface Deprecation {
+    data object None : Deprecation
+    data class WithMessage(
+      val message: String,
+    ) : Deprecation
   }
 }

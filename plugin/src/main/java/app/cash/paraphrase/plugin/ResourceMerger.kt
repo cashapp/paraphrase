@@ -49,6 +49,17 @@ internal fun mergeResources(
     (0 until argumentCount).toSet() == tokenNumbers
   }
 
+  val deprecation = if (defaultResource.tokens.any { it.type == TokenType.Choice }) {
+    MergedResource.Deprecation.WithMessage(
+      message = """
+        Use of the old 'choice' argument type is discouraged. Use a 'plural' argument to select
+        sub-messages based on a numeric value, together with the plural rules for the specified
+        language. Use a 'select' argument to select sub-messages via a fixed set of keywords.
+      """.trimIndent().replace("\n", " "),
+    )
+  } else {
+    MergedResource.Deprecation.None
+  }
   val arguments = defaultResource.tokens
     .groupBy { it.argumentKey }
     .mapValues { (argumentKey, tokens) ->
@@ -66,6 +77,7 @@ internal fun mergeResources(
     description = defaultResource.description,
     visibility = publicResources.resolveVisibility(name = name, type = "string"),
     arguments = arguments.values.filterNotNull(),
+    deprecation = deprecation,
     hasContiguousNumberedTokens = hasContiguousNumberedTokens,
     parsingErrors = arguments.filterValues { it == null }.keys.map {
       "Incompatible argument types for: $it"
