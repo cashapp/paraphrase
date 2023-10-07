@@ -15,15 +15,18 @@
  */
 package app.cash.paraphrase.plugin
 
+import app.cash.paraphrase.plugin.TokenType.Choice
 import app.cash.paraphrase.plugin.TokenType.Date
 import app.cash.paraphrase.plugin.TokenType.Plural
 import app.cash.paraphrase.plugin.TokenType.Time
 import app.cash.paraphrase.plugin.model.MergedResource
 import app.cash.paraphrase.plugin.model.MergedResource.Argument
+import app.cash.paraphrase.plugin.model.MergedResource.Deprecation
 import app.cash.paraphrase.plugin.model.PublicResource
 import app.cash.paraphrase.plugin.model.ResourceFolder
 import app.cash.paraphrase.plugin.model.ResourceName
 import app.cash.paraphrase.plugin.model.TokenizedResource
+import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
 import com.google.common.truth.Truth.assertThat
 import java.time.LocalDateTime
@@ -46,6 +49,7 @@ class ResourceMergerTest {
       publicResources = emptyList(),
     )
     assertThat(result!!.visibility).isEqualTo(MergedResource.Visibility.Public)
+    assertThat(result.deprecation).isEqualTo(Deprecation.None)
   }
 
   @Test
@@ -68,6 +72,7 @@ class ResourceMergerTest {
       ),
     )
     assertThat(result!!.visibility).isEqualTo(MergedResource.Visibility.Public)
+    assertThat(result.deprecation).isEqualTo(Deprecation.None)
   }
 
   @Test
@@ -90,6 +95,7 @@ class ResourceMergerTest {
       ),
     )
     assertThat(result!!.visibility).isEqualTo(MergedResource.Visibility.Private)
+    assertThat(result.deprecation).isEqualTo(Deprecation.None)
   }
 
   @Test
@@ -113,6 +119,7 @@ class ResourceMergerTest {
       ),
     )
     assertThat(result!!.visibility).isEqualTo(MergedResource.Visibility.Private)
+    assertThat(result.deprecation).isEqualTo(Deprecation.None)
   }
 
   @Test
@@ -140,6 +147,7 @@ class ResourceMergerTest {
       ),
     )
     assertThat(result.parsingErrors).isEmpty()
+    assertThat(result.deprecation).isEqualTo(Deprecation.None)
   }
 
   @Test
@@ -161,5 +169,29 @@ class ResourceMergerTest {
     )
     assertThat(result!!.arguments).isEmpty()
     assertThat(result.parsingErrors).containsExactly("Incompatible argument types for: 0")
+    assertThat(result.deprecation).isEqualTo(Deprecation.None)
+  }
+
+  @Test
+  fun choiceArgumentProducesDeprecatedFunction() {
+    val result = mergeResources(
+      name = ResourceName("test"),
+      tokenizedResources = mapOf(
+        ResourceFolder.Default to TokenizedResource(
+          name = ResourceName("test"),
+          description = null,
+          tokens = listOf(
+            NamedToken(name = "choice", type = Choice),
+            NamedToken(name = "other", type = Date),
+          ),
+          parsingError = null,
+        ),
+      ),
+      publicResources = emptyList(),
+    )
+
+    val deprecation = result!!.deprecation as Deprecation.WithMessage
+    assertThat(deprecation.message)
+      .contains("Use of the old 'choice' argument type is discouraged")
   }
 }

@@ -16,8 +16,10 @@
 package app.cash.paraphrase.plugin
 
 import app.cash.paraphrase.plugin.model.MergedResource
+import app.cash.paraphrase.plugin.model.MergedResource.Deprecation
 import app.cash.paraphrase.plugin.model.ResourceName
 import com.google.common.truth.Truth.assertThat
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
@@ -36,6 +38,7 @@ class ResourceWriterTest {
           description = null,
           visibility = MergedResource.Visibility.Public,
           arguments = emptyList(),
+          deprecation = Deprecation.None,
           hasContiguousNumberedTokens = false,
           parsingErrors = emptyList(),
         ),
@@ -58,6 +61,7 @@ class ResourceWriterTest {
           description = null,
           visibility = MergedResource.Visibility.Public,
           arguments = emptyList(),
+          deprecation = Deprecation.None,
           hasContiguousNumberedTokens = false,
           parsingErrors = emptyList(),
         ),
@@ -66,6 +70,7 @@ class ResourceWriterTest {
           description = null,
           visibility = MergedResource.Visibility.Private,
           arguments = emptyList(),
+          deprecation = Deprecation.None,
           hasContiguousNumberedTokens = false,
           parsingErrors = emptyList(),
         ),
@@ -89,6 +94,7 @@ class ResourceWriterTest {
           description = null,
           visibility = MergedResource.Visibility.Private,
           arguments = emptyList(),
+          deprecation = Deprecation.None,
           hasContiguousNumberedTokens = false,
           parsingErrors = emptyList(),
         ),
@@ -97,6 +103,7 @@ class ResourceWriterTest {
           description = null,
           visibility = MergedResource.Visibility.Private,
           arguments = emptyList(),
+          deprecation = Deprecation.None,
           hasContiguousNumberedTokens = false,
           parsingErrors = emptyList(),
         ),
@@ -114,12 +121,7 @@ class ResourceWriterTest {
     expectedClassVisibility: KModifier,
     vararg expectedFunctionVisibility: Pair<String, KModifier>,
   ) {
-    val formattedResourcesObject = members
-      .filterIsInstance<TypeSpec>()
-      .find { it.name == "FormattedResources" }
-    if (formattedResourcesObject == null) {
-      fail("FormattedResources object not found")
-    } else {
+    assertOnFormattedResourcesObject { formattedResourcesObject ->
       assertThat(formattedResourcesObject.modifiers).contains(expectedClassVisibility)
 
       expectedFunctionVisibility.forEach { (name, expectedVisibility) ->
@@ -130,6 +132,46 @@ class ResourceWriterTest {
           assertThat(function.modifiers).contains(expectedVisibility)
         }
       }
+    }
+  }
+
+  @Test
+  fun deprecationWithMessageProducesDeprecationWithMessage() {
+    val result = writeResources(
+      packageName = "com.example",
+      mergedResources = listOf(
+        MergedResource(
+          name = ResourceName("testFun"),
+          description = null,
+          visibility = MergedResource.Visibility.Public,
+          arguments = emptyList(),
+          deprecation = Deprecation.WithMessage("Test message"),
+          hasContiguousNumberedTokens = false,
+          parsingErrors = emptyList(),
+        ),
+      ),
+    )
+
+    result.assertOnFormattedResourcesObject { formattedResourcesObject ->
+      val testFun = formattedResourcesObject.funSpecs.single { it.name == "testFun" }
+      assertThat(testFun.annotations).contains(
+        AnnotationSpec.builder(Deprecated::class)
+          .addMember("%S", "Test message")
+          .build(),
+      )
+    }
+  }
+
+  private inline fun FileSpec.assertOnFormattedResourcesObject(
+    block: (formattedResourcesObject: TypeSpec) -> Unit,
+  ) {
+    val formattedResourcesObject = members
+      .filterIsInstance<TypeSpec>()
+      .find { it.name == "FormattedResources" }
+    if (formattedResourcesObject == null) {
+      fail("FormattedResources object not found")
+    } else {
+      block(formattedResourcesObject)
     }
   }
 }
