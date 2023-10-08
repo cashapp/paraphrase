@@ -25,4 +25,11 @@
       other {Evelyn verse jumps for the #th time}
     }
   </string>
+  <string name="library_choice_argument">
+    Jobu\'s outlook is {outlook, choice,
+      -1#negative|
+      0#neutral|
+      1#positive
+    }
+  </string>
 </resources>

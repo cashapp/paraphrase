@@ -17,7 +17,9 @@ package app.cash.paraphrase.plugin
 
 import app.cash.paraphrase.plugin.model.MergedResource
 import app.cash.paraphrase.plugin.model.MergedResource.Argument
+import app.cash.paraphrase.plugin.model.MergedResource.Deprecation
 import com.squareup.kotlinpoet.ANY
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FileSpec
@@ -83,6 +85,10 @@ private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
     .apply { arguments.forEach { addParameter(it.toParameterSpec()) } }
     .returns(Types.FormattedResource)
     .apply {
+      if (deprecation is Deprecation.WithMessage) {
+        addAnnotation(annotationSpec = deprecatedAnnotationSpec(deprecation))
+      }
+
       if (hasContiguousNumberedTokens) {
         addCode(
           buildCodeBlock {
@@ -118,6 +124,12 @@ private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
       },
     )
     .addModifiers(visibility.toKModifier())
+    .build()
+}
+
+private fun deprecatedAnnotationSpec(deprecation: Deprecation.WithMessage): AnnotationSpec {
+  return AnnotationSpec.builder(Deprecated::class)
+    .addMember("%S", deprecation.message)
     .build()
 }
 

@@ -143,6 +143,10 @@ class MainActivity : ComponentActivity() {
         label = "Select Ordinal Argument",
         resource = LibraryFormattedResources.library_select_ordinal_argument(count = 5),
       ),
+      Sample(
+        label = "Choice argument",
+        resource = LibraryFormattedResources.library_choice_argument(outlook = 100),
+      ),
     )
   }
 }
