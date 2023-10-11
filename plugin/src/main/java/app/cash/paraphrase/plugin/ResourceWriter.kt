@@ -239,6 +239,11 @@ private fun MergedResource.toIntOverloadFunSpec(overloaded: FunSpec): FunSpec {
   return FunSpec.builder(name.value)
     .apply {
       if (description != null) addKdoc(description)
+      addAnnotation(
+        annotationSpec = AnnotationSpec.builder(Suppress::class)
+          .addMember("%S", "NOTHING_TO_INLINE")
+          .build(),
+      )
       arguments.forEach { argument ->
         val parameterSpec = if (argument.type == Long::class) {
           ParameterSpec(
