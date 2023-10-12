@@ -27,6 +27,10 @@ android {
   compileOptions {
     isCoreLibraryDesugaringEnabled = true
   }
+
+  kotlinOptions {
+    allWarningsAsErrors = true
+  }
 }
 
 androidComponents {
