@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2023-10-12
+
+Changed:
+
+- Generate `Number` parameter instead of `Int` for plural and choice arguments
+- Generate `Long` parameter along with `Int` overload for ordinal and selectordinal arguments
+- Deprecate generated function using choice arguments, which are discouraged in ICU documentation in
+  favor of plural and select arguments.
+
 ## [0.2.2] - 2023-07-20
 
 Fixed:
@@ -39,7 +48,8 @@ Fixed:
 Initial release.
 
 
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.2.2...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/cashapp/paraphrase/releases/tag/0.3.0
 [0.2.2]: https://github.com/cashapp/paraphrase/releases/tag/0.2.2
 [0.2.1]: https://github.com/cashapp/paraphrase/releases/tag/0.2.1
 [0.2.0]: https://github.com/cashapp/paraphrase/releases/tag/0.2.0

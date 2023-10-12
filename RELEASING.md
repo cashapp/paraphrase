@@ -5,7 +5,7 @@
 
 2. Update the `CHANGELOG.md`:
    1. Change the `Unreleased` header to the release version.
-   2. Add a link URL to ensure the header link works.
+   2. Add a link URL to the bottom of the page, to ensure the header link works.
    3. Add a new `Unreleased` section to the top.
 
 3. Update the `README.md` so the "Download" section reflects the new release version and the
