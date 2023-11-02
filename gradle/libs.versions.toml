@@ -19,7 +19,7 @@ junit = "junit:junit:4.13.2"
 kotlinPoet = "com.squareup:kotlinpoet:1.14.2"
 testParameterInjector = "com.google.testparameterinjector:test-parameter-injector:1.14"
 truth = "com.google.truth:truth:1.1.5"
-coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:2.0.3"
+coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:2.0.4"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
