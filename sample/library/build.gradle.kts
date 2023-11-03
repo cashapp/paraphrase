@@ -24,4 +24,6 @@ androidComponents {
 
 dependencies {
   testImplementation(libs.icu4j)
+  testImplementation(libs.junit)
+  testImplementation(libs.truth)
 }
