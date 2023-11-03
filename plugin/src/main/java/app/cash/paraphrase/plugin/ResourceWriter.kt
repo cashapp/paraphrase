@@ -28,6 +28,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.NOTHING
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.STRING
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
@@ -62,6 +63,17 @@ internal fun writeResources(
     .addType(
       TypeSpec.objectBuilder("FormattedResources")
         .apply {
+          addProperty(
+            PropertySpec.builder(
+              name = "dateTimeConverter",
+              type = Types.DateTimeConverter.parameterizedBy(ANY.copy()).copy(),
+            )
+              .addModifiers(KModifier.INTERNAL)
+              .mutable(true)
+              .initializer("%T", Types.AndroidDateTimeConverter)
+              .build()
+          )
+
           mergedResources.forEach { mergedResource ->
             val funSpec = mergedResource.toFunSpec(packageStringsType)
             addFunction(funSpec)
@@ -278,8 +290,10 @@ private fun MergedResource.toIntOverloadFunSpec(overloaded: FunSpec): FunSpec {
 }
 
 private object Types {
+  val AndroidDateTimeConverter = ClassName("app.cash.paraphrase", "AndroidDateTimeConverter")
   val ArrayMap = ClassName("androidx.collection", "ArrayMap")
   val Calendar = ClassName("android.icu.util", "Calendar")
+  val DateTimeConverter = ClassName("app.cash.paraphrase", "DateTimeConverter")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
   val TimeZone = ClassName("android.icu.util", "TimeZone")
   val ULocale = ClassName("android.icu.util", "ULocale")
