@@ -37,14 +37,14 @@ public interface DateTimeConverter<out Calendar : Any> {
    * The resulting calendar's time fields are undefined and its time zone is GMT. These are ignored
    * by the formatter.
    */
-  public fun createDateCalendar(date: LocalDate): Calendar
+  public fun convertToCalendar(date: LocalDate): Calendar
 
   /**
    * Converts [time] to a [Calendar] used by ICU to format.
    *
    * The resulting calendar's date fields are undefined. They are ignored by the formatter.
    */
-  public fun createOffsetTimeCalendar(time: OffsetTime): Calendar
+  public fun convertToCalendar(time: OffsetTime): Calendar
 
   /**
    * Converts [time] to a [Calendar] used by ICU to format.
@@ -52,24 +52,24 @@ public interface DateTimeConverter<out Calendar : Any> {
    * The resulting calendar's date fields are undefined and its time zone is GMT. These are ignored
    * by the formatter.
    */
-  public fun createLocalTimeCalendar(time: LocalTime): Calendar
+  public fun convertToCalendar(time: LocalTime): Calendar
 
   /**
    * Converts [dateTime] to a [Calendar] used by ICU to format.
    */
-  public fun createZonedDateTimeCalendar(dateTime: ZonedDateTime): Calendar
+  public fun convertToCalendar(dateTime: ZonedDateTime): Calendar
 
   /**
    * Converts [dateTime] to a [Calendar] used by ICU to format.
    */
-  public fun createOffsetDateTimeCalendar(dateTime: OffsetDateTime): Calendar
+  public fun convertToCalendar(dateTime: OffsetDateTime): Calendar
 
   /**
    * Converts [dateTime] to a [Calendar] used by ICU to format.
    *
    * The resulting calendar's time zone is GMT. This is ignored by the formatter.
    */
-  public fun createLocalDateTimeCalendar(dateTime: LocalDateTime): Calendar
+  public fun convertToCalendar(dateTime: LocalDateTime): Calendar
 
   /**
    * Converts [zoneOffset] to a [Calendar] used by ICU to format.
@@ -77,5 +77,5 @@ public interface DateTimeConverter<out Calendar : Any> {
    * The resulting calendar's date and time fields are undefined. These are ignored by the
    * formatter.
    */
-  public fun createZoneOffsetCalendar(zoneOffset: ZoneOffset): Calendar
+  public fun convertToCalendar(zoneOffset: ZoneOffset): Calendar
 }
