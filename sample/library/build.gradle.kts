@@ -21,3 +21,7 @@ androidComponents {
     }
   }
 }
+
+dependencies {
+  testImplementation(libs.icu4j)
+}
