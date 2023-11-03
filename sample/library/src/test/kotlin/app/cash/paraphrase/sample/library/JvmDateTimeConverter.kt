@@ -37,7 +37,7 @@ object JvmDateTimeConverter : DateTimeConverter<Calendar> {
     .setExtension('u', "ca-iso8601")
     .build()
 
-  override fun createDateCalendar(date: LocalDate): Calendar {
+  override fun convertToCalendar(date: LocalDate): Calendar {
     return Calendar.getInstance(
       TimeZone.GMT_ZONE,
       Iso8601Locale,
@@ -46,7 +46,7 @@ object JvmDateTimeConverter : DateTimeConverter<Calendar> {
     }
   }
 
-  override fun createOffsetTimeCalendar(time: OffsetTime): Calendar {
+  override fun convertToCalendar(time: OffsetTime): Calendar {
     return Calendar.getInstance(
       TimeZone.getTimeZone("GMT${time.offset.id}"),
       Iso8601Locale,
@@ -58,7 +58,7 @@ object JvmDateTimeConverter : DateTimeConverter<Calendar> {
     }
   }
 
-  override fun createLocalTimeCalendar(time: LocalTime): Calendar {
+  override fun convertToCalendar(time: LocalTime): Calendar {
     return Calendar.getInstance(
       TimeZone.GMT_ZONE,
       Iso8601Locale,
@@ -70,7 +70,7 @@ object JvmDateTimeConverter : DateTimeConverter<Calendar> {
     }
   }
 
-  override fun createZonedDateTimeCalendar(dateTime: ZonedDateTime): Calendar {
+  override fun convertToCalendar(dateTime: ZonedDateTime): Calendar {
     return Calendar.getInstance(
       TimeZone.getTimeZone(dateTime.zone.id),
       Iso8601Locale,
@@ -87,7 +87,7 @@ object JvmDateTimeConverter : DateTimeConverter<Calendar> {
     }
   }
 
-  override fun createOffsetDateTimeCalendar(dateTime: OffsetDateTime): Calendar {
+  override fun convertToCalendar(dateTime: OffsetDateTime): Calendar {
     return Calendar.getInstance(
       TimeZone.getTimeZone("GMT${dateTime.offset.id}"),
       Iso8601Locale,
@@ -104,7 +104,7 @@ object JvmDateTimeConverter : DateTimeConverter<Calendar> {
     }
   }
 
-  override fun createLocalDateTimeCalendar(dateTime: LocalDateTime): Calendar {
+  override fun convertToCalendar(dateTime: LocalDateTime): Calendar {
     return Calendar.getInstance(
       TimeZone.GMT_ZONE,
       Iso8601Locale,
@@ -121,7 +121,7 @@ object JvmDateTimeConverter : DateTimeConverter<Calendar> {
     }
   }
 
-  override fun createZoneOffsetCalendar(zoneOffset: ZoneOffset): Calendar {
+  override fun convertToCalendar(zoneOffset: ZoneOffset): Calendar {
     return Calendar.getInstance(
       TimeZone.getTimeZone("GMT${zoneOffset.id}"),
       Iso8601Locale,
