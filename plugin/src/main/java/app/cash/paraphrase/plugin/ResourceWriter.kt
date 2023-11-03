@@ -71,7 +71,7 @@ internal fun writeResources(
               .addModifiers(KModifier.INTERNAL)
               .mutable(true)
               .initializer("%T", Types.AndroidDateTimeConverter)
-              .build()
+              .build(),
           )
 
           mergedResources.forEach { mergedResource ->
@@ -154,90 +154,25 @@ private fun Argument.toParameterSpec(): ParameterSpec =
     },
   )
 
-private fun Argument.toParameterCodeBlock(): CodeBlock =
-  when (type) {
+private fun Argument.toParameterCodeBlock(): CodeBlock {
+  return when (type) {
     Duration::class -> CodeBlock.of("%L.inWholeSeconds", name)
-    LocalDate::class -> buildCodeBlock {
-      addCalendarInstance {
-        addStatement("set(%1L.year, %1L.monthValue·-·1, %1L.dayOfMonth)", name)
-      }
-    }
-
-    LocalTime::class -> buildCodeBlock {
-      addCalendarInstance {
-        addStatement("set(%T.HOUR_OF_DAY, %L.hour)", Types.Calendar, name)
-        addStatement("set(%T.MINUTE, %L.minute)", Types.Calendar, name)
-        addStatement("set(%T.SECOND, %L.second)", Types.Calendar, name)
-        addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
-      }
-    }
-
-    LocalDateTime::class -> buildCodeBlock {
-      addCalendarInstance {
-        addDateTimeSetStatements(name)
-      }
-    }
 
     // `Nothing` arg must be null, but passing null to the formatter replaces the whole format with
     //  "null". Passing an `Int` allows the formatter to function as expected.
     Nothing::class -> CodeBlock.of("-1")
 
-    OffsetTime::class -> buildCodeBlock {
-      addCalendarInstance(timeZoneId = "\"GMT\${%L.offset.id}\"", name) {
-        addStatement("set(%T.HOUR_OF_DAY, %L.hour)", Types.Calendar, name)
-        addStatement("set(%T.MINUTE, %L.minute)", Types.Calendar, name)
-        addStatement("set(%T.SECOND, %L.second)", Types.Calendar, name)
-        addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, name)
-      }
-    }
-
-    OffsetDateTime::class -> buildCodeBlock {
-      addCalendarInstance(timeZoneId = "\"GMT\${%L.offset.id}\"", name) {
-        addDateTimeSetStatements(name)
-      }
-    }
-
-    ZonedDateTime::class -> buildCodeBlock {
-      addCalendarInstance(timeZoneId = "%L.zone.id", name) {
-        addDateTimeSetStatements(name)
-      }
-    }
-
-    ZoneOffset::class -> buildCodeBlock {
-      addCalendarInstance(timeZoneId = "\"GMT\${%L.id}\"", name)
-    }
+    LocalDate::class,
+    LocalTime::class,
+    LocalDateTime::class,
+    OffsetTime::class,
+    OffsetDateTime::class,
+    ZonedDateTime::class,
+    ZoneOffset::class,
+    -> CodeBlock.of("dateTimeConverter.convertToCalendar(%L)", name)
 
     else -> CodeBlock.of("%L", name)
   }
-
-private fun CodeBlock.Builder.addCalendarInstance(
-  timeZoneId: String? = null,
-  vararg timeZoneIdArgs: Any? = emptyArray(),
-  applyBlock: (() -> Unit)? = null,
-) {
-  val timeZoneReference = if (timeZoneId == null) "GMT_ZONE" else "getTimeZone($timeZoneId)"
-  add("%T.getInstance(\n⇥", Types.Calendar)
-  addStatement("%T.$timeZoneReference,", Types.TimeZone, *timeZoneIdArgs)
-  addStatement("%T.Builder().setExtension('u', \"ca-iso8601\").build(),", Types.ULocale)
-  add("⇤)")
-
-  if (applyBlock != null) {
-    add(".apply·{\n⇥")
-    applyBlock.invoke()
-    add("⇤}")
-  }
-}
-
-private fun CodeBlock.Builder.addDateTimeSetStatements(dateTimeArgName: String) {
-  add("set(\n⇥")
-  addStatement("%L.year,", dateTimeArgName)
-  addStatement("%L.monthValue·-·1,", dateTimeArgName)
-  addStatement("%L.dayOfMonth,", dateTimeArgName)
-  addStatement("%L.hour,", dateTimeArgName)
-  addStatement("%L.minute,", dateTimeArgName)
-  addStatement("%L.second,", dateTimeArgName)
-  add("⇤)\n")
-  addStatement("set(%T.MILLISECOND, %L.nano·/·1_000_000)", Types.Calendar, dateTimeArgName)
 }
 
 private fun MergedResource.Visibility.toKModifier(): KModifier {
@@ -292,9 +227,6 @@ private fun MergedResource.toIntOverloadFunSpec(overloaded: FunSpec): FunSpec {
 private object Types {
   val AndroidDateTimeConverter = ClassName("app.cash.paraphrase", "AndroidDateTimeConverter")
   val ArrayMap = ClassName("androidx.collection", "ArrayMap")
-  val Calendar = ClassName("android.icu.util", "Calendar")
   val DateTimeConverter = ClassName("app.cash.paraphrase", "DateTimeConverter")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
-  val TimeZone = ClassName("android.icu.util", "TimeZone")
-  val ULocale = ClassName("android.icu.util", "ULocale")
 }
