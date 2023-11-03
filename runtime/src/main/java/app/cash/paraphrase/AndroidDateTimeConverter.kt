@@ -1,0 +1,128 @@
+/*
+ * Copyright (C) 2023 Cash App
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package app.cash.paraphrase
+
+import android.icu.util.Calendar
+import android.icu.util.TimeZone
+import android.icu.util.ULocale
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.OffsetDateTime
+import java.time.OffsetTime
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+
+/**
+ * Converts `java.time` types used by Paraphrase to a [Calendar] that can be used by ICU to format.
+ */
+public object AndroidDateTimeConverter : DateTimeConverter<Calendar> {
+
+  private val Iso8601Locale = ULocale.Builder()
+    .setExtension('u', "ca-iso8601")
+    .build()
+
+  override fun createDateCalendar(date: LocalDate): Calendar {
+    return Calendar.getInstance(
+      TimeZone.GMT_ZONE,
+      Iso8601Locale,
+    ).apply {
+      set(date.year, date.monthValue - 1, date.dayOfMonth)
+    }
+  }
+
+  override fun createOffsetTimeCalendar(time: OffsetTime): Calendar {
+    return Calendar.getInstance(
+      TimeZone.getTimeZone("GMT${time.offset.id}"),
+      Iso8601Locale,
+    ).apply {
+      set(Calendar.HOUR_OF_DAY, time.hour)
+      set(Calendar.MINUTE, time.minute)
+      set(Calendar.SECOND, time.second)
+      set(Calendar.MILLISECOND, time.nano / 1_000_000)
+    }
+  }
+
+  override fun createLocalTimeCalendar(time: LocalTime): Calendar {
+    return Calendar.getInstance(
+      TimeZone.GMT_ZONE,
+      Iso8601Locale,
+    ).apply {
+      set(Calendar.HOUR_OF_DAY, time.hour)
+      set(Calendar.MINUTE, time.minute)
+      set(Calendar.SECOND, time.second)
+      set(Calendar.MILLISECOND, time.nano / 1_000_000)
+    }
+  }
+
+  override fun createZonedDateTimeCalendar(dateTime: ZonedDateTime): Calendar {
+    return Calendar.getInstance(
+      TimeZone.getTimeZone(dateTime.zone.id),
+      Iso8601Locale,
+    ).apply {
+      set(
+        dateTime.year,
+        dateTime.monthValue - 1,
+        dateTime.dayOfMonth,
+        dateTime.hour,
+        dateTime.minute,
+        dateTime.second,
+      )
+      set(Calendar.MILLISECOND, dateTime.nano / 1_000_000)
+    }
+  }
+
+  override fun createOffsetDateTimeCalendar(dateTime: OffsetDateTime): Calendar {
+    return Calendar.getInstance(
+      TimeZone.getTimeZone("GMT${dateTime.offset.id}"),
+      Iso8601Locale,
+    ).apply {
+      set(
+        dateTime.year,
+        dateTime.monthValue - 1,
+        dateTime.dayOfMonth,
+        dateTime.hour,
+        dateTime.minute,
+        dateTime.second,
+      )
+      set(Calendar.MILLISECOND, dateTime.nano / 1_000_000)
+    }
+  }
+
+  override fun createLocalDateTimeCalendar(dateTime: LocalDateTime): Calendar {
+    return Calendar.getInstance(
+      TimeZone.GMT_ZONE,
+      Iso8601Locale,
+    ).apply {
+      set(
+        dateTime.year,
+        dateTime.monthValue - 1,
+        dateTime.dayOfMonth,
+        dateTime.hour,
+        dateTime.minute,
+        dateTime.second,
+      )
+      set(Calendar.MILLISECOND, dateTime.nano / 1_000_000)
+    }
+  }
+
+  override fun createZoneOffsetCalendar(zoneOffset: ZoneOffset): Calendar {
+    return Calendar.getInstance(
+      TimeZone.getTimeZone("GMT${zoneOffset.id}"),
+      Iso8601Locale,
+    )
+  }
+}
