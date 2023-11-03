@@ -31,9 +31,11 @@ import java.time.ZonedDateTime
  */
 public object AndroidDateTimeConverter : DateTimeConverter<Calendar> {
 
-  private val Iso8601Locale = ULocale.Builder()
-    .setExtension('u', "ca-iso8601")
-    .build()
+  private val Iso8601Locale by lazy(LazyThreadSafetyMode.NONE) {
+    ULocale.Builder()
+      .setExtension('u', "ca-iso8601")
+      .build()
+  }
 
   override fun convertToCalendar(date: LocalDate): Calendar {
     return Calendar.getInstance(
