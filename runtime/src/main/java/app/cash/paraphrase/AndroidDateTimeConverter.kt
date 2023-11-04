@@ -29,6 +29,7 @@ import java.time.ZonedDateTime
 /**
  * Converts `java.time` types used by Paraphrase to a [Calendar] that can be used by ICU to format.
  */
+@OptIn(DateTimeConverter.SubclassOptIn::class)
 public object AndroidDateTimeConverter : DateTimeConverter<Calendar> {
 
   private val Iso8601Locale by lazy(LazyThreadSafetyMode.NONE) {
