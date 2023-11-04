@@ -66,7 +66,7 @@ internal fun writeResources(
           addProperty(
             PropertySpec.builder(
               name = "dateTimeConverter",
-              type = Types.DateTimeConverter.parameterizedBy(ANY.copy()).copy(),
+              type = Types.DateTimeConverter.parameterizedBy(ANY),
             )
               .addModifiers(KModifier.INTERNAL)
               .mutable(true)
