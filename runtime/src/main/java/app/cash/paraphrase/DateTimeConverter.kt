@@ -28,7 +28,10 @@ import java.time.ZonedDateTime
  *
  * [Calendar] is generic so the system-appropriate ICU calendar implementation can be used:
  * `android.icu.util` on Android, or `com.ibm.icu` on the JVM.
+ *
+ * This interface's public API may change.
  */
+@SubclassOptInRequired(DateTimeConverter.SubclassOptIn::class)
 public interface DateTimeConverter<out Calendar : Any> {
 
   /**
@@ -78,4 +81,10 @@ public interface DateTimeConverter<out Calendar : Any> {
    * formatter.
    */
   public fun convertToCalendar(zoneOffset: ZoneOffset): Calendar
+
+  /**
+   * [DateTimeConverter] is not stable for public extension; its public API may change.
+   */
+  @RequiresOptIn
+  public annotation class SubclassOptIn
 }

@@ -31,6 +31,7 @@ import java.time.ZonedDateTime
  * Converts `java.time` types used by Paraphrase to a [Calendar] that can be used by ICU to format.
  */
 // TODO: Ship this in a new artifact?
+@OptIn(DateTimeConverter.SubclassOptIn::class)
 object JvmDateTimeConverter : DateTimeConverter<Calendar> {
 
   private val Iso8601Locale = ULocale.Builder()
