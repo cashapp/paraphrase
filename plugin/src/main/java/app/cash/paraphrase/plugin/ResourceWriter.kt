@@ -68,7 +68,8 @@ internal fun writeResources(
               name = "dateTimeConverter",
               type = Types.DateTimeConverter.parameterizedBy(ANY),
             )
-              .addModifiers(KModifier.INTERNAL)
+              .addModifiers(KModifier.PUBLIC)
+              .addAnnotation(AnnotationSpec.builder(Types.VisibleForTesting).build())
               .mutable(true)
               .initializer("%T", Types.AndroidDateTimeConverter)
               .build(),
@@ -229,4 +230,5 @@ private object Types {
   val ArrayMap = ClassName("androidx.collection", "ArrayMap")
   val DateTimeConverter = ClassName("app.cash.paraphrase", "DateTimeConverter")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
+  val VisibleForTesting = ClassName("androidx.annotation", "VisibleForTesting")
 }
