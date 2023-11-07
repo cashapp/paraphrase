@@ -1,5 +1,5 @@
 [versions]
-agp = "8.1.2"
+agp = "8.1.3"
 compose-compiler = "1.5.3"
 kotlin = "1.9.10"
 ktlint = "0.48.1"
