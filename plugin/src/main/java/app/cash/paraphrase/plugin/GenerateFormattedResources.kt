@@ -121,7 +121,7 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
 
   private fun <T> File.checkedRead(parser: (InputStream) -> T): T {
     return try {
-      inputStream().buffered().run(parser)
+      inputStream().buffered().use(parser)
     } catch (e: Exception) {
       throw IllegalArgumentException("Unable to parse $this", e)
     }
