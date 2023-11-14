@@ -16,6 +16,8 @@
 package app.cash.paraphrase.plugin
 
 import app.cash.paraphrase.plugin.model.ResourceFolder
+import java.io.File
+import java.io.InputStream
 import javax.inject.Inject
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.ConfigurableFileCollection
@@ -71,7 +73,8 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
     //   values-es -> [TokenizedResource(name=hello, ..)]
     val resourcesByConfiguration = filesByConfiguration
       .mapValues { (_, files) ->
-        files.flatMap(::parseResources).map(::tokenizeResource)
+        files.flatMap { it.checkedRead(::parseResources) }
+          .map(::tokenizeResource)
       }
 
     // Split the folder map into individual maps keyed on resource name.
@@ -98,7 +101,7 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
     //  https://developer.android.com/studio/projects/android-library#PrivateResources suggests this
     //  is the case. Check AGP source.
     val publicResources = (filesByConfiguration[ResourceFolder.Default] ?: emptyList())
-      .flatMap(::parsePublicResources)
+      .flatMap { it.checkedRead(::parsePublicResources) }
       .toSet()
 
     // Merge each resource's configuration map into final, canonical versions.
@@ -114,5 +117,13 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
     }
 
     // TODO Fail on errors which make it this far.
+  }
+
+  private fun <T> File.checkedRead(parser: (InputStream) -> T): T {
+    return try {
+      inputStream().buffered().run(parser)
+    } catch (e: Exception) {
+      throw IllegalArgumentException("Unable to parse $this", e)
+    }
   }
 }
