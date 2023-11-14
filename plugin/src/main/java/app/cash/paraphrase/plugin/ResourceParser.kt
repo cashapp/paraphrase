@@ -17,18 +17,9 @@ package app.cash.paraphrase.plugin
 
 import app.cash.paraphrase.plugin.model.ResourceName
 import app.cash.paraphrase.plugin.model.StringResource
-import java.io.File
 import java.io.InputStream
 import javax.xml.parsers.DocumentBuilderFactory
 import org.w3c.dom.Node
-
-/**
- * Parses and returns all of the Android <string> resources declared in the given file.
- *
- * Ignores all other resources, including <plurals> and <string-array>.
- */
-internal fun parseResources(file: File): List<StringResource> =
-  file.inputStream().use(::parseResources)
 
 /**
  * Parses and returns all of the Android <string> resources declared in the given stream.
