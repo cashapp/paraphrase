@@ -63,7 +63,10 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
     //   values-es -> [strings.xml]
     val filesByConfiguration = valuesFolders
       .associate { folder ->
-        ResourceFolder(folder.name) to folder.listFiles().orEmpty().toList()
+        ResourceFolder(folder.name) to folder.listFiles()
+          .orEmpty()
+          .filter { it.extension.equals("xml", ignoreCase = true) }
+          .toList()
       }
 
     // Parse the files in each folder into the tokenized resources.
