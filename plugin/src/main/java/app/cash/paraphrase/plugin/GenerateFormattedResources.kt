@@ -66,7 +66,6 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
         ResourceFolder(folder.name) to folder.listFiles()
           .orEmpty()
           .filter { it.extension.equals("xml", ignoreCase = true) }
-          .toList()
       }
 
     // Parse the files in each folder into the tokenized resources.
