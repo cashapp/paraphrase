@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [0.3.1] - 2023-12-14
+
+Fixed:
+
+- Include file names in read/parse failures to help with debugging
+- Fix crash when processing non-XML resource files
+
 ## [0.3.0] - 2023-10-12
 
 Changed:
@@ -48,7 +55,8 @@ Fixed:
 Initial release.
 
 
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.3.0...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.3.1...HEAD
+[0.3.1]: https://github.com/cashapp/paraphrase/releases/tag/0.3.1
 [0.3.0]: https://github.com/cashapp/paraphrase/releases/tag/0.3.0
 [0.2.2]: https://github.com/cashapp/paraphrase/releases/tag/0.2.2
 [0.2.1]: https://github.com/cashapp/paraphrase/releases/tag/0.2.1
