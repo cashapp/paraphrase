@@ -10,7 +10,7 @@ In the `build.gradle.kts` file of an Android application or library module:
 
 ```kotlin
 plugins {
-  id("app.cash.paraphrase")
+  id("app.cash.paraphrase") version "0.3.1"
 }
 ```
 
@@ -95,17 +95,12 @@ val orderDescription = formattedResource(
 // Jobu Tupaki orders 12 everything bagels
 ```
 
-For Compose UI you also need one additional dependency:
-```
-implementation libs.paraphrase.runtimeComposeUi
-```
-
 ## Modules
 
-* `plugin`: The Gradle plugin, with logic to parse string resources and generate formatter methods.
-* `runtime`: The data types and Android extensions that Paraphrase requires to work at runtime.
-* `runtime-compose-ui`: The extensions that Paraphrase requires to work with Compose UI at runtime.
-* `sample`: A sample Android project that demonstrates usage of Paraphrase.
+* [plugin](plugin): The Gradle plugin, with logic to parse string resources and generate formatter methods.
+* [runtime](runtime): The data types and Android extensions that Paraphrase requires to work at runtime.
+* [runtime-compose-ui](runtime-compose-ui): The extensions that Paraphrase requires to work with Compose UI at runtime.
+* [sample](sample): A sample Android project that demonstrates usage of Paraphrase.
 
 ## License
 
