@@ -1,7 +1,7 @@
 [versions]
 agp = "8.2.2"
-compose-compiler = "1.5.7"
-kotlin = "1.9.21"
+compose-compiler = "1.5.8"
+kotlin = "1.9.22"
 ktlint = "0.48.1"
 
 [libraries]
