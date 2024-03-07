@@ -14,10 +14,16 @@ android {
   defaultConfig {
     minSdk = 24
   }
+
+  compileOptions {
+    isCoreLibraryDesugaringEnabled = true
+  }
 }
 
 dependencies {
   api(libs.androidAnnotation)
+
+  coreLibraryDesugaring(libs.coreLibraryDesugaring)
 
   testImplementation(libs.junit)
   testImplementation(libs.truth)
