@@ -27,7 +27,6 @@ import org.gradle.configurationcache.extensions.capitalized
 /**
  * A Gradle plugin that generates type checked formatters for patterned Android string resources.
  */
-@Suppress("UnstableApiUsage") // For 'Sources' type.
 public class ParaphrasePlugin : Plugin<Project> {
   override fun apply(target: Project): Unit = target.run {
     addDependencies()
