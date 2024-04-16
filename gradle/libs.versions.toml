@@ -14,7 +14,7 @@ composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref =
 composeMaterial = "androidx.compose.material:material:1.6.5"
 composeUi = "androidx.compose.ui:ui:1.6.5"
 googleMaterial = "com.google.android.material:material:1.11.0"
-icu4j = "com.ibm.icu:icu4j:74.2"
+icu4j = "com.ibm.icu:icu4j:75.1"
 junit = "junit:junit:4.13.2"
 kotlinPoet = "com.squareup:kotlinpoet:1.16.0"
 testParameterInjector = "com.google.testparameterinjector:test-parameter-injector:1.15"
