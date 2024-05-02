@@ -13,7 +13,7 @@ androidTestRunner = "androidx.test:runner:1.5.2"
 composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "compose-compiler" }
 composeMaterial = "androidx.compose.material:material:1.6.7"
 composeUi = "androidx.compose.ui:ui:1.6.7"
-googleMaterial = "com.google.android.material:material:1.11.0"
+googleMaterial = "com.google.android.material:material:1.12.0"
 icu4j = "com.ibm.icu:icu4j:75.1"
 junit = "junit:junit:4.13.2"
 kotlinPoet = "com.squareup:kotlinpoet:1.16.0"
