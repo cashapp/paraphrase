@@ -29,6 +29,6 @@ kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kot
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.28.0" }
-poko = { id = "dev.drewhamilton.poko", version = "0.15.2" }
+poko = { id = "dev.drewhamilton.poko", version = "0.16.0-beta01" }
 spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
 kotlinApiDump = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.14.0" }
