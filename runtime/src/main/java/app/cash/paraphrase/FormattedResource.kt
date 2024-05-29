@@ -18,7 +18,6 @@ package app.cash.paraphrase
 import android.icu.text.MessageFormat
 import androidx.annotation.StringRes
 import dev.drewhamilton.poko.ArrayContentBased
-import dev.drewhamilton.poko.ArrayContentSupport
 import dev.drewhamilton.poko.Poko
 
 /**
@@ -44,7 +43,6 @@ import dev.drewhamilton.poko.Poko
  *
  * @property arguments Arguments passed directly to [MessageFormat.format].
  */
-@OptIn(ArrayContentSupport::class)
 @Poko
 public class FormattedResource(
   @StringRes public val id: Int,
