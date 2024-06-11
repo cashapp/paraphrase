@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+Changed:
+- Detect usage of `org.jetbrains.kotlin.plugin.compose` plugin and automatically add
+  the `runtime-compose-ui` dependency.
+
+
 ## [0.3.1] - 2023-12-14
 
 Fixed:

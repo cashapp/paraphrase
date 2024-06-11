@@ -58,9 +58,11 @@ public class ParaphrasePlugin : Plugin<Project> {
     }
     dependencies.add("api", runtimeDependency)
 
-    // Automatically add the runtime Compose UI dependency if the Compose build feature is present.
+    // Automatically add the runtime Compose UI dependency if Compose is being used.
     afterEvaluate {
-      if (extensions.getByType(BaseExtension::class.java).buildFeatures.compose == true) {
+      val hasComposeFeature = extensions.getByType(BaseExtension::class.java).buildFeatures.compose == true
+      val hasComposePlugin = pluginManager.hasPlugin("org.jetbrains.kotlin.plugin.compose")
+      if (hasComposeFeature || hasComposePlugin) {
         val runtimeComposeUiDependency: Any = if (isInternal) {
           dependencies.project(mapOf("path" to ":runtime-compose-ui"))
         } else {
