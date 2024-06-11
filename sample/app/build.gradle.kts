@@ -10,10 +10,6 @@ android {
   namespace = "app.cash.paraphrase.sample.app"
   compileSdk = 34
 
-  buildFeatures {
-    compose = true
-  }
-
   defaultConfig {
     minSdk = 24
     targetSdk = 34
