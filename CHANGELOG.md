@@ -2,7 +2,14 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2024-06-11
+
+New:
+
+- Support for Kotlin 2.0.0
+
 Changed:
+
 - Detect usage of `org.jetbrains.kotlin.plugin.compose` plugin and automatically add
   the `runtime-compose-ui` dependency.
 
@@ -60,7 +67,8 @@ Fixed:
 Initial release.
 
 
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.3.1...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.4.0...HEAD
+[0.4.0]: https://github.com/cashapp/paraphrase/releases/tag/0.4.0
 [0.3.1]: https://github.com/cashapp/paraphrase/releases/tag/0.3.1
 [0.3.0]: https://github.com/cashapp/paraphrase/releases/tag/0.3.0
 [0.2.2]: https://github.com/cashapp/paraphrase/releases/tag/0.2.2
