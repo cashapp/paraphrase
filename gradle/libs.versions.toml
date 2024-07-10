@@ -7,7 +7,7 @@ ktlint = "0.48.1"
 agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidActivityCompose = "androidx.activity:activity-compose:1.9.0"
 androidAnnotation = "androidx.annotation:annotation:1.8.0"
-androidCollection = "androidx.collection:collection:1.4.0"
+androidCollection = "androidx.collection:collection:1.4.1"
 androidTestRunner = "androidx.test:runner:1.6.1"
 composeMaterial = "androidx.compose.material:material:1.6.8"
 composeUi = "androidx.compose.ui:ui:1.6.8"
