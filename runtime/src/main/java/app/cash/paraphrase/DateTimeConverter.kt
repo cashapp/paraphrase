@@ -31,6 +31,7 @@ import java.time.ZonedDateTime
  *
  * This interface's public API may change.
  */
+@OptIn(ExperimentalSubclassOptIn::class)
 @SubclassOptInRequired(DateTimeConverter.SubclassOptIn::class)
 public interface DateTimeConverter<out Calendar : Any> {
 
