@@ -19,7 +19,7 @@ import android.icu.util.ULocale
 import androidx.test.platform.app.InstrumentationRegistry
 import app.cash.paraphrase.FormattedResource
 import app.cash.paraphrase.getString
-import app.cash.paraphrase.tests.LocalesTest.TestLocale.en_SA
+import app.cash.paraphrase.tests.LocalesTest.TestLocale.en_IL_ca_hebrew
 import app.cash.paraphrase.tests.LocalesTest.TestLocale.en_US
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.junit.testparameterinjector.TestParameter
@@ -56,7 +56,7 @@ class LocalesTest(
   @Test fun defaultLocale() {
     val expected = when (testLocale) {
       en_US -> "Mar 24, 2022"
-      en_SA -> "Sha. 21, 1443 AH"
+      en_IL_ca_hebrew -> "21 Adar II 5782"
     }
     assertThat(context.getString(resource)).isEqualTo("A $expected B")
   }
@@ -69,16 +69,23 @@ class LocalesTest(
     assertThat(context.getString(resource, ULocale.GERMANY)).isEqualTo("A 24.03.2022 B")
   }
 
-  @Test fun saudiArabiaLocale() {
-    assertThat(context.getString(resource, Locale.forLanguageTag("en-SA")))
-      .isEqualTo("A Sha. 21, 1443 AH B")
+  @Test fun hebrewCalendarLocale() {
+    assertThat(context.getString(resource, hebrewCalendarLocale))
+      .isEqualTo("A 21 Adar II 5782 B")
   }
 
   @Suppress("EnumEntryName", "unused")
   enum class TestLocale(
     val value: Locale,
   ) {
-    en_US(Locale("en", "US")),
-    en_SA(Locale("en", "SA")),
+    en_US(value = Locale("en", "US")),
+    en_IL_ca_hebrew(value = hebrewCalendarLocale),
+  }
+
+  private companion object {
+    val hebrewCalendarLocale: Locale = Locale.Builder()
+      .setLocale(Locale("en", "IL"))
+      .setExtension('u', "ca-hebrew")
+      .build()
   }
 }
