@@ -201,27 +201,27 @@ class TypesTest(
 
   @Test fun typeTime() {
     val formatted = getString(formattedResources.type_time(releaseTime))
-    assertThat(formatted).isEqualTo("A 7:23:45 PM B")
+    assertThat(formatted).isEqualTo("A 7:23:45${androidNnbsp}PM B")
   }
 
   @Test fun typeTimeShort() {
     val formatted = getString(formattedResources.type_time_short(releaseTime))
-    assertThat(formatted).isEqualTo("A 7:23 PM B")
+    assertThat(formatted).isEqualTo("A 7:23${androidNnbsp}PM B")
   }
 
   @Test fun typeTimeMedium() {
     val formatted = getString(formattedResources.type_time_medium(releaseTime))
-    assertThat(formatted).isEqualTo("A 7:23:45 PM B")
+    assertThat(formatted).isEqualTo("A 7:23:45${androidNnbsp}PM B")
   }
 
   @Test fun typeTimeLong() {
     val formatted = getString(formattedResources.type_time_long(releaseDateTime))
-    assertThat(formatted).isEqualTo("A 7:23:45 PM HST B")
+    assertThat(formatted).isEqualTo("A 7:23:45${androidNnbsp}PM HST B")
   }
 
   @Test fun typeTimeFull() {
     val formatted = getString(formattedResources.type_time_full(releaseDateTime))
-    assertThat(formatted).isEqualTo("A 7:23:45 PM Hawaii-Aleutian Standard Time B")
+    assertThat(formatted).isEqualTo("A 7:23:45${androidNnbsp}PM Hawaii-Aleutian Standard Time B")
   }
 
   @Test fun typeTimePatternDateTimeZone() {
@@ -305,7 +305,7 @@ class TypesTest(
       ZoneId.of("America/Chicago"),
     )
     val formatted = getString(formattedResources.type_time_long(winterDateTime))
-    assertThat(formatted).isEqualTo("A 12:00:00 PM CST B")
+    assertThat(formatted).isEqualTo("A 12:00:00${androidNnbsp}PM CST B")
   }
 
   @Test fun typeTimeWithSummerTimeZone() {
@@ -315,7 +315,7 @@ class TypesTest(
       ZoneId.of("America/Chicago"),
     )
     val formatted = getString(formattedResources.type_time_long(summerDateTime))
-    assertThat(formatted).isEqualTo("A 12:00:00 PM CDT B")
+    assertThat(formatted).isEqualTo("A 12:00:00${androidNnbsp}PM CDT B")
   }
 
   @Test fun typeDuration() {
@@ -381,13 +381,25 @@ class TypesTest(
       IcuImpl.Android -> context.getString(formattedResource)
       IcuImpl.Jvm -> JvmMessageFormat(context.getString(formattedResource.id))
         .format(formattedResource.arguments)
-        // Android doesn't use ' ', so replace with a normal space for consistency:
-        .replace(' ', ' ')
+        .replace(' ', androidNnbsp)
     }
   }
 
   enum class IcuImpl {
     Android,
     Jvm,
+  }
+
+  private companion object {
+    /**
+     * Resolves to ' ' (NNBSP) on Android 34+, but to ' ' (regular space) on older Android OSes,
+     * reflecting how different Android versions break up the time and the day period.
+     *
+     * Example usage: "7:23${androidNnbsp}PM"
+     */
+    val androidNnbsp = when {
+      Build.VERSION.SDK_INT >= 34 -> ' ' // NNBSP
+      else -> ' ' // Regular space
+    }
   }
 }
