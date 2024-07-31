@@ -60,21 +60,36 @@ internal fun writeResources(
       """.trimIndent(),
     )
     .addImport(packageName = packageName, "R")
+    .addProperty(
+      PropertySpec.builder(
+        name = "AndroidFormattedResources",
+        type = Types.formattedResources(packageName),
+      )
+        .initializer("FormattedResources(%T)", Types.AndroidDateTimeConverter)
+        .build(),
+    )
     .addType(
-      TypeSpec.objectBuilder("FormattedResources")
-        .apply {
-          addProperty(
-            PropertySpec.builder(
-              name = "dateTimeConverter",
-              type = Types.DateTimeConverter.parameterizedBy(ANY),
+      TypeSpec.classBuilder("FormattedResources")
+        .primaryConstructor(
+          FunSpec.constructorBuilder()
+            .addParameter(
+              ParameterSpec(
+                name = "dateTimeConverter",
+                type = Types.DateTimeConverter.parameterizedBy(ANY),
+              ),
             )
-              .addModifiers(KModifier.PUBLIC)
-              .addAnnotation(AnnotationSpec.builder(Types.VisibleForTesting).build())
-              .mutable(true)
-              .initializer("%T", Types.AndroidDateTimeConverter)
-              .build(),
+            .build(),
+        )
+        .addProperty(
+          PropertySpec.builder(
+            name = "dateTimeConverter",
+            type = Types.DateTimeConverter.parameterizedBy(ANY),
           )
-
+            .addModifiers(KModifier.PRIVATE)
+            .initializer("dateTimeConverter")
+            .build(),
+        )
+        .apply {
           mergedResources.forEach { mergedResource ->
             val funSpec = mergedResource.toFunSpec(packageStringsType)
             addFunction(funSpec)
@@ -230,5 +245,6 @@ private object Types {
   val ArrayMap = ClassName("androidx.collection", "ArrayMap")
   val DateTimeConverter = ClassName("app.cash.paraphrase", "DateTimeConverter")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
-  val VisibleForTesting = ClassName("androidx.annotation", "VisibleForTesting")
+
+  fun formattedResources(packageName: String) = ClassName(packageName, "FormattedResources")
 }
