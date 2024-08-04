@@ -22,7 +22,7 @@ jobs:
           distribution: 'zulu'
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
 
       - run: ./gradlew build
 
@@ -41,7 +41,7 @@ jobs:
           distribution: 'zulu'
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
 
       - name: Run integration tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -62,7 +62,7 @@ jobs:
           distribution: 'zulu'
           java-version: 21
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
 
       - run: ./gradlew dokkaHtmlMultiModule publish
         env:
