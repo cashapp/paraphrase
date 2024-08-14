@@ -8,7 +8,7 @@ agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidActivityCompose = "androidx.activity:activity-compose:1.9.1"
 androidAnnotation = "androidx.annotation:annotation:1.8.2"
 androidCollection = "androidx.collection:collection:1.4.3"
-androidTestRunner = "androidx.test:runner:1.6.1"
+androidTestRunner = "androidx.test:runner:1.6.2"
 composeMaterial = "androidx.compose.material:material:1.6.8"
 composeUi = "androidx.compose.ui:ui:1.6.8"
 googleMaterial = "com.google.android.material:material:1.12.0"
