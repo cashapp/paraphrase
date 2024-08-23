@@ -1,6 +1,6 @@
 [versions]
 agp = "8.5.2"
-kotlin = "2.0.10"
+kotlin = "2.0.20"
 ktlint = "0.48.1"
 
 [libraries]
@@ -29,6 +29,6 @@ kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kot
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version = "1.9.20" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.29.0" }
-poko = { id = "dev.drewhamilton.poko", version = "0.16.0" }
+poko = { id = "dev.drewhamilton.poko", version = "0.17.0" }
 spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
 kotlinApiDump = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.16.3" }
