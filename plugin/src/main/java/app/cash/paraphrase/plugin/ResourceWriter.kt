@@ -70,6 +70,24 @@ internal fun writeResources(
         .initializer("$genClassName(%T)", Types.AndroidDateTimeConverter)
         .build(),
     )
+    // TODO: Remove deprecated val after a few releases
+    .addProperty(
+      PropertySpec.builder(
+        name = "FormattedResources",
+        type = Types.paraphraseResources(packageName),
+      )
+        .initializer(defaultInstanceName, Types.AndroidDateTimeConverter)
+        .addAnnotation(
+          AnnotationSpec.builder(
+            type = ClassName("kotlin", "Deprecated"),
+          )
+            .addMember("message = \"\"\"The `FormattedResources` object has been replaced by the `$genClassName` class and the default `$defaultInstanceName` instance. Use the class to allow testing on the JVM, or use the default instance to maintain previous static-like invocation.\"\"\"")
+            .addMember("replaceWith = ReplaceWith(\"$defaultInstanceName\")")
+            .addMember("level = DeprecationLevel.ERROR")
+            .build(),
+        )
+        .build(),
+    )
     .addType(
       TypeSpec.classBuilder(genClassName)
         .primaryConstructor(
