@@ -31,10 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.cash.paraphrase.FormattedResource
 import app.cash.paraphrase.compose.formattedResource
-import app.cash.paraphrase.sample.app.AndroidFormattedResources as AppAndroidFormattedResources
-import app.cash.paraphrase.sample.app.FormattedResources as AppFormattedResources
-import app.cash.paraphrase.sample.library.AndroidFormattedResources as LibraryAndroidFormattedResources
-import app.cash.paraphrase.sample.library.FormattedResources as LibraryFormattedResources
+import app.cash.paraphrase.sample.app.AndroidParaphraseResources as AppAndroidParaphraseResources
+import app.cash.paraphrase.sample.app.ParaphraseResources as AppParaphraseResources
+import app.cash.paraphrase.sample.library.AndroidParaphraseResources as LibraryAndroidParaphraseResources
+import app.cash.paraphrase.sample.library.ParaphraseResources as LibraryParaphraseResources
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZonedDateTime
@@ -42,8 +42,8 @@ import java.time.ZonedDateTime
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    val appSamples = appSamples(AppAndroidFormattedResources)
-    val librarySamples = librarySamples(LibraryAndroidFormattedResources)
+    val appSamples = appSamples(AppAndroidParaphraseResources)
+    val librarySamples = librarySamples(LibraryAndroidParaphraseResources)
     setContent {
       LazyColumn {
         item { Header(text = "App Strings") }
@@ -88,73 +88,73 @@ class MainActivity : ComponentActivity() {
     data class Sample(val label: String, val resource: FormattedResource)
 
     private fun appSamples(
-      formattedResources: AppFormattedResources,
+      paraphraseResources: AppParaphraseResources,
     ): List<Sample> = listOf(
       Sample(
         label = "Text Argument",
-        resource = formattedResources.app_text_argument(name = "Jobu Tupaki"),
+        resource = paraphraseResources.app_text_argument(name = "Jobu Tupaki"),
       ),
       Sample(
         label = "Date Argument",
-        resource = formattedResources.app_date_argument(release_date = LocalDate.now()),
+        resource = paraphraseResources.app_date_argument(release_date = LocalDate.now()),
       ),
       Sample(
         label = "Number Argument",
-        resource = formattedResources.app_number_argument(budget = 10_000_000),
+        resource = paraphraseResources.app_number_argument(budget = 10_000_000),
       ),
       Sample(
         label = "Time Argument",
-        resource = formattedResources.app_time_argument(showtime = ZonedDateTime.now()),
+        resource = paraphraseResources.app_time_argument(showtime = ZonedDateTime.now()),
       ),
       Sample(
         label = "Plural Argument",
-        resource = formattedResources.app_plural_argument(count = 5),
+        resource = paraphraseResources.app_plural_argument(count = 5),
       ),
       Sample(
         label = "Select Argument",
-        resource = formattedResources.app_select_argument(verse = "alpha"),
+        resource = paraphraseResources.app_select_argument(verse = "alpha"),
       ),
       Sample(
         label = "Select Ordinal Argument",
-        resource = formattedResources.app_select_ordinal_argument(count = 5),
+        resource = paraphraseResources.app_select_ordinal_argument(count = 5),
       ),
     )
 
     private fun librarySamples(
-      formattedResources: LibraryFormattedResources,
+      paraphraseResources: LibraryParaphraseResources,
     ): List<Sample> = listOf(
       Sample(
         label = "Text Argument",
-        resource = formattedResources.library_text_argument(name = "Jobu Tupaki"),
+        resource = paraphraseResources.library_text_argument(name = "Jobu Tupaki"),
       ),
       Sample(
         label = "Date Argument",
-        resource = formattedResources.library_date_argument(release_date = LocalDate.now()),
+        resource = paraphraseResources.library_date_argument(release_date = LocalDate.now()),
       ),
       Sample(
         label = "Number Argument",
-        resource = formattedResources.library_number_argument(budget = 10_000_000),
+        resource = paraphraseResources.library_number_argument(budget = 10_000_000),
       ),
       Sample(
         label = "Time Argument",
-        resource = formattedResources.library_time_argument(showtime = LocalTime.now()),
+        resource = paraphraseResources.library_time_argument(showtime = LocalTime.now()),
       ),
       Sample(
         label = "Plural Argument",
-        resource = formattedResources.library_plural_argument(count = 5),
+        resource = paraphraseResources.library_plural_argument(count = 5),
       ),
       Sample(
         label = "Select Argument",
-        resource = formattedResources.library_select_argument(verse = "alpha"),
+        resource = paraphraseResources.library_select_argument(verse = "alpha"),
       ),
       Sample(
         label = "Select Ordinal Argument",
-        resource = formattedResources.library_select_ordinal_argument(count = 5),
+        resource = paraphraseResources.library_select_ordinal_argument(count = 5),
       ),
       @Suppress("DEPRECATION")
       Sample(
         label = "Choice argument",
-        resource = formattedResources.library_choice_argument(outlook = 100),
+        resource = paraphraseResources.library_choice_argument(outlook = 100),
       ),
     )
   }

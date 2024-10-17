@@ -15,11 +15,11 @@
  */
 package app.cash.paraphrase.sample.library
 
-import app.cash.paraphrase.sample.library.test.AndroidFormattedResources
+import app.cash.paraphrase.sample.library.test.AndroidParaphraseResources
 
 // Note: This is a compilation test, not a runtime test, so no assertions are needed.
 class ParaphraseTest {
-  fun testFormattedResources() {
-    AndroidFormattedResources.library_test_text_argument("Jobu Tupaki")
+  fun testParaphraseResources() {
+    AndroidParaphraseResources.library_test_text_argument("Jobu Tupaki")
   }
 }

@@ -22,10 +22,10 @@ import org.junit.Test
 
 class NumberedTest {
   private val context = InstrumentationRegistry.getInstrumentation().context
-  private val formattedResources = AndroidFormattedResources
+  private val paraphraseResources = AndroidParaphraseResources
 
   @Test fun numberedContiguousOne() {
-    val formattedResource = formattedResources.numbered_contiguous_one("Z")
+    val formattedResource = paraphraseResources.numbered_contiguous_one("Z")
     assertThat(formattedResource.arguments as? Array<Any>)
       .asList()
       .containsExactly("Z")
@@ -36,7 +36,7 @@ class NumberedTest {
   }
 
   @Test fun numberedContiguousThree() {
-    val formattedResource = formattedResources.numbered_contiguous_three("Z", "Y", "X")
+    val formattedResource = paraphraseResources.numbered_contiguous_three("Z", "Y", "X")
     assertThat(formattedResource.arguments as? Array<Any>)
       .asList()
       .containsExactly("Z", "Y", "X")
@@ -47,7 +47,7 @@ class NumberedTest {
   }
 
   @Test fun numberedSparseOne() {
-    val formattedResource = formattedResources.numbered_sparse_one("Z")
+    val formattedResource = paraphraseResources.numbered_sparse_one("Z")
     assertThat(formattedResource.arguments as? Map<String, Any>)
       .containsExactly("1", "Z")
 
@@ -56,7 +56,7 @@ class NumberedTest {
   }
 
   @Test fun numberedSparseThree() {
-    val formattedResource = formattedResources.numbered_sparse_three("Z", "Y", "X")
+    val formattedResource = paraphraseResources.numbered_sparse_three("Z", "Y", "X")
     assertThat(formattedResource.arguments as? Map<String, Any>)
       .containsExactly("1", "Z", "3", "Y", "5", "X")
 

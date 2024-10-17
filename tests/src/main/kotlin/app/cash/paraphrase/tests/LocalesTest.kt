@@ -50,7 +50,7 @@ class LocalesTest(
   private lateinit var resource: FormattedResource
 
   @Before fun instantiateResource() {
-    resource = AndroidFormattedResources.locale_date(releaseDate)
+    resource = AndroidParaphraseResources.locale_date(releaseDate)
   }
 
   @Test fun defaultLocale() {
