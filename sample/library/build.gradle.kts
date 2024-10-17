@@ -12,6 +12,10 @@ android {
   defaultConfig {
     minSdk = 24
   }
+
+  compileOptions {
+    isCoreLibraryDesugaringEnabled = true
+  }
 }
 
 androidComponents {
@@ -20,4 +24,12 @@ androidComponents {
       it.enable = false
     }
   }
+}
+
+dependencies {
+  coreLibraryDesugaring(libs.coreLibraryDesugaring)
+
+  testImplementation(libs.icu4j)
+  testImplementation(libs.junit)
+  testImplementation(libs.truth)
 }
