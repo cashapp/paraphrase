@@ -29,6 +29,8 @@ androidComponents {
 dependencies {
   coreLibraryDesugaring(libs.coreLibraryDesugaring)
 
+  testImplementation(projects.runtimeTest)
+
   testImplementation(libs.icu4j)
   testImplementation(libs.junit)
   testImplementation(libs.truth)

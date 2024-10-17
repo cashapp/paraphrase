@@ -23,6 +23,7 @@ import com.google.common.truth.Truth.assertThat
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.ibm.icu.text.MessageFormat as JvmMessageFormat
+import app.cash.paraphrase.runtime.test.JvmDateTimeConverter
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.Month

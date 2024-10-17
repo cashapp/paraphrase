@@ -27,6 +27,8 @@ android {
 }
 
 dependencies {
+  implementation(projects.runtimeTest)
+
   implementation(libs.junit)
   implementation(libs.truth)
   implementation(libs.androidTestRunner)

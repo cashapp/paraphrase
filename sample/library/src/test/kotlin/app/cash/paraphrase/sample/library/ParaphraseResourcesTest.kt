@@ -16,6 +16,7 @@
 package app.cash.paraphrase.sample.library
 
 import androidx.annotation.StringRes
+import app.cash.paraphrase.runtime.test.JvmDateTimeConverter
 import com.google.common.truth.Truth.assertThat
 import com.ibm.icu.text.MessageFormat
 import java.time.LocalDate

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Cash App
+ * Copyright (C) 2024 Cash App
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package app.cash.paraphrase.tests
+package app.cash.paraphrase.runtime.test
 
 import app.cash.paraphrase.DateTimeConverter
 import com.ibm.icu.util.Calendar
@@ -30,9 +30,8 @@ import java.time.ZonedDateTime
 /**
  * Converts `java.time` types used by Paraphrase to a [Calendar] that can be used by ICU to format.
  */
-// TODO: Deduplicate with :sample:library
 @OptIn(DateTimeConverter.SubclassOptIn::class)
-object JvmDateTimeConverter : DateTimeConverter<Calendar> {
+public object JvmDateTimeConverter : DateTimeConverter<Calendar> {
 
   private val Iso8601Locale = ULocale.Builder()
     .setExtension('u', "ca-iso8601")

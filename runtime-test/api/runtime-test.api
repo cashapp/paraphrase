@@ -1,0 +1,18 @@
+public final class app/cash/paraphrase/runtime/test/JvmDateTimeConverter : app/cash/paraphrase/DateTimeConverter {
+	public static final field INSTANCE Lapp/cash/paraphrase/runtime/test/JvmDateTimeConverter;
+	public fun convertToCalendar (Ljava/time/LocalDate;)Lcom/ibm/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/LocalDate;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/LocalDateTime;)Lcom/ibm/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/LocalDateTime;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/LocalTime;)Lcom/ibm/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/LocalTime;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/OffsetDateTime;)Lcom/ibm/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/OffsetDateTime;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/OffsetTime;)Lcom/ibm/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/OffsetTime;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/ZoneOffset;)Lcom/ibm/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/ZoneOffset;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/ZonedDateTime;)Lcom/ibm/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/ZonedDateTime;)Ljava/lang/Object;
+}
+
