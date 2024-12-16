@@ -17,7 +17,6 @@ package app.cash.paraphrase
 
 import android.icu.text.MessageFormat
 import androidx.annotation.StringRes
-import dev.drewhamilton.poko.ArrayContentBased
 import dev.drewhamilton.poko.Poko
 
 /**
@@ -46,5 +45,5 @@ import dev.drewhamilton.poko.Poko
 @Poko
 public class FormattedResource(
   @StringRes public val id: Int,
-  @ArrayContentBased public val arguments: Any,
+  @Poko.ReadArrayContent public val arguments: Any,
 )
