@@ -17,7 +17,6 @@ package app.cash.paraphrase
 
 import android.icu.text.MessageFormat
 import androidx.annotation.StringRes
-import dev.drewhamilton.poko.ArrayContentBased
 import dev.drewhamilton.poko.Poko
 
 /**
