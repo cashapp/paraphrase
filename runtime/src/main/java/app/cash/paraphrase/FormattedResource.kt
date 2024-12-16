@@ -46,5 +46,5 @@ import dev.drewhamilton.poko.Poko
 @Poko
 public class FormattedResource(
   @StringRes public val id: Int,
-  @ArrayContentBased public val arguments: Any,
+  @Poko.ReadArrayContent public val arguments: Any,
 )
