@@ -27,10 +27,13 @@ android {
 }
 
 dependencies {
+  implementation(projects.runtimeTest)
+
   implementation(libs.junit)
   implementation(libs.truth)
   implementation(libs.androidTestRunner)
   implementation(libs.testParameterInjector)
+  implementation(libs.icu4j)
 
   coreLibraryDesugaring(libs.coreLibraryDesugaring)
 }
