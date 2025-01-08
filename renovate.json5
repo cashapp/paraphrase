@@ -4,6 +4,7 @@
     'config:recommended',
   ],
   packageRules: [
+    // Compiler plugins are tightly coupled to Kotlin version.
     {
       groupName: 'Kotlin',
       matchPackageNames: [
