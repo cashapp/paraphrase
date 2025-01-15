@@ -7,7 +7,7 @@ plugins {
 
 android {
   namespace = "app.cash.paraphrase.sample.library"
-  compileSdk = 34
+  compileSdk = 35
 
   defaultConfig {
     minSdk = 24

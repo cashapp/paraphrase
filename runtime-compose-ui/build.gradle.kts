@@ -8,7 +8,7 @@ plugins {
 
 android {
   namespace = "app.cash.paraphrase.compose"
-  compileSdk = 34
+  compileSdk = 35
 
   buildFeatures {
     compose = true

@@ -7,7 +7,7 @@ plugins {
 
 android {
   namespace = "app.cash.paraphrase.tests"
-  compileSdk = 34
+  compileSdk = 35
 
   // This must point at an application module, although we won't use it.
   targetProjectPath = ":sample:app"
