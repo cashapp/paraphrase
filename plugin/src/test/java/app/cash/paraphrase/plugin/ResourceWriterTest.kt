@@ -121,11 +121,11 @@ class ResourceWriterTest {
     expectedClassVisibility: KModifier,
     vararg expectedFunctionVisibility: Pair<String, KModifier>,
   ) {
-    assertOnFormattedResourcesObject { formattedResourcesObject ->
-      assertThat(formattedResourcesObject.modifiers).contains(expectedClassVisibility)
+    assertOnParaphraseResourcesClass { paraphraseResourcesClass ->
+      assertThat(paraphraseResourcesClass.modifiers).contains(expectedClassVisibility)
 
       expectedFunctionVisibility.forEach { (name, expectedVisibility) ->
-        val function = formattedResourcesObject.funSpecs.find { it.name == name }
+        val function = paraphraseResourcesClass.funSpecs.find { it.name == name }
         if (function == null) {
           fail("Function with name <$name> not found")
         } else {
@@ -152,8 +152,8 @@ class ResourceWriterTest {
       ),
     )
 
-    result.assertOnFormattedResourcesObject { formattedResourcesObject ->
-      val testFun = formattedResourcesObject.funSpecs.single { it.name == "testFun" }
+    result.assertOnParaphraseResourcesClass { paraphraseResourcesClass ->
+      val testFun = paraphraseResourcesClass.funSpecs.single { it.name == "testFun" }
       assertThat(testFun.annotations).contains(
         AnnotationSpec.builder(Deprecated::class)
           .addMember("%S", "Test message")
@@ -162,16 +162,16 @@ class ResourceWriterTest {
     }
   }
 
-  private inline fun FileSpec.assertOnFormattedResourcesObject(
-    block: (formattedResourcesObject: TypeSpec) -> Unit,
+  private inline fun FileSpec.assertOnParaphraseResourcesClass(
+    block: (paraphraseResourcesClass: TypeSpec) -> Unit,
   ) {
-    val formattedResourcesObject = members
+    val paraphraseResourcesClass = members
       .filterIsInstance<TypeSpec>()
-      .find { it.name == "FormattedResources" }
-    if (formattedResourcesObject == null) {
-      fail("FormattedResources object not found")
+      .find { it.name == "ParaphraseResources" }
+    if (paraphraseResourcesClass == null) {
+      fail("ParaphraseResources class not found")
     } else {
-      block(formattedResourcesObject)
+      block(paraphraseResourcesClass)
     }
   }
 }

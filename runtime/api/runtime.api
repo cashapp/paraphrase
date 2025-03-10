@@ -1,3 +1,34 @@
+public final class app/cash/paraphrase/AndroidDateTimeConverter : app/cash/paraphrase/DateTimeConverter {
+	public static final field INSTANCE Lapp/cash/paraphrase/AndroidDateTimeConverter;
+	public fun convertToCalendar (Ljava/time/LocalDate;)Landroid/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/LocalDate;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/LocalDateTime;)Landroid/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/LocalDateTime;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/LocalTime;)Landroid/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/LocalTime;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/OffsetDateTime;)Landroid/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/OffsetDateTime;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/OffsetTime;)Landroid/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/OffsetTime;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/ZoneOffset;)Landroid/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/ZoneOffset;)Ljava/lang/Object;
+	public fun convertToCalendar (Ljava/time/ZonedDateTime;)Landroid/icu/util/Calendar;
+	public synthetic fun convertToCalendar (Ljava/time/ZonedDateTime;)Ljava/lang/Object;
+}
+
+public abstract interface class app/cash/paraphrase/DateTimeConverter {
+	public abstract fun convertToCalendar (Ljava/time/LocalDate;)Ljava/lang/Object;
+	public abstract fun convertToCalendar (Ljava/time/LocalDateTime;)Ljava/lang/Object;
+	public abstract fun convertToCalendar (Ljava/time/LocalTime;)Ljava/lang/Object;
+	public abstract fun convertToCalendar (Ljava/time/OffsetDateTime;)Ljava/lang/Object;
+	public abstract fun convertToCalendar (Ljava/time/OffsetTime;)Ljava/lang/Object;
+	public abstract fun convertToCalendar (Ljava/time/ZoneOffset;)Ljava/lang/Object;
+	public abstract fun convertToCalendar (Ljava/time/ZonedDateTime;)Ljava/lang/Object;
+}
+
+public abstract interface annotation class app/cash/paraphrase/DateTimeConverter$SubclassOptIn : java/lang/annotation/Annotation {
+}
+
 public final class app/cash/paraphrase/FormattedResource {
 	public fun <init> (ILjava/lang/Object;)V
 	public fun equals (Ljava/lang/Object;)Z
