@@ -23,7 +23,7 @@ coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:2.1.5"
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 androidTest = { id = "com.android.test", version.ref = "agp" }
-buildConfig = { id = "com.github.gmazzo.buildconfig", version = "5.6.3" }
+buildConfig = { id = "com.github.gmazzo.buildconfig", version = "5.6.4" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
