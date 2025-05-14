@@ -28,7 +28,7 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version = "2.0.0" }
-mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.31.0" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.32.0" }
 poko = { id = "dev.drewhamilton.poko", version = "0.18.6" }
 spotless = { id = "com.diffplug.spotless", version = "7.0.3" }
 kotlinApiDump = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.17.0" }
