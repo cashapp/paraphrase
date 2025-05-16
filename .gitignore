@@ -9,3 +9,6 @@ build
 
 # Android
 local.properties
+
+# Kotlin
+.kotlin

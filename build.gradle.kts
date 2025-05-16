@@ -1,7 +1,8 @@
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
@@ -41,7 +42,7 @@ subprojects {
     // All published libraries must use API tracking to help maintain compatibility.
     plugins.apply(libs.plugins.kotlinApiDump.get().pluginId)
 
-    val kotlin = extensions.getByName("kotlin") as KotlinTopLevelExtension
+    val kotlin = extensions.getByName("kotlin") as KotlinBaseExtension
     kotlin.explicitApi()
 
     publishing {
@@ -68,8 +69,8 @@ subprojects {
 
   val javaVersion = JavaVersion.VERSION_1_8.toString()
   tasks.withType<KotlinJvmCompile> {
-    kotlinOptions {
-      jvmTarget = javaVersion
+    compilerOptions {
+      jvmTarget = JvmTarget.fromTarget(javaVersion)
     }
   }
   plugins.withId("com.android.library") {
