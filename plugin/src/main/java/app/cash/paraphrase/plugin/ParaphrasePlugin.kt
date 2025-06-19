@@ -22,7 +22,6 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
-import org.gradle.configurationcache.extensions.capitalized
 
 /**
  * A Gradle plugin that generates type checked formatters for patterned Android string resources.
@@ -84,7 +83,7 @@ public class ParaphrasePlugin : Plugin<Project> {
     val javaSources = sources.java ?: return
     val resSources = sources.res ?: return
     tasks.register(
-      "generateFormattedResources${name.capitalized()}",
+      "generateFormattedResources${name.replaceFirstChar { it.uppercase() }}",
       GenerateFormattedResources::class.java,
     ).apply {
       javaSources.addGeneratedSourceDirectory(this, GenerateFormattedResources::outputDirectory)
