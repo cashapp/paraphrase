@@ -71,7 +71,7 @@ In an Android View:
 import app.cash.paraphrase.getString
 
 val orderDescription = resources.getString(
-  FormattedResources.order_description(
+  AndroidParaphraseResources.order_description(
     count = 12,
     name = "Jobu Tupaki",
   )
@@ -86,7 +86,7 @@ In Compose UI:
 import app.cash.paraphrase.compose.formattedResource
 
 val orderDescription = formattedResource(
-  FormattedResources.order_description(
+  paraphraseResources.order_description(
     count = 12,
     name = "Jobu Tupaki",
   ),
