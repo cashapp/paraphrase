@@ -22,9 +22,10 @@ import org.junit.Test
 
 class NamedTest {
   private val context = InstrumentationRegistry.getInstrumentation().context
+  private val paraphraseResources = AndroidParaphraseResources
 
   @Test fun numberedSparseOne() {
-    val formattedResource = FormattedResources.named_one("Z")
+    val formattedResource = paraphraseResources.named_one("Z")
     assertThat(formattedResource.arguments as? Map<String, Any>)
       .containsExactly("one", "Z")
 
@@ -33,7 +34,7 @@ class NamedTest {
   }
 
   @Test fun numberedSparseThree() {
-    val formattedResource = FormattedResources.named_three("Z", "Y", "X")
+    val formattedResource = paraphraseResources.named_three("Z", "Y", "X")
     assertThat(formattedResource.arguments as? Map<String, Any>)
       .containsExactly("one", "Z", "two", "Y", "three", "X")
 

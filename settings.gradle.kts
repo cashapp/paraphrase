@@ -22,6 +22,7 @@ include(
   ":plugin",
   ":runtime",
   ":runtime-compose-ui",
+  ":runtime-test",
   ":sample:app",
   ":sample:library",
   ":tests",
