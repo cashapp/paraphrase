@@ -18,7 +18,8 @@ package app.cash.paraphrase.plugin
 import app.cash.paraphrase.plugin.model.MergedResource
 import app.cash.paraphrase.plugin.model.MergedResource.Deprecation
 import app.cash.paraphrase.plugin.model.ResourceName
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.contains
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier

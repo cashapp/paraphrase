@@ -45,5 +45,5 @@ dependencies {
   implementation(libs.kotlinPoet)
 
   testImplementation(libs.junit)
-  testImplementation(libs.truth)
+  testImplementation(libs.assertk)
 }

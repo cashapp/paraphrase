@@ -17,7 +17,9 @@ package app.cash.paraphrase.tests
 
 import androidx.test.platform.app.InstrumentationRegistry
 import app.cash.paraphrase.getString
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.containsExactly
+import assertk.assertions.isEqualTo
 import org.junit.Test
 
 class NumberedTest {
@@ -25,10 +27,8 @@ class NumberedTest {
 
   @Test fun numberedContiguousOne() {
     val formattedResource = FormattedResources.numbered_contiguous_one("Z")
-    assertThat(formattedResource.arguments as? Array<Any>)
-      .asList()
+    assertThat(formattedResource.arguments as Array<Any>)
       .containsExactly("Z")
-      .inOrder()
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B")
@@ -36,10 +36,8 @@ class NumberedTest {
 
   @Test fun numberedContiguousThree() {
     val formattedResource = FormattedResources.numbered_contiguous_three("Z", "Y", "X")
-    assertThat(formattedResource.arguments as? Array<Any>)
-      .asList()
+    assertThat(formattedResource.arguments as Array<Any>)
       .containsExactly("Z", "Y", "X")
-      .inOrder()
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B Y C X D")
@@ -47,8 +45,8 @@ class NumberedTest {
 
   @Test fun numberedSparseOne() {
     val formattedResource = FormattedResources.numbered_sparse_one("Z")
-    assertThat(formattedResource.arguments as? Map<String, Any>)
-      .containsExactly("1", "Z")
+    assertThat(formattedResource.arguments as Map<String, Any>)
+      .isEqualTo(mapOf("1" to "Z"))
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B")
@@ -56,8 +54,8 @@ class NumberedTest {
 
   @Test fun numberedSparseThree() {
     val formattedResource = FormattedResources.numbered_sparse_three("Z", "Y", "X")
-    assertThat(formattedResource.arguments as? Map<String, Any>)
-      .containsExactly("1", "Z", "3", "Y", "5", "X")
+    assertThat(formattedResource.arguments as Map<String, Any>)
+      .isEqualTo(mapOf("1" to "Z", "3" to "Y", "5" to "X"))
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B Y C X D")

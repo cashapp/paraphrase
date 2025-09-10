@@ -21,7 +21,8 @@ import app.cash.paraphrase.FormattedResource
 import app.cash.paraphrase.getString
 import app.cash.paraphrase.tests.LocalesTest.TestLocale.en_IL_ca_hebrew
 import app.cash.paraphrase.tests.LocalesTest.TestLocale.en_US
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.google.testing.junit.testparameterinjector.TestParameter
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import java.time.LocalDate
