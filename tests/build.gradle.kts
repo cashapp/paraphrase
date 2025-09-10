@@ -31,6 +31,7 @@ dependencies {
   implementation(libs.truth)
   implementation(libs.androidTestRunner)
   implementation(libs.testParameterInjector)
+  implementation(libs.icu4j)
 
   coreLibraryDesugaring(libs.coreLibraryDesugaring)
 }
