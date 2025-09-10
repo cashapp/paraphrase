@@ -34,7 +34,8 @@ import app.cash.paraphrase.plugin.model.TokenizedResource
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import org.junit.Test
 
 class ResourceTokenizerTest {

@@ -15,7 +15,11 @@
  */
 package app.cash.paraphrase
 
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.isEqualTo
+import assertk.assertions.isFalse
+import assertk.assertions.isNotEqualTo
+import assertk.assertions.isTrue
 import org.junit.Test
 
 class FormattedResourceTest {

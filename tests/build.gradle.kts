@@ -28,7 +28,7 @@ android {
 
 dependencies {
   implementation(libs.junit)
-  implementation(libs.truth)
+  implementation(libs.assertk)
   implementation(libs.androidTestRunner)
   implementation(libs.testParameterInjector)
 

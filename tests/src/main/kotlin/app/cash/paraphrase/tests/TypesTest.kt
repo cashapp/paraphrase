@@ -18,7 +18,8 @@ package app.cash.paraphrase.tests
 import android.os.Build
 import androidx.test.platform.app.InstrumentationRegistry
 import app.cash.paraphrase.getString
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.Month

@@ -28,7 +28,11 @@ import app.cash.paraphrase.plugin.model.ResourceName
 import app.cash.paraphrase.plugin.model.TokenizedResource
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NamedToken
 import app.cash.paraphrase.plugin.model.TokenizedResource.Token.NumberedToken
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.contains
+import assertk.assertions.containsExactly
+import assertk.assertions.isEmpty
+import assertk.assertions.isEqualTo
 import java.time.LocalDateTime
 import org.junit.Test
 

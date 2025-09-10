@@ -17,7 +17,8 @@ package app.cash.paraphrase.tests
 
 import androidx.test.platform.app.InstrumentationRegistry
 import app.cash.paraphrase.getString
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import org.junit.Test
 
 class NamedTest {
@@ -25,8 +26,8 @@ class NamedTest {
 
   @Test fun numberedSparseOne() {
     val formattedResource = FormattedResources.named_one("Z")
-    assertThat(formattedResource.arguments as? Map<String, Any>)
-      .containsExactly("one", "Z")
+    assertThat(formattedResource.arguments as Map<String, Any>)
+      .isEqualTo(mapOf("one" to "Z"))
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B")
@@ -34,8 +35,8 @@ class NamedTest {
 
   @Test fun numberedSparseThree() {
     val formattedResource = FormattedResources.named_three("Z", "Y", "X")
-    assertThat(formattedResource.arguments as? Map<String, Any>)
-      .containsExactly("one", "Z", "two", "Y", "three", "X")
+    assertThat(formattedResource.arguments as Map<String, Any>)
+      .isEqualTo(mapOf("one" to "Z", "two" to "Y", "three" to "X"))
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B Y C X D")

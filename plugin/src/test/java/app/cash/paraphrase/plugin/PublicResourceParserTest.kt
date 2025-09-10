@@ -17,7 +17,8 @@ package app.cash.paraphrase.plugin
 
 import app.cash.paraphrase.plugin.model.PublicResource
 import app.cash.paraphrase.plugin.model.ResourceName
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.containsExactly
 import org.junit.Assert.assertThrows
 import org.junit.Test
 

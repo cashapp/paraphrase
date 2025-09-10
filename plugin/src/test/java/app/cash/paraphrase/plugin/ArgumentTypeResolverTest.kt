@@ -32,7 +32,8 @@ import app.cash.paraphrase.plugin.TokenType.SelectOrdinal
 import app.cash.paraphrase.plugin.TokenType.SpellOut
 import app.cash.paraphrase.plugin.TokenType.Time
 import app.cash.paraphrase.plugin.TokenType.TimeWithOffset
-import com.google.common.truth.Truth.assertThat
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
