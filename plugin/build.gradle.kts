@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 @Suppress("DSL_SCOPE_VIOLATION")
@@ -27,9 +28,16 @@ gradlePlugin {
   }
 }
 
+tasks.named("validatePlugins", ValidatePlugins::class) {
+  enableStricterValidation = true
+}
+
 tasks.withType<KotlinJvmCompile> {
   compilerOptions {
     jvmTarget = JvmTarget.JVM_11
+    // Ensure compatibility with older Gradle versions. Keep in sync with ParaphrasePlugin.kt.
+    apiVersion = KotlinVersion.KOTLIN_1_8
+    languageVersion = KotlinVersion.KOTLIN_1_8
   }
 }
 
