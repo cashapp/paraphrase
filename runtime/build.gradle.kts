@@ -1,7 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   alias(libs.plugins.androidLibrary)
-  alias(libs.plugins.kotlinAndroid)
   alias(libs.plugins.mavenPublish)
   alias(libs.plugins.dokka)
   alias(libs.plugins.poko)
