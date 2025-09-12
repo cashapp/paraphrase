@@ -44,7 +44,9 @@ internal data class MergedResource(
   }
 
   sealed interface Deprecation {
-    data object None : Deprecation
+    object None : Deprecation {
+      override fun toString() = "None"
+    }
     data class WithMessage(
       val message: String,
     ) : Deprecation

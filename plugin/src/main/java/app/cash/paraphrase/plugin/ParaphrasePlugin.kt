@@ -22,12 +22,21 @@ import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
+import org.gradle.util.GradleVersion
 
 /**
  * A Gradle plugin that generates type checked formatters for patterned Android string resources.
  */
 public class ParaphrasePlugin : Plugin<Project> {
   override fun apply(target: Project): Unit = target.run {
+    // If you update the minimum-supported Gradle version, check if the Kotlin api/language version
+    // can be bumped. See https://docs.gradle.org/current/userguide/compatibility.html#kotlin.
+    val gradleMinimum = GradleVersion.version("8.0")
+    val gradleCurrent = GradleVersion.current()
+    require(gradleCurrent >= gradleMinimum) {
+      "Plugin requires $gradleMinimum or newer. Found $gradleCurrent"
+    }
+
     addDependencies()
     extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
       registerGenerateFormattedResourcesTask(
