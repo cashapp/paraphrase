@@ -15,10 +15,10 @@
  */
 package app.cash.paraphrase.plugin
 
+import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.api.variant.HasAndroidTest
 import com.android.build.api.variant.Sources
-import com.android.build.gradle.BaseExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -59,7 +59,7 @@ public class ParaphrasePlugin : Plugin<Project> {
 
     // Automatically add the runtime Compose UI dependency if Compose is being used.
     afterEvaluate {
-      val hasComposeFeature = extensions.getByType(BaseExtension::class.java).buildFeatures.compose == true
+      val hasComposeFeature = extensions.getByType(CommonExtension::class.java).buildFeatures.compose == true
       val hasComposePlugin = pluginManager.hasPlugin("org.jetbrains.kotlin.plugin.compose")
       if (hasComposeFeature || hasComposePlugin) {
         val runtimeComposeUiDependency: Any = if (isInternal) {

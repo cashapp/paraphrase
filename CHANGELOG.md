@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+New:
+
+- Support for AGP 9.0.0
+
 Changed:
 
 - In-development snapshots are now published to the Central Portal Snapshots repository at https://central.sonatype.com/repository/maven-snapshots/.
