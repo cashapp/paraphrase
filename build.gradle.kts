@@ -1,5 +1,4 @@
-import com.android.build.gradle.LibraryExtension
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.api.dsl.CommonExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
@@ -15,7 +14,6 @@ plugins {
   alias(libs.plugins.androidApplication) apply false
   alias(libs.plugins.androidLibrary) apply false
   alias(libs.plugins.androidTest) apply false
-  alias(libs.plugins.kotlinAndroid) apply false
   alias(libs.plugins.kotlinJvm) apply false
   alias(libs.plugins.poko) apply false
   alias(libs.plugins.kotlinApiDump) apply false
@@ -73,20 +71,15 @@ subprojects {
       jvmTarget = JvmTarget.fromTarget(javaVersion)
     }
   }
-  plugins.withId("com.android.library") {
-    with(extensions.getByType<LibraryExtension>()) {
+  val configureAndroid = Action<Plugin<Any>> {
+    with(extensions.getByType<CommonExtension>()) {
       compileOptions {
         sourceCompatibility(javaVersion)
         targetCompatibility(javaVersion)
       }
     }
   }
-  plugins.withId("com.android.application") {
-    with(extensions.getByType<BaseAppModuleExtension>()) {
-      compileOptions {
-        sourceCompatibility(javaVersion)
-        targetCompatibility(javaVersion)
-      }
-    }
-  }
+  plugins.withId("com.android.application", configureAndroid)
+  plugins.withId("com.android.library", configureAndroid)
+  plugins.withId("com.android.test", configureAndroid)
 }

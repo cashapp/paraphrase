@@ -1,7 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   alias(libs.plugins.androidApplication)
-  alias(libs.plugins.kotlinAndroid)
   alias(libs.plugins.kotlinCompose)
   id("app.cash.paraphrase")
 }
@@ -20,17 +19,11 @@ android {
   compileOptions {
     isCoreLibraryDesugaringEnabled = true
   }
-
-  kotlinOptions {
-    allWarningsAsErrors = true
-  }
 }
 
-androidComponents {
-  beforeVariants {
-    if (it.buildType == "release") {
-      it.enable = false
-    }
+kotlin {
+  compilerOptions {
+    allWarningsAsErrors = true
   }
 }
 
