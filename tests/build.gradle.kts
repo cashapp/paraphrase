@@ -6,7 +6,6 @@ plugins {
 
 android {
   namespace = "app.cash.paraphrase.tests"
-  compileSdk = 35
 
   // This must point at an application module, although we won't use it.
   targetProjectPath = ":sample:app"
@@ -14,7 +13,6 @@ android {
   experimentalProperties["android.experimental.self-instrumenting"] = true
 
   defaultConfig {
-    minSdk = 24
     targetSdk = 34
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
