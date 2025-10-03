@@ -73,6 +73,9 @@ subprojects {
   }
   val configureAndroid = Action<Plugin<Any>> {
     with(extensions.getByType<CommonExtension>()) {
+      compileSdk = 36
+      defaultConfig.minSdk = 24
+
       compileOptions {
         sourceCompatibility(javaVersion)
         targetCompatibility(javaVersion)
