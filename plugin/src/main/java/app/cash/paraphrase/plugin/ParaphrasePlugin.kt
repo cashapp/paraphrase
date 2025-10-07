@@ -31,7 +31,7 @@ public class ParaphrasePlugin : Plugin<Project> {
   override fun apply(target: Project): Unit = target.run {
     // If you update the minimum-supported Gradle version, check if the Kotlin api/language version
     // can be bumped. See https://docs.gradle.org/current/userguide/compatibility.html#kotlin.
-    val gradleMinimum = GradleVersion.version("8.0")
+    val gradleMinimum = GradleVersion.version("9.0")
     val gradleCurrent = GradleVersion.current()
     require(gradleCurrent >= gradleMinimum) {
       "Plugin requires $gradleMinimum or newer. Found $gradleCurrent"

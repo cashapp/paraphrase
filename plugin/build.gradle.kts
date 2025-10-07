@@ -34,16 +34,16 @@ tasks.named("validatePlugins", ValidatePlugins::class) {
 
 tasks.withType<KotlinJvmCompile> {
   compilerOptions {
-    jvmTarget = JvmTarget.JVM_11
+    jvmTarget = JvmTarget.JVM_17
     // Ensure compatibility with older Gradle versions. Keep in sync with ParaphrasePlugin.kt.
-    apiVersion = KotlinVersion.KOTLIN_1_8
-    languageVersion = KotlinVersion.KOTLIN_1_8
+    apiVersion = KotlinVersion.KOTLIN_2_2
+    languageVersion = KotlinVersion.KOTLIN_2_2
   }
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_11
-  targetCompatibility = JavaVersion.VERSION_11
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {

@@ -1,9 +1,11 @@
 # Change Log
 
 ## [Unreleased]
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.4.1...HEAD
 
-Nothing yet.
+Changed:
+
+- The minimum-supported Gradle version is now 9.0.
 
 
 ## [0.4.1] - 2025-09-12
