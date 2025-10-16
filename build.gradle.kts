@@ -22,6 +22,11 @@ plugins {
   alias(libs.plugins.spotless)
 }
 
+dependencies {
+  dokka(projects.runtime)
+  dokka(projects.runtimeComposeUi)
+}
+
 configure<SpotlessExtension> {
   kotlin {
     target("**/*.kt")
