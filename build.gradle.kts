@@ -1,5 +1,6 @@
 import com.android.build.api.dsl.CommonExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
@@ -42,6 +43,11 @@ subprojects {
   version = extra["VERSION_NAME"]!!
 
   plugins.withId("com.vanniktech.maven.publish") {
+    // Disable Javadoc jars. They're basically useless relics, but enabling this will also cause
+    // AGP to use an old version of Dokka which fails to run on the latest Java versions.
+    extensions.getByType(MavenPublishBaseExtension::class)
+      .configureBasedOnAppliedPlugins(javadocJar = false)
+
     // All published libraries must use API tracking to help maintain compatibility.
     plugins.apply(libs.plugins.kotlinApiDump.get().pluginId)
 
