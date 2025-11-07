@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.0-alpha13"
+agp = "9.0.0-alpha14"
 kotlin = "2.2.21"
 ktlint = "0.48.1"
 
