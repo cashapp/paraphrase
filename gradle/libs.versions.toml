@@ -15,6 +15,7 @@ googleMaterial = "com.google.android.material:material:1.13.0"
 icu4j = "com.ibm.icu:icu4j:78.1"
 junit = "junit:junit:4.13.2"
 kotlinPoet = "com.squareup:kotlinpoet:2.2.0"
+robolectric = "org.robolectric:robolectric:4.16"
 testParameterInjector = "com.google.testparameterinjector:test-parameter-injector:1.19"
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
 coreLibraryDesugaring = "com.android.tools:desugar_jdk_libs:2.1.5"
@@ -26,6 +27,7 @@ androidTest = { id = "com.android.test", version.ref = "agp" }
 buildConfig = { id = "com.github.gmazzo.buildconfig", version = "5.7.1" }
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version = "2.1.0" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.34.0" }
 poko = { id = "dev.drewhamilton.poko", version = "0.20.1" }

@@ -1,6 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
   alias(libs.plugins.androidLibrary)
+  alias(libs.plugins.kotlinParcelize)
   alias(libs.plugins.mavenPublish)
   alias(libs.plugins.dokka)
   alias(libs.plugins.poko)
@@ -15,4 +16,5 @@ dependencies {
 
   testImplementation(libs.junit)
   testImplementation(libs.assertk)
+  testImplementation(libs.robolectric)
 }

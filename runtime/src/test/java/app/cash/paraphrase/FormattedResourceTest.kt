@@ -15,13 +15,17 @@
  */
 package app.cash.paraphrase
 
+import android.os.Parcel
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isNotEqualTo
 import assertk.assertions.isTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class FormattedResourceTest {
   //region equals
   @Test fun `equals same instance returns true`() {
@@ -119,6 +123,30 @@ class FormattedResourceTest {
   @Test fun `toString with array includes contents`() {
     val instance = FormattedResource(id = 123, arguments = arrayOf("a", "b"))
     assertThat(instance.toString()).isEqualTo("FormattedResource(id=123, arguments=[a, b])")
+  }
+  //endregion
+
+  //region Parcelable
+  @Test fun `parcelable with map`() {
+    val instance = FormattedResource(id = 123, arguments = mapOf("a" to 1, "b" to 2))
+    assertThat(instance.roundTripThroughParcel()).isEqualTo(instance)
+  }
+
+  @Test fun `parcelable with array`() {
+    val instance = FormattedResource(id = 123, arguments = arrayOf("a", "b"))
+    assertThat(instance.roundTripThroughParcel()).isEqualTo(instance)
+  }
+
+  private fun FormattedResource.roundTripThroughParcel(): FormattedResource {
+    val bytes = Parcel.obtain().run {
+      writeParcelable(this@roundTripThroughParcel, 0)
+      marshall()
+    }
+    return Parcel.obtain().run {
+      unmarshall(bytes, 0, bytes.size)
+      setDataPosition(0)
+      readParcelable(FormattedResource::class.java.classLoader)!!
+    }
   }
   //endregion
 }

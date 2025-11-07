@@ -16,8 +16,11 @@
 package app.cash.paraphrase
 
 import android.icu.text.MessageFormat
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import dev.drewhamilton.poko.Poko
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
 /**
  * A [FormattedResource] consists of:
@@ -42,6 +45,7 @@ import dev.drewhamilton.poko.Poko
  *
  * @property arguments Arguments passed directly to [MessageFormat.format].
  */
+@Parcelize
 @Poko
 public class FormattedResource(
   @get:StringRes
@@ -49,5 +53,5 @@ public class FormattedResource(
   public val id: Int,
 
   @Poko.ReadArrayContent
-  public val arguments: Any,
-)
+  public val arguments: @RawValue Any,
+) : Parcelable
