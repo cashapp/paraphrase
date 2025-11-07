@@ -76,10 +76,10 @@ subprojects {
     }
   }
 
-  val javaVersion = JavaVersion.VERSION_1_8.toString()
+  val javaVersion = JavaVersion.VERSION_1_8
   tasks.withType<KotlinJvmCompile> {
     compilerOptions {
-      jvmTarget = JvmTarget.fromTarget(javaVersion)
+      jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
     }
   }
   val configureAndroid = Action<Plugin<Any>> {
@@ -87,9 +87,9 @@ subprojects {
       compileSdk = 36
       defaultConfig.minSdk = 24
 
-      compileOptions {
-        sourceCompatibility(javaVersion)
-        targetCompatibility(javaVersion)
+      compileOptions.apply {
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
       }
     }
   }
