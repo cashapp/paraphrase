@@ -1,7 +1,0 @@
-$dokka.format:html-v1
-$dokka.linkExtension:html
-
-module:runtime
-app.cash.paraphrase
-module:runtime-compose-ui
-app.cash.paraphrase.compose

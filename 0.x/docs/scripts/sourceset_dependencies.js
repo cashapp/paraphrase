@@ -1,1 +1,1 @@
-sourceset_dependencies = '{":runtime-compose-ui:dokkaHtmlPartial/debug":[],":runtime-compose-ui:dokkaHtmlPartial/main":[],":runtime-compose-ui:dokkaHtmlPartial/release":[],":runtime:dokkaHtmlPartial/debug":[],":runtime:dokkaHtmlPartial/main":[],":runtime:dokkaHtmlPartial/release":[]}'
+sourceset_dependencies='{}'
