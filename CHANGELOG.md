@@ -1,7 +1,14 @@
 # Change Log
 
 ## [Unreleased]
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.4.1...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.5.0...HEAD
+
+## [0.5.0] - 2025-11-10
+[0.5.0]: https://github.com/cashapp/paraphrase/releases/tag/0.5.0
+
+New:
+
+- `FormattedResource` is now `Parcelable`.
 
 Changed:
 

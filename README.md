@@ -10,7 +10,7 @@ In the `build.gradle.kts` file of an Android application or library module:
 
 ```kotlin
 plugins {
-  id("app.cash.paraphrase") version "0.4.1"
+  id("app.cash.paraphrase") version "0.5.0"
 }
 ```
 
