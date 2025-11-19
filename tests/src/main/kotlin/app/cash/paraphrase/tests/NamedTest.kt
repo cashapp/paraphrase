@@ -24,16 +24,17 @@ import org.junit.Test
 class NamedTest {
   private val context = InstrumentationRegistry.getInstrumentation().context
 
-  @Test fun numberedSparseOne() {
+  @Test
+  fun numberedSparseOne() {
     val formattedResource = FormattedResources.named_one("Z")
-    assertThat(formattedResource.arguments as Map<String, Any>)
-      .isEqualTo(mapOf("one" to "Z"))
+    assertThat(formattedResource.arguments as Map<String, Any>).isEqualTo(mapOf("one" to "Z"))
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B")
   }
 
-  @Test fun numberedSparseThree() {
+  @Test
+  fun numberedSparseThree() {
     val formattedResource = FormattedResources.named_three("Z", "Y", "X")
     assertThat(formattedResource.arguments as Map<String, Any>)
       .isEqualTo(mapOf("one" to "Z", "two" to "Y", "three" to "X"))

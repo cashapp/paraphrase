@@ -56,7 +56,10 @@ internal fun resolveArgumentType(tokenTypes: List<TokenType>): KClass<*>? =
   when (resolveCompatibleTokenType(tokenTypes)) {
     null -> null
     None -> Any::class
-    Choice, Number, Plural, SpellOut -> KotlinNumber::class
+    Choice,
+    Number,
+    Plural,
+    SpellOut -> KotlinNumber::class
     Date -> LocalDate::class
     Time -> LocalTime::class
     TimeWithOffset -> OffsetTime::class
@@ -65,7 +68,8 @@ internal fun resolveArgumentType(tokenTypes: List<TokenType>): KClass<*>? =
     DateTimeWithZone -> ZonedDateTime::class
     Offset -> ZoneOffset::class
     Duration -> KotlinDuration::class
-    Ordinal, SelectOrdinal -> Long::class
+    Ordinal,
+    SelectOrdinal -> Long::class
     Select -> String::class
     NoArg -> Nothing::class
   }
@@ -98,22 +102,23 @@ private val TokenType.compatibleTypes: List<TokenType>
  * a superset of the information in [DateTime], so it comes later in the list of types compatible
  * with [Date].
  */
-private val compatibleTokenTypes: Map<TokenType, List<TokenType>> = mapOf(
-  None to TokenType.values().asList(),
-  Number to listOf(Choice, Ordinal, Plural, SelectOrdinal, SpellOut),
-  Date to listOf(DateTime, DateTimeWithOffset, DateTimeWithZone),
-  Time to listOf(DateTime, TimeWithOffset, DateTimeWithOffset, DateTimeWithZone),
-  TimeWithOffset to listOf(DateTimeWithOffset, DateTimeWithZone),
-  DateTime to listOf(DateTimeWithOffset, DateTimeWithZone),
-  DateTimeWithOffset to listOf(DateTimeWithZone),
-  DateTimeWithZone to emptyList(),
-  Offset to listOf(TimeWithOffset, DateTimeWithOffset, DateTimeWithZone),
-  SpellOut to listOf(Choice, Number, Ordinal, Plural, SelectOrdinal),
-  Ordinal to listOf(SelectOrdinal),
-  Duration to emptyList(),
-  Choice to listOf(Number, Ordinal, Plural, SelectOrdinal, SpellOut),
-  Plural to listOf(Choice, Number, Ordinal, SelectOrdinal, SpellOut),
-  Select to emptyList(),
-  SelectOrdinal to listOf(Ordinal),
-  NoArg to emptyList(),
-)
+private val compatibleTokenTypes: Map<TokenType, List<TokenType>> =
+  mapOf(
+    None to TokenType.values().asList(),
+    Number to listOf(Choice, Ordinal, Plural, SelectOrdinal, SpellOut),
+    Date to listOf(DateTime, DateTimeWithOffset, DateTimeWithZone),
+    Time to listOf(DateTime, TimeWithOffset, DateTimeWithOffset, DateTimeWithZone),
+    TimeWithOffset to listOf(DateTimeWithOffset, DateTimeWithZone),
+    DateTime to listOf(DateTimeWithOffset, DateTimeWithZone),
+    DateTimeWithOffset to listOf(DateTimeWithZone),
+    DateTimeWithZone to emptyList(),
+    Offset to listOf(TimeWithOffset, DateTimeWithOffset, DateTimeWithZone),
+    SpellOut to listOf(Choice, Number, Ordinal, Plural, SelectOrdinal),
+    Ordinal to listOf(SelectOrdinal),
+    Duration to emptyList(),
+    Choice to listOf(Number, Ordinal, Plural, SelectOrdinal, SpellOut),
+    Plural to listOf(Choice, Number, Ordinal, SelectOrdinal, SpellOut),
+    Select to emptyList(),
+    SelectOrdinal to listOf(Ordinal),
+    NoArg to emptyList(),
+  )

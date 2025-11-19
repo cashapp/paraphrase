@@ -46,33 +46,36 @@ class ResourceTokenizerTest {
 
   @Test
   fun tokenizeResourceWithNamedSimpleTokens() {
-    "Test {test} {test_number, number} {test_date, date} {test_time, time}".assertTokens(
-      NamedToken(name = "test", type = None),
-      NamedToken(name = "test_number", type = Number),
-      NamedToken(name = "test_date", type = Date),
-      NamedToken(name = "test_time", type = Time),
-    )
+    "Test {test} {test_number, number} {test_date, date} {test_time, time}"
+      .assertTokens(
+        NamedToken(name = "test", type = None),
+        NamedToken(name = "test_number", type = Number),
+        NamedToken(name = "test_date", type = Date),
+        NamedToken(name = "test_time", type = Time),
+      )
   }
 
   @Test
   fun tokenizeResourceWithNumberedSimpleTokens() {
-    "Test {0} {1, number} {2, date} {3, time}".assertTokens(
-      NumberedToken(number = 0, type = None),
-      NumberedToken(number = 1, type = Number),
-      NumberedToken(number = 2, type = Date),
-      NumberedToken(number = 3, type = Time),
-    )
+    "Test {0} {1, number} {2, date} {3, time}"
+      .assertTokens(
+        NumberedToken(number = 0, type = None),
+        NumberedToken(number = 1, type = Number),
+        NumberedToken(number = 2, type = Date),
+        NumberedToken(number = 3, type = Time),
+      )
   }
 
   @Test
   fun tokenizeResourceWithNamedPluralArgument() {
     """
-      {test, plural,
-        zero {Test 0 {test_nested}}
-        one {Test 1 {test_nested}}
-        other {Test # {test_nested}}
-      }
-    """.trimIndent()
+    {test, plural,
+      zero {Test 0 {test_nested}}
+      one {Test 1 {test_nested}}
+      other {Test # {test_nested}}
+    }
+    """
+      .trimIndent()
       .assertTokens(
         NamedToken(name = "test", type = Plural),
         NamedToken(name = "test_nested", type = None),
@@ -84,12 +87,13 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithNumberedPluralArgument() {
     """
-      {0, plural,
-        zero {Test 0 {1}}
-        one {Test 1 {1}}
-        other {Test # {1}}
-      }
-    """.trimIndent()
+    {0, plural,
+      zero {Test 0 {1}}
+      one {Test 1 {1}}
+      other {Test # {1}}
+    }
+    """
+      .trimIndent()
       .assertTokens(
         NumberedToken(number = 0, type = Plural),
         NumberedToken(number = 1, type = None),
@@ -101,13 +105,14 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithNamedSelectArgument() {
     """
-      {test, select,
-        red {Test red {test_nested}}
-        green {Test green {test_nested}}
-        blue {Test blue {test_nested}}
-        other {Test other {test_nested}}
-      }
-    """.trimIndent()
+    {test, select,
+      red {Test red {test_nested}}
+      green {Test green {test_nested}}
+      blue {Test blue {test_nested}}
+      other {Test other {test_nested}}
+    }
+    """
+      .trimIndent()
       .assertTokens(
         NamedToken(name = "test", type = Select),
         NamedToken(name = "test_nested", type = None),
@@ -120,13 +125,14 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithNumberedSelectArgument() {
     """
-      {0, select,
-        red {Test red {1}}
-        green {Test green {1}}
-        blue {Test blue {1}}
-        other {Test other {1}}
-      }
-    """.trimIndent()
+    {0, select,
+      red {Test red {1}}
+      green {Test green {1}}
+      blue {Test blue {1}}
+      other {Test other {1}}
+    }
+    """
+      .trimIndent()
       .assertTokens(
         NumberedToken(number = 0, type = Select),
         NumberedToken(number = 1, type = None),
@@ -139,12 +145,13 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithNamedSelectOrdinalArgument() {
     """
-      {test, selectordinal,
-        zero {Test 0 {test_nested}}
-        one {Test 1 {test_nested}}
-        other {Test # {test_nested}}
-      }
-    """.trimIndent()
+    {test, selectordinal,
+      zero {Test 0 {test_nested}}
+      one {Test 1 {test_nested}}
+      other {Test # {test_nested}}
+    }
+    """
+      .trimIndent()
       .assertTokens(
         NamedToken(name = "test", type = SelectOrdinal),
         NamedToken(name = "test_nested", type = None),
@@ -156,12 +163,13 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithNumberedSelectOrdinalArgument() {
     """
-      {0, selectordinal,
-        zero {Test 0 {1}}
-        one {Test 1 {1}}
-        other {Test # {1}}
-      }
-    """.trimIndent()
+    {0, selectordinal,
+      zero {Test 0 {1}}
+      one {Test 1 {1}}
+      other {Test # {1}}
+    }
+    """
+      .trimIndent()
       .assertTokens(
         NumberedToken(number = 0, type = SelectOrdinal),
         NumberedToken(number = 1, type = None),
@@ -173,12 +181,13 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithReusedNamedChoiceArgument() {
     """
-      {count, plural,
-        zero {Test 0 {count}}
-        one {Test 1 {count}}
-        other {Test # {count}}
-      }
-    """.trimIndent()
+    {count, plural,
+      zero {Test 0 {count}}
+      one {Test 1 {count}}
+      other {Test # {count}}
+    }
+    """
+      .trimIndent()
       .assertTokens(
         NamedToken(name = "count", type = Plural),
         NamedToken(name = "count", type = None),
@@ -190,12 +199,13 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithReusedNumberedChoiceArgument() {
     """
-      {0, plural,
-        zero {Test 0 {0}}
-        one {Test 1 {0}}
-        other {Test # {0}}
-      }
-    """.trimIndent()
+    {0, plural,
+      zero {Test 0 {0}}
+      one {Test 1 {0}}
+      other {Test # {0}}
+    }
+    """
+      .trimIndent()
       .assertTokens(
         NumberedToken(number = 0, type = Plural),
         NumberedToken(number = 0, type = None),
@@ -207,12 +217,13 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithDateFormat() {
     """
-      Test
-      {short, date, short}
-      {medium, date, medium}
-      {long, date, long}
-      {full, date, full}
-    """.trimIndent()
+    Test
+    {short, date, short}
+    {medium, date, medium}
+    {long, date, long}
+    {full, date, full}
+    """
+      .trimIndent()
       .assertTokens(
         NamedToken(name = "short", type = Date),
         NamedToken(name = "medium", type = Date),
@@ -224,12 +235,13 @@ class ResourceTokenizerTest {
   @Test
   fun tokenizeResourceWithTimeFormat() {
     """
-      Test
-      {short, time, short}
-      {medium, time, medium}
-      {long, time, long}
-      {full, time, full}
-    """.trimIndent()
+    Test
+    {short, time, short}
+    {medium, time, medium}
+    {long, time, long}
+    {full, time, full}
+    """
+      .trimIndent()
       .assertTokens(
         NamedToken(name = "short", type = Time),
         NamedToken(name = "medium", type = Time),
@@ -255,7 +267,8 @@ class ResourceTokenizerTest {
         {id, $type, V}
         {offset, $type, x}
         {no_arg, $type, 'yaz'}
-      """.trimIndent()
+      """
+        .trimIndent()
         .assertTokens(
           NamedToken(name = "date_time_id", type = DateTimeWithZone),
           NamedToken(name = "date_time_offset", type = DateTimeWithOffset),
@@ -275,50 +288,39 @@ class ResourceTokenizerTest {
 
   @Test
   fun tokenizeResourceWithInvalidIcuFormat() {
-    "Test {{test}}".assertNoTokensWithError(
-      """Bad argument syntax: [at pattern index 6] "{test}}"""",
-    )
+    "Test {{test}}"
+      .assertNoTokensWithError("""Bad argument syntax: [at pattern index 6] "{test}}"""")
   }
 
-  private fun String.assertTokens(
-    vararg tokens: Token,
-  ) {
+  private fun String.assertTokens(vararg tokens: Token) {
     assertThat(
-      tokenizeResource(
-        StringResource(
+        tokenizeResource(
+          StringResource(name = ResourceName("test"), description = "Test Description", text = this)
+        )
+      )
+      .isEqualTo(
+        TokenizedResource(
           name = ResourceName("test"),
           description = "Test Description",
-          text = this,
-        ),
-      ),
-    ).isEqualTo(
-      TokenizedResource(
-        name = ResourceName("test"),
-        description = "Test Description",
-        tokens = tokens.toList(),
-        parsingError = null,
-      ),
-    )
+          tokens = tokens.toList(),
+          parsingError = null,
+        )
+      )
   }
 
-  private fun String.assertNoTokensWithError(
-    message: String,
-  ) {
+  private fun String.assertNoTokensWithError(message: String) {
     assertThat(
-      tokenizeResource(
-        StringResource(
+        tokenizeResource(
+          StringResource(name = ResourceName("test"), description = "Test Description", text = this)
+        )
+      )
+      .isEqualTo(
+        TokenizedResource(
           name = ResourceName("test"),
           description = "Test Description",
-          text = this,
-        ),
-      ),
-    ).isEqualTo(
-      TokenizedResource(
-        name = ResourceName("test"),
-        description = "Test Description",
-        tokens = emptyList(),
-        parsingError = message,
-      ),
-    )
+          tokens = emptyList(),
+          parsingError = message,
+        )
+      )
   }
 }

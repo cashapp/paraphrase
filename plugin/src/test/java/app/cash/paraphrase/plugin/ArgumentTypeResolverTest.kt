@@ -54,17 +54,20 @@ class ArgumentTypeResolverTest {
 
   @Test
   fun resolveNone() {
-    None.assertArgumentTypes { other ->
-      resolveArgumentType(listOf(other))
-    }
+    None.assertArgumentTypes { other -> resolveArgumentType(listOf(other)) }
   }
 
   @Test
   fun resolveNumber() {
     Number.assertArgumentTypes { other ->
       when (other) {
-        None, Choice, Number, Plural, SpellOut -> KotlinNumber::class
-        Ordinal, SelectOrdinal -> Long::class
+        None,
+        Choice,
+        Number,
+        Plural,
+        SpellOut -> KotlinNumber::class
+        Ordinal,
+        SelectOrdinal -> Long::class
         else -> null
       }
     }
@@ -74,9 +77,13 @@ class ArgumentTypeResolverTest {
   fun resolveDate() {
     Date.assertArgumentTypes { other ->
       when (other) {
-        None, Date -> LocalDate::class
-        Time, DateTime -> LocalDateTime::class
-        Offset, TimeWithOffset, DateTimeWithOffset -> OffsetDateTime::class
+        None,
+        Date -> LocalDate::class
+        Time,
+        DateTime -> LocalDateTime::class
+        Offset,
+        TimeWithOffset,
+        DateTimeWithOffset -> OffsetDateTime::class
         DateTimeWithZone -> ZonedDateTime::class
         else -> null
       }
@@ -87,9 +94,12 @@ class ArgumentTypeResolverTest {
   fun resolveTime() {
     Time.assertArgumentTypes { other ->
       when (other) {
-        None, Time -> LocalTime::class
-        Date, DateTime -> LocalDateTime::class
-        Offset, TimeWithOffset -> OffsetTime::class
+        None,
+        Time -> LocalTime::class
+        Date,
+        DateTime -> LocalDateTime::class
+        Offset,
+        TimeWithOffset -> OffsetTime::class
         DateTimeWithOffset -> OffsetDateTime::class
         DateTimeWithZone -> ZonedDateTime::class
         else -> null
@@ -101,9 +111,13 @@ class ArgumentTypeResolverTest {
   fun resolveOffset() {
     Offset.assertArgumentTypes { other ->
       when (other) {
-        None, Offset -> ZoneOffset::class
-        Date, DateTime, DateTimeWithOffset -> OffsetDateTime::class
-        Time, TimeWithOffset -> OffsetTime::class
+        None,
+        Offset -> ZoneOffset::class
+        Date,
+        DateTime,
+        DateTimeWithOffset -> OffsetDateTime::class
+        Time,
+        TimeWithOffset -> OffsetTime::class
         DateTimeWithZone -> ZonedDateTime::class
         else -> null
       }
@@ -114,8 +128,13 @@ class ArgumentTypeResolverTest {
   fun resolveDateTime() {
     DateTime.assertArgumentTypes { other ->
       when (other) {
-        None, Date, Time, DateTime -> LocalDateTime::class
-        Offset, TimeWithOffset, DateTimeWithOffset -> OffsetDateTime::class
+        None,
+        Date,
+        Time,
+        DateTime -> LocalDateTime::class
+        Offset,
+        TimeWithOffset,
+        DateTimeWithOffset -> OffsetDateTime::class
         DateTimeWithZone -> ZonedDateTime::class
         else -> null
       }
@@ -126,8 +145,13 @@ class ArgumentTypeResolverTest {
   fun resolveTimeWithOffset() {
     TimeWithOffset.assertArgumentTypes { other ->
       when (other) {
-        None, Time, Offset, TimeWithOffset -> OffsetTime::class
-        Date, DateTime, DateTimeWithOffset -> OffsetDateTime::class
+        None,
+        Time,
+        Offset,
+        TimeWithOffset -> OffsetTime::class
+        Date,
+        DateTime,
+        DateTimeWithOffset -> OffsetDateTime::class
         DateTimeWithZone -> ZonedDateTime::class
         else -> null
       }
@@ -138,7 +162,13 @@ class ArgumentTypeResolverTest {
   fun resolveDateTimeWithOffset() {
     DateTimeWithOffset.assertArgumentTypes { other ->
       when (other) {
-        None, Date, Time, Offset, DateTime, TimeWithOffset, DateTimeWithOffset -> OffsetDateTime::class
+        None,
+        Date,
+        Time,
+        Offset,
+        DateTime,
+        TimeWithOffset,
+        DateTimeWithOffset -> OffsetDateTime::class
         DateTimeWithZone -> ZonedDateTime::class
         else -> null
       }
@@ -149,7 +179,14 @@ class ArgumentTypeResolverTest {
   fun resolveDateTimeWithZone() {
     DateTimeWithZone.assertArgumentTypes { other ->
       when (other) {
-        None, Date, Time, Offset, DateTime, TimeWithOffset, DateTimeWithOffset, DateTimeWithZone -> ZonedDateTime::class
+        None,
+        Date,
+        Time,
+        Offset,
+        DateTime,
+        TimeWithOffset,
+        DateTimeWithOffset,
+        DateTimeWithZone -> ZonedDateTime::class
         else -> null
       }
     }
@@ -159,8 +196,13 @@ class ArgumentTypeResolverTest {
   fun resolveSpellOut() {
     SpellOut.assertArgumentTypes { other ->
       when (other) {
-        None, Choice, Number, Plural, SpellOut -> KotlinNumber::class
-        Ordinal, SelectOrdinal -> Long::class
+        None,
+        Choice,
+        Number,
+        Plural,
+        SpellOut -> KotlinNumber::class
+        Ordinal,
+        SelectOrdinal -> Long::class
         else -> null
       }
     }
@@ -170,7 +212,13 @@ class ArgumentTypeResolverTest {
   fun resolveOrdinal() {
     Ordinal.assertArgumentTypes { other ->
       when (other) {
-        None, Choice, Number, Ordinal, Plural, SelectOrdinal, SpellOut -> Long::class
+        None,
+        Choice,
+        Number,
+        Ordinal,
+        Plural,
+        SelectOrdinal,
+        SpellOut -> Long::class
         else -> null
       }
     }
@@ -180,7 +228,8 @@ class ArgumentTypeResolverTest {
   fun resolveDuration() {
     Duration.assertArgumentTypes { other ->
       when (other) {
-        None, Duration -> KotlinDuration::class
+        None,
+        Duration -> KotlinDuration::class
         else -> null
       }
     }
@@ -190,8 +239,13 @@ class ArgumentTypeResolverTest {
   fun resolveChoice() {
     Choice.assertArgumentTypes { other ->
       when (other) {
-        None, Choice, Number, Plural, SpellOut -> KotlinNumber::class
-        Ordinal, SelectOrdinal -> Long::class
+        None,
+        Choice,
+        Number,
+        Plural,
+        SpellOut -> KotlinNumber::class
+        Ordinal,
+        SelectOrdinal -> Long::class
         else -> null
       }
     }
@@ -201,8 +255,13 @@ class ArgumentTypeResolverTest {
   fun resolvePlural() {
     Plural.assertArgumentTypes { other ->
       when (other) {
-        None, Choice, Number, Plural, SpellOut -> KotlinNumber::class
-        Ordinal, SelectOrdinal -> Long::class
+        None,
+        Choice,
+        Number,
+        Plural,
+        SpellOut -> KotlinNumber::class
+        Ordinal,
+        SelectOrdinal -> Long::class
         else -> null
       }
     }
@@ -212,7 +271,8 @@ class ArgumentTypeResolverTest {
   fun resolveSelect() {
     Select.assertArgumentTypes { other ->
       when (other) {
-        None, Select -> String::class
+        None,
+        Select -> String::class
         else -> null
       }
     }
@@ -222,7 +282,13 @@ class ArgumentTypeResolverTest {
   fun resolveSelectOrdinal() {
     SelectOrdinal.assertArgumentTypes { other ->
       when (other) {
-        None, Choice, Number, Ordinal, Plural, SelectOrdinal, SpellOut -> Long::class
+        None,
+        Choice,
+        Number,
+        Ordinal,
+        Plural,
+        SelectOrdinal,
+        SpellOut -> Long::class
         else -> null
       }
     }
@@ -232,7 +298,8 @@ class ArgumentTypeResolverTest {
   fun resolveNoArg() {
     NoArg.assertArgumentTypes { other ->
       when (other) {
-        None, NoArg -> Nothing::class
+        None,
+        NoArg -> Nothing::class
         else -> null
       }
     }
@@ -240,9 +307,7 @@ class ArgumentTypeResolverTest {
 
   private fun TokenType.assertArgumentTypes(expected: (TokenType) -> KClass<*>?) {
     listOf(this).assertArgumentType(expected(this))
-    TokenType.values().forEach { other ->
-      listOf(this, other).assertArgumentType(expected(other))
-    }
+    TokenType.values().forEach { other -> listOf(this, other).assertArgumentType(expected(other)) }
   }
 
   private fun List<TokenType>.assertArgumentType(expected: KClass<*>?) =

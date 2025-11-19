@@ -5,11 +5,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
-buildscript {
-  dependencies {
-    classpath("app.cash.paraphrase:plugin")
-  }
-}
+buildscript { dependencies { classpath("app.cash.paraphrase:plugin") } }
 
 plugins {
   alias(libs.plugins.androidApplication) apply false
@@ -32,12 +28,10 @@ dependencies {
 configure<SpotlessExtension> {
   kotlin {
     target("**/*.kt")
-    ktlint(libs.versions.ktlint.get())
+    ktfmt(libs.ktfmt.get().version).googleStyle()
     licenseHeaderFile(file("gradle/license-header.txt"))
   }
-  kotlinGradle {
-    ktlint(libs.versions.ktlint.get())
-  }
+  kotlinGradle { ktfmt(libs.ktfmt.get().version).googleStyle() }
 }
 
 subprojects {
@@ -46,7 +40,8 @@ subprojects {
   plugins.withId("com.vanniktech.maven.publish") {
     // Disable Javadoc jars. They're basically useless relics, but enabling this will also cause
     // AGP to use an old version of Dokka which fails to run on the latest Java versions.
-    extensions.getByType(MavenPublishBaseExtension::class)
+    extensions
+      .getByType(MavenPublishBaseExtension::class)
       .configureBasedOnAppliedPlugins(javadocJar = false)
 
     // All published libraries must use API tracking to help maintain compatibility.
@@ -58,12 +53,14 @@ subprojects {
     publishing {
       repositories {
         /**
-         * Want to push to an internal repository for testing?
-         * Set the following properties in ~/.gradle/gradle.properties.
+         * Want to push to an internal repository for testing? Set the following properties in
+         * `~/.gradle/gradle.properties`.
          *
+         * ```
          * internalUrl=YOUR_INTERNAL_URL
          * internalUsername=YOUR_USERNAME
          * internalPassword=YOUR_PASSWORD
+         * ```
          */
         val internalUrl = providers.gradleProperty("internalUrl")
         if (internalUrl.isPresent()) {
@@ -79,21 +76,20 @@ subprojects {
 
   val javaVersion = JavaVersion.VERSION_1_8
   tasks.withType<KotlinJvmCompile> {
-    compilerOptions {
-      jvmTarget = JvmTarget.fromTarget(javaVersion.toString())
-    }
+    compilerOptions { jvmTarget = JvmTarget.fromTarget(javaVersion.toString()) }
   }
-  val configureAndroid = Action<Plugin<Any>> {
-    with(extensions.getByType<CommonExtension>()) {
-      compileSdk = 36
-      defaultConfig.minSdk = 24
+  val configureAndroid =
+    Action<Plugin<Any>> {
+      with(extensions.getByType<CommonExtension>()) {
+        compileSdk = 36
+        defaultConfig.minSdk = 24
 
-      compileOptions.apply {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
+        compileOptions.apply {
+          sourceCompatibility = javaVersion
+          targetCompatibility = javaVersion
+        }
       }
     }
-  }
   plugins.withId("com.android.application", configureAndroid)
   plugins.withId("com.android.library", configureAndroid)
   plugins.withId("com.android.test", configureAndroid)

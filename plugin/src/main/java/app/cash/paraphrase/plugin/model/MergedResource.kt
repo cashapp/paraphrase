@@ -17,9 +17,7 @@ package app.cash.paraphrase.plugin.model
 
 import kotlin.reflect.KClass
 
-/**
- * A string resource parsed from a strings.xml file with its associated argument tokens.
- */
+/** A string resource parsed from a strings.xml file with its associated argument tokens. */
 internal data class MergedResource(
   val name: ResourceName,
   val description: String?,
@@ -47,8 +45,7 @@ internal data class MergedResource(
     object None : Deprecation {
       override fun toString() = "None"
     }
-    data class WithMessage(
-      val message: String,
-    ) : Deprecation
+
+    data class WithMessage(val message: String) : Deprecation
   }
 }

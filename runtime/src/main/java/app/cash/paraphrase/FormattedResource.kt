@@ -48,10 +48,6 @@ import kotlinx.parcelize.RawValue
 @Parcelize
 @Poko
 public class FormattedResource(
-  @get:StringRes
-  @param:StringRes
-  public val id: Int,
-
-  @Poko.ReadArrayContent
-  public val arguments: @RawValue Any,
+  @get:StringRes @param:StringRes public val id: Int,
+  @Poko.ReadArrayContent public val arguments: @RawValue Any,
 ) : Parcelable

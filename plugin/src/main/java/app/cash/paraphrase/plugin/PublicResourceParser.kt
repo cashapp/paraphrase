@@ -38,17 +38,11 @@ internal fun parsePublicResources(inputStream: InputStream): List<PublicResource
       val type = it.attributes.getNamedItem("type")?.childNodes?.item(0)?.textContent
 
       when {
-        name != null && type != null -> PublicResource.Named(
-          name = ResourceName(name),
-          type = type,
-        )
+        name != null && type != null -> PublicResource.Named(name = ResourceName(name), type = type)
         name == null && type == null -> PublicResource.EmptyDeclaration
-        name == null -> throw IllegalArgumentException(
-          "<public> resource with type $type must have a name",
-        )
-        else -> throw IllegalArgumentException(
-          "<public> resource named $name has no type",
-        )
+        name == null ->
+          throw IllegalArgumentException("<public> resource with type $type must have a name")
+        else -> throw IllegalArgumentException("<public> resource named $name has no type")
       }
     }
     .toList()
