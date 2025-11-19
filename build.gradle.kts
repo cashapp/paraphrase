@@ -32,11 +32,11 @@ dependencies {
 configure<SpotlessExtension> {
   kotlin {
     target("**/*.kt")
-    ktlint(libs.versions.ktlint.get())
+    ktfmt(libs.ktfmt.get().version)
     licenseHeaderFile(file("gradle/license-header.txt"))
   }
   kotlinGradle {
-    ktlint(libs.versions.ktlint.get())
+    ktfmt(libs.ktfmt.get().version)
   }
 }
 
