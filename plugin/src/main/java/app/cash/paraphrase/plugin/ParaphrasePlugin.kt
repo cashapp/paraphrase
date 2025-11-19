@@ -28,54 +28,59 @@ import org.gradle.util.GradleVersion
  * A Gradle plugin that generates type checked formatters for patterned Android string resources.
  */
 public class ParaphrasePlugin : Plugin<Project> {
-  override fun apply(target: Project): Unit = target.run {
-    // If you update the minimum-supported Gradle version, check if the Kotlin api/language version
-    // can be bumped. See https://docs.gradle.org/current/userguide/compatibility.html#kotlin.
-    val gradleMinimum = GradleVersion.version("9.0")
-    val gradleCurrent = GradleVersion.current()
-    require(gradleCurrent >= gradleMinimum) {
-      "Plugin requires $gradleMinimum or newer. Found $gradleCurrent"
-    }
+  override fun apply(target: Project): Unit =
+    target.run {
+      // If you update the minimum-supported Gradle version, check if the Kotlin api/language
+      // version
+      // can be bumped. See https://docs.gradle.org/current/userguide/compatibility.html#kotlin.
+      val gradleMinimum = GradleVersion.version("9.0")
+      val gradleCurrent = GradleVersion.current()
+      require(gradleCurrent >= gradleMinimum) {
+        "Plugin requires $gradleMinimum or newer. Found $gradleCurrent"
+      }
 
-    addDependencies()
-    extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
-      registerGenerateFormattedResourcesTask(
-        sources = variant.sources,
-        name = variant.name,
-        namespace = variant.namespace,
-      )
-
-      (variant as? HasAndroidTest)?.androidTest?.let { androidTest ->
+      addDependencies()
+      extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
         registerGenerateFormattedResourcesTask(
-          sources = androidTest.sources,
-          name = androidTest.name,
-          namespace = androidTest.namespace,
+          sources = variant.sources,
+          name = variant.name,
+          namespace = variant.namespace,
         )
+
+        (variant as? HasAndroidTest)?.androidTest?.let { androidTest ->
+          registerGenerateFormattedResourcesTask(
+            sources = androidTest.sources,
+            name = androidTest.name,
+            namespace = androidTest.namespace,
+          )
+        }
       }
     }
-  }
 
   private fun Project.addDependencies() {
     val isInternal = properties["app.cash.paraphrase.internal"].toString() == "true"
 
     // Automatically add the runtime dependency.
-    val runtimeDependency: Any = if (isInternal) {
-      dependencies.project(mapOf("path" to ":runtime"))
-    } else {
-      "app.cash.paraphrase:paraphrase-runtime:${BuildConfig.VERSION}"
-    }
+    val runtimeDependency: Any =
+      if (isInternal) {
+        dependencies.project(mapOf("path" to ":runtime"))
+      } else {
+        "app.cash.paraphrase:paraphrase-runtime:${BuildConfig.VERSION}"
+      }
     dependencies.add("api", runtimeDependency)
 
     // Automatically add the runtime Compose UI dependency if Compose is being used.
     afterEvaluate {
-      val hasComposeFeature = extensions.getByType(CommonExtension::class.java).buildFeatures.compose == true
+      val hasComposeFeature =
+        extensions.getByType(CommonExtension::class.java).buildFeatures.compose == true
       val hasComposePlugin = pluginManager.hasPlugin("org.jetbrains.kotlin.plugin.compose")
       if (hasComposeFeature || hasComposePlugin) {
-        val runtimeComposeUiDependency: Any = if (isInternal) {
-          dependencies.project(mapOf("path" to ":runtime-compose-ui"))
-        } else {
-          "app.cash.paraphrase:paraphrase-runtime-compose-ui:${BuildConfig.VERSION}"
-        }
+        val runtimeComposeUiDependency: Any =
+          if (isInternal) {
+            dependencies.project(mapOf("path" to ":runtime-compose-ui"))
+          } else {
+            "app.cash.paraphrase:paraphrase-runtime-compose-ui:${BuildConfig.VERSION}"
+          }
         dependencies.add("implementation", runtimeComposeUiDependency)
       }
     }
@@ -91,17 +96,19 @@ public class ParaphrasePlugin : Plugin<Project> {
   ) {
     val javaSources = sources.java ?: return
     val resSources = sources.res ?: return
-    tasks.register(
-      "generateFormattedResources${name.replaceFirstChar { it.uppercase() }}",
-      GenerateFormattedResources::class.java,
-    ).apply {
-      javaSources.addGeneratedSourceDirectory(this, GenerateFormattedResources::outputDirectory)
-      configure { task ->
-        task.description = "Generates type-safe formatters for $name string resources"
-        task.namespace.set(namespace)
-        task.resourceDirectories.from(resSources.all)
-        task.outputDirectory.set(layout.buildDirectory.dir("generated/source/paraphrase/$name"))
+    tasks
+      .register(
+        "generateFormattedResources${name.replaceFirstChar { it.uppercase() }}",
+        GenerateFormattedResources::class.java,
+      )
+      .apply {
+        javaSources.addGeneratedSourceDirectory(this, GenerateFormattedResources::outputDirectory)
+        configure { task ->
+          task.description = "Generates type-safe formatters for $name string resources"
+          task.namespace.set(namespace)
+          task.resourceDirectories.from(resSources.all)
+          task.outputDirectory.set(layout.buildDirectory.dir("generated/source/paraphrase/$name"))
+        }
       }
-    }
   }
 }

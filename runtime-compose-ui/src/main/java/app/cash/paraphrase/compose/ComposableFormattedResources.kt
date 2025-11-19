@@ -23,25 +23,19 @@ import androidx.compose.ui.res.stringResource
 import app.cash.paraphrase.FormattedResource
 import java.util.Locale
 
-/**
- * Resolves and returns the final formatted version of the given resource in the default locale.
- */
+/** Resolves and returns the final formatted version of the given resource in the default locale. */
 @Composable
 @ReadOnlyComposable
 public fun formattedResource(formattedResource: FormattedResource): String =
   MessageFormat(stringResource(formattedResource.id)).format(formattedResource.arguments)
 
-/**
- * Resolves and returns the final formatted version of the given resource in the given locale.
- */
+/** Resolves and returns the final formatted version of the given resource in the given locale. */
 @Composable
 @ReadOnlyComposable
 public fun formattedResource(formattedResource: FormattedResource, locale: Locale): String =
   MessageFormat(stringResource(formattedResource.id), locale).format(formattedResource.arguments)
 
-/**
- * Resolves and returns the final formatted version of the given resource in the given locale.
- */
+/** Resolves and returns the final formatted version of the given resource in the given locale. */
 @Composable
 @ReadOnlyComposable
 public fun formattedResource(formattedResource: FormattedResource, locale: ULocale): String =

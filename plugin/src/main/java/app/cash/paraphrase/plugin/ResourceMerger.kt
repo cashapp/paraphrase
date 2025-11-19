@@ -33,44 +33,49 @@ internal fun mergeResources(
   val defaultResource = tokenizedResources[ResourceFolder.Default] ?: return null
 
   val hasContiguousNumberedTokens = run {
-    val argumentCount = defaultResource.tokens
-      .mapTo(mutableSetOf()) {
-        when (it) {
-          is NamedToken -> it.name
-          is NumberedToken -> it.number.toString()
+    val argumentCount =
+      defaultResource.tokens
+        .mapTo(mutableSetOf()) {
+          when (it) {
+            is NamedToken -> it.name
+            is NumberedToken -> it.number.toString()
+          }
         }
-      }
-      .size
+        .size
 
-    val tokenNumbers = defaultResource.tokens
-      .filterIsInstance<NumberedToken>()
-      .mapTo(mutableSetOf()) { it.number }
+    val tokenNumbers =
+      defaultResource.tokens.filterIsInstance<NumberedToken>().mapTo(mutableSetOf()) { it.number }
 
     (0 until argumentCount).toSet() == tokenNumbers
   }
 
-  val deprecation = if (defaultResource.tokens.any { it.type == TokenType.Choice }) {
-    MergedResource.Deprecation.WithMessage(
-      message = """
-        Use of the old 'choice' argument type is discouraged. Use a 'plural' argument to select
-        sub-messages based on a numeric value, together with the plural rules for the specified
-        language. Use a 'select' argument to select sub-messages via a fixed set of keywords.
-      """.trimIndent().replace("\n", " "),
-    )
-  } else {
-    MergedResource.Deprecation.None
-  }
-  val arguments = defaultResource.tokens
-    .groupBy { it.argumentKey }
-    .mapValues { (argumentKey, tokens) ->
-      resolveArgumentType(tokens.map { it.type })?.let { argumentType ->
-        MergedResource.Argument(
-          key = argumentKey,
-          name = tokens.first().argumentName,
-          type = argumentType,
-        )
-      }
+  val deprecation =
+    if (defaultResource.tokens.any { it.type == TokenType.Choice }) {
+      MergedResource.Deprecation.WithMessage(
+        message =
+          """
+          Use of the old 'choice' argument type is discouraged. Use a 'plural' argument to select
+          sub-messages based on a numeric value, together with the plural rules for the specified
+          language. Use a 'select' argument to select sub-messages via a fixed set of keywords.
+          """
+            .trimIndent()
+            .replace("\n", " ")
+      )
+    } else {
+      MergedResource.Deprecation.None
     }
+  val arguments =
+    defaultResource.tokens
+      .groupBy { it.argumentKey }
+      .mapValues { (argumentKey, tokens) ->
+        resolveArgumentType(tokens.map { it.type })?.let { argumentType ->
+          MergedResource.Argument(
+            key = argumentKey,
+            name = tokens.first().argumentName,
+            type = argumentType,
+          )
+        }
+      }
 
   return MergedResource(
     name = name,
@@ -79,23 +84,24 @@ internal fun mergeResources(
     arguments = arguments.values.filterNotNull(),
     deprecation = deprecation,
     hasContiguousNumberedTokens = hasContiguousNumberedTokens,
-    parsingErrors = arguments.filterValues { it == null }.keys.map {
-      "Incompatible argument types for: $it"
-    },
+    parsingErrors =
+      arguments.filterValues { it == null }.keys.map { "Incompatible argument types for: $it" },
   )
 }
 
 private val Token.argumentKey: String
-  get() = when (this) {
-    is NamedToken -> name
-    is NumberedToken -> number.toString()
-  }
+  get() =
+    when (this) {
+      is NamedToken -> name
+      is NumberedToken -> number.toString()
+    }
 
 private val Token.argumentName: String
-  get() = when (this) {
-    is NamedToken -> name
-    is NumberedToken -> "arg$number"
-  }
+  get() =
+    when (this) {
+      is NamedToken -> name
+      is NumberedToken -> "arg$number"
+    }
 
 /**
  * If no public resource declarations exist, then all resources are public. Otherwise, only those

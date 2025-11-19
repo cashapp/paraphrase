@@ -31,52 +31,53 @@ class ResourceWriterTest {
 
   @Test
   fun publicResourceGetsPublicFunction() {
-    val result = writeResources(
-      packageName = "com.example",
-      mergedResources = listOf(
-        MergedResource(
-          name = ResourceName("test"),
-          description = null,
-          visibility = MergedResource.Visibility.Public,
-          arguments = emptyList(),
-          deprecation = Deprecation.None,
-          hasContiguousNumberedTokens = false,
-          parsingErrors = emptyList(),
-        ),
-      ),
-    )
+    val result =
+      writeResources(
+        packageName = "com.example",
+        mergedResources =
+          listOf(
+            MergedResource(
+              name = ResourceName("test"),
+              description = null,
+              visibility = MergedResource.Visibility.Public,
+              arguments = emptyList(),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            )
+          ),
+      )
 
-    result.assertVisibility(
-      expectedClassVisibility = KModifier.PUBLIC,
-      "test" to KModifier.PUBLIC,
-    )
+    result.assertVisibility(expectedClassVisibility = KModifier.PUBLIC, "test" to KModifier.PUBLIC)
   }
 
   @Test
   fun privateResourceGetsInternalFunction() {
-    val result = writeResources(
-      packageName = "com.example",
-      mergedResources = listOf(
-        MergedResource(
-          name = ResourceName("test1"),
-          description = null,
-          visibility = MergedResource.Visibility.Public,
-          arguments = emptyList(),
-          deprecation = Deprecation.None,
-          hasContiguousNumberedTokens = false,
-          parsingErrors = emptyList(),
-        ),
-        MergedResource(
-          name = ResourceName("test2"),
-          description = null,
-          visibility = MergedResource.Visibility.Private,
-          arguments = emptyList(),
-          deprecation = Deprecation.None,
-          hasContiguousNumberedTokens = false,
-          parsingErrors = emptyList(),
-        ),
-      ),
-    )
+    val result =
+      writeResources(
+        packageName = "com.example",
+        mergedResources =
+          listOf(
+            MergedResource(
+              name = ResourceName("test1"),
+              description = null,
+              visibility = MergedResource.Visibility.Public,
+              arguments = emptyList(),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+            MergedResource(
+              name = ResourceName("test2"),
+              description = null,
+              visibility = MergedResource.Visibility.Private,
+              arguments = emptyList(),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+          ),
+      )
 
     result.assertVisibility(
       expectedClassVisibility = KModifier.PUBLIC,
@@ -87,29 +88,31 @@ class ResourceWriterTest {
 
   @Test
   fun onlyPrivateResourcesProduceInternalObject() {
-    val result = writeResources(
-      packageName = "com.example",
-      mergedResources = listOf(
-        MergedResource(
-          name = ResourceName("test2"),
-          description = null,
-          visibility = MergedResource.Visibility.Private,
-          arguments = emptyList(),
-          deprecation = Deprecation.None,
-          hasContiguousNumberedTokens = false,
-          parsingErrors = emptyList(),
-        ),
-        MergedResource(
-          name = ResourceName("test3"),
-          description = null,
-          visibility = MergedResource.Visibility.Private,
-          arguments = emptyList(),
-          deprecation = Deprecation.None,
-          hasContiguousNumberedTokens = false,
-          parsingErrors = emptyList(),
-        ),
-      ),
-    )
+    val result =
+      writeResources(
+        packageName = "com.example",
+        mergedResources =
+          listOf(
+            MergedResource(
+              name = ResourceName("test2"),
+              description = null,
+              visibility = MergedResource.Visibility.Private,
+              arguments = emptyList(),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+            MergedResource(
+              name = ResourceName("test3"),
+              description = null,
+              visibility = MergedResource.Visibility.Private,
+              arguments = emptyList(),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+          ),
+      )
 
     result.assertVisibility(
       expectedClassVisibility = KModifier.INTERNAL,
@@ -138,37 +141,35 @@ class ResourceWriterTest {
 
   @Test
   fun deprecationWithMessageProducesDeprecationWithMessage() {
-    val result = writeResources(
-      packageName = "com.example",
-      mergedResources = listOf(
-        MergedResource(
-          name = ResourceName("testFun"),
-          description = null,
-          visibility = MergedResource.Visibility.Public,
-          arguments = emptyList(),
-          deprecation = Deprecation.WithMessage("Test message"),
-          hasContiguousNumberedTokens = false,
-          parsingErrors = emptyList(),
-        ),
-      ),
-    )
+    val result =
+      writeResources(
+        packageName = "com.example",
+        mergedResources =
+          listOf(
+            MergedResource(
+              name = ResourceName("testFun"),
+              description = null,
+              visibility = MergedResource.Visibility.Public,
+              arguments = emptyList(),
+              deprecation = Deprecation.WithMessage("Test message"),
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            )
+          ),
+      )
 
     result.assertOnFormattedResourcesObject { formattedResourcesObject ->
       val testFun = formattedResourcesObject.funSpecs.single { it.name == "testFun" }
-      assertThat(testFun.annotations).contains(
-        AnnotationSpec.builder(Deprecated::class)
-          .addMember("%S", "Test message")
-          .build(),
-      )
+      assertThat(testFun.annotations)
+        .contains(AnnotationSpec.builder(Deprecated::class).addMember("%S", "Test message").build())
     }
   }
 
   private inline fun FileSpec.assertOnFormattedResourcesObject(
-    block: (formattedResourcesObject: TypeSpec) -> Unit,
+    block: (formattedResourcesObject: TypeSpec) -> Unit
   ) {
-    val formattedResourcesObject = members
-      .filterIsInstance<TypeSpec>()
-      .find { it.name == "FormattedResources" }
+    val formattedResourcesObject =
+      members.filterIsInstance<TypeSpec>().find { it.name == "FormattedResources" }
     if (formattedResourcesObject == null) {
       fail("FormattedResources object not found")
     } else {

@@ -25,34 +25,35 @@ import org.junit.Test
 class NumberedTest {
   private val context = InstrumentationRegistry.getInstrumentation().context
 
-  @Test fun numberedContiguousOne() {
+  @Test
+  fun numberedContiguousOne() {
     val formattedResource = FormattedResources.numbered_contiguous_one("Z")
-    assertThat(formattedResource.arguments as Array<Any>)
-      .containsExactly("Z")
+    assertThat(formattedResource.arguments as Array<Any>).containsExactly("Z")
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B")
   }
 
-  @Test fun numberedContiguousThree() {
+  @Test
+  fun numberedContiguousThree() {
     val formattedResource = FormattedResources.numbered_contiguous_three("Z", "Y", "X")
-    assertThat(formattedResource.arguments as Array<Any>)
-      .containsExactly("Z", "Y", "X")
+    assertThat(formattedResource.arguments as Array<Any>).containsExactly("Z", "Y", "X")
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B Y C X D")
   }
 
-  @Test fun numberedSparseOne() {
+  @Test
+  fun numberedSparseOne() {
     val formattedResource = FormattedResources.numbered_sparse_one("Z")
-    assertThat(formattedResource.arguments as Map<String, Any>)
-      .isEqualTo(mapOf("1" to "Z"))
+    assertThat(formattedResource.arguments as Map<String, Any>).isEqualTo(mapOf("1" to "Z"))
 
     val formatted = context.getString(formattedResource)
     assertThat(formatted).isEqualTo("A Z B")
   }
 
-  @Test fun numberedSparseThree() {
+  @Test
+  fun numberedSparseThree() {
     val formattedResource = FormattedResources.numbered_sparse_three("Z", "Y", "X")
     assertThat(formattedResource.arguments as Map<String, Any>)
       .isEqualTo(mapOf("1" to "Z", "3" to "Y", "5" to "X"))

@@ -63,9 +63,7 @@ class MainActivity : ComponentActivity() {
 
   @Composable
   private fun SampleRow(sample: Sample) {
-    Column(
-      modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-    ) {
+    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
       Text(
         modifier = Modifier.padding(bottom = 4.dp),
         color = Color.DarkGray,
@@ -73,81 +71,80 @@ class MainActivity : ComponentActivity() {
         fontSize = 12.sp,
       )
 
-      Text(
-        text = formattedResource(sample.resource),
-        fontSize = 16.sp,
-      )
+      Text(text = formattedResource(sample.resource), fontSize = 16.sp)
     }
   }
 
   companion object {
     data class Sample(val label: String, val resource: FormattedResource)
 
-    private val APP_SAMPLES = listOf(
-      Sample(
-        label = "Text Argument",
-        resource = AppFormattedResources.app_text_argument(name = "Jobu Tupaki"),
-      ),
-      Sample(
-        label = "Date Argument",
-        resource = AppFormattedResources.app_date_argument(release_date = LocalDate.now()),
-      ),
-      Sample(
-        label = "Number Argument",
-        resource = AppFormattedResources.app_number_argument(budget = 10_000_000),
-      ),
-      Sample(
-        label = "Time Argument",
-        resource = AppFormattedResources.app_time_argument(showtime = ZonedDateTime.now()),
-      ),
-      Sample(
-        label = "Plural Argument",
-        resource = AppFormattedResources.app_plural_argument(count = 5),
-      ),
-      Sample(
-        label = "Select Argument",
-        resource = AppFormattedResources.app_select_argument(verse = "alpha"),
-      ),
-      Sample(
-        label = "Select Ordinal Argument",
-        resource = AppFormattedResources.app_select_ordinal_argument(count = 5),
-      ),
-    )
+    private val APP_SAMPLES =
+      listOf(
+        Sample(
+          label = "Text Argument",
+          resource = AppFormattedResources.app_text_argument(name = "Jobu Tupaki"),
+        ),
+        Sample(
+          label = "Date Argument",
+          resource = AppFormattedResources.app_date_argument(release_date = LocalDate.now()),
+        ),
+        Sample(
+          label = "Number Argument",
+          resource = AppFormattedResources.app_number_argument(budget = 10_000_000),
+        ),
+        Sample(
+          label = "Time Argument",
+          resource = AppFormattedResources.app_time_argument(showtime = ZonedDateTime.now()),
+        ),
+        Sample(
+          label = "Plural Argument",
+          resource = AppFormattedResources.app_plural_argument(count = 5),
+        ),
+        Sample(
+          label = "Select Argument",
+          resource = AppFormattedResources.app_select_argument(verse = "alpha"),
+        ),
+        Sample(
+          label = "Select Ordinal Argument",
+          resource = AppFormattedResources.app_select_ordinal_argument(count = 5),
+        ),
+      )
 
-    private val LIBRARY_SAMPLES = listOf(
-      Sample(
-        label = "Text Argument",
-        resource = LibraryFormattedResources.library_text_argument(name = "Jobu Tupaki"),
-      ),
-      Sample(
-        label = "Date Argument",
-        resource = LibraryFormattedResources.library_date_argument(release_date = LocalDate.now()),
-      ),
-      Sample(
-        label = "Number Argument",
-        resource = LibraryFormattedResources.library_number_argument(budget = 10_000_000),
-      ),
-      Sample(
-        label = "Time Argument",
-        resource = LibraryFormattedResources.library_time_argument(showtime = LocalTime.now()),
-      ),
-      Sample(
-        label = "Plural Argument",
-        resource = LibraryFormattedResources.library_plural_argument(count = 5),
-      ),
-      Sample(
-        label = "Select Argument",
-        resource = LibraryFormattedResources.library_select_argument(verse = "alpha"),
-      ),
-      Sample(
-        label = "Select Ordinal Argument",
-        resource = LibraryFormattedResources.library_select_ordinal_argument(count = 5),
-      ),
-      @Suppress("DEPRECATION")
-      Sample(
-        label = "Choice argument",
-        resource = LibraryFormattedResources.library_choice_argument(outlook = 100),
-      ),
-    )
+    private val LIBRARY_SAMPLES =
+      listOf(
+        Sample(
+          label = "Text Argument",
+          resource = LibraryFormattedResources.library_text_argument(name = "Jobu Tupaki"),
+        ),
+        Sample(
+          label = "Date Argument",
+          resource = LibraryFormattedResources.library_date_argument(release_date = LocalDate.now()),
+        ),
+        Sample(
+          label = "Number Argument",
+          resource = LibraryFormattedResources.library_number_argument(budget = 10_000_000),
+        ),
+        Sample(
+          label = "Time Argument",
+          resource = LibraryFormattedResources.library_time_argument(showtime = LocalTime.now()),
+        ),
+        Sample(
+          label = "Plural Argument",
+          resource = LibraryFormattedResources.library_plural_argument(count = 5),
+        ),
+        Sample(
+          label = "Select Argument",
+          resource = LibraryFormattedResources.library_select_argument(verse = "alpha"),
+        ),
+        Sample(
+          label = "Select Ordinal Argument",
+          resource = LibraryFormattedResources.library_select_ordinal_argument(count = 5),
+        ),
+        @Suppress("DEPRECATION")
+        Sample(
+          label = "Choice argument",
+          resource = LibraryFormattedResources.library_choice_argument(outlook = 100),
+        ),
+      )
   }
 }

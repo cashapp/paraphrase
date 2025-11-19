@@ -34,12 +34,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(TestParameterInjector::class)
-class LocalesTest(
-  @TestParameter private val testLocale: TestLocale,
-) {
-  @get:Rule val localeRule = LocaleAndTimeZoneRule(
-    locale = testLocale.value,
-  )
+class LocalesTest(@TestParameter private val testLocale: TestLocale) {
+  @get:Rule val localeRule = LocaleAndTimeZoneRule(locale = testLocale.value)
 
   private val context = InstrumentationRegistry.getInstrumentation().context
   private val releaseDate = LocalDate.of(2022, Month.MARCH, 24)
@@ -50,43 +46,44 @@ class LocalesTest(
    */
   private lateinit var resource: FormattedResource
 
-  @Before fun instantiateResource() {
+  @Before
+  fun instantiateResource() {
     resource = FormattedResources.locale_date(releaseDate)
   }
 
-  @Test fun defaultLocale() {
-    val expected = when (testLocale) {
-      en_US -> "Mar 24, 2022"
-      en_IL_ca_hebrew -> "21 Adar II 5782"
-    }
+  @Test
+  fun defaultLocale() {
+    val expected =
+      when (testLocale) {
+        en_US -> "Mar 24, 2022"
+        en_IL_ca_hebrew -> "21 Adar II 5782"
+      }
     assertThat(context.getString(resource)).isEqualTo("A $expected B")
   }
 
-  @Test fun franceLocale() {
+  @Test
+  fun franceLocale() {
     assertThat(context.getString(resource, Locale.FRANCE)).isEqualTo("A 24 mars 2022 B")
   }
 
-  @Test fun germanyULocale() {
+  @Test
+  fun germanyULocale() {
     assertThat(context.getString(resource, ULocale.GERMANY)).isEqualTo("A 24.03.2022 B")
   }
 
-  @Test fun hebrewCalendarLocale() {
-    assertThat(context.getString(resource, hebrewCalendarLocale))
-      .isEqualTo("A 21 Adar II 5782 B")
+  @Test
+  fun hebrewCalendarLocale() {
+    assertThat(context.getString(resource, hebrewCalendarLocale)).isEqualTo("A 21 Adar II 5782 B")
   }
 
   @Suppress("EnumEntryName", "unused")
-  enum class TestLocale(
-    val value: Locale,
-  ) {
+  enum class TestLocale(val value: Locale) {
     en_US(value = Locale("en", "US")),
     en_IL_ca_hebrew(value = hebrewCalendarLocale),
   }
 
   private companion object {
-    val hebrewCalendarLocale: Locale = Locale.Builder()
-      .setLocale(Locale("en", "IL"))
-      .setExtension('u', "ca-hebrew")
-      .build()
+    val hebrewCalendarLocale: Locale =
+      Locale.Builder().setLocale(Locale("en", "IL")).setExtension('u', "ca-hebrew").build()
   }
 }

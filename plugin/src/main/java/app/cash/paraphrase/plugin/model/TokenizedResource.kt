@@ -17,9 +17,7 @@ package app.cash.paraphrase.plugin.model
 
 import app.cash.paraphrase.plugin.TokenType
 
-/**
- * A string resource parsed from a strings.xml file with its associated argument tokens.
- */
+/** A string resource parsed from a strings.xml file with its associated argument tokens. */
 internal data class TokenizedResource(
   val name: ResourceName,
   val description: String?,
@@ -30,6 +28,7 @@ internal data class TokenizedResource(
     val type: TokenType
 
     data class NamedToken(val name: String, override val type: TokenType) : Token
+
     data class NumberedToken(val number: Int, override val type: TokenType) : Token
   }
 }
