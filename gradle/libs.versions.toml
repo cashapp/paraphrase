@@ -24,7 +24,7 @@ ktfmt = "com.facebook:ktfmt:0.59"
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 androidTest = { id = "com.android.test", version.ref = "agp" }
-buildConfig = { id = "com.github.gmazzo.buildconfig", version = "6.0.1" }
+buildConfig = { id = "com.github.gmazzo.buildconfig", version = "6.0.2" }
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
