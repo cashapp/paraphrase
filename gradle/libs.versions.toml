@@ -1,5 +1,5 @@
 [versions]
-agp = "9.0.0-beta03"
+agp = "9.0.0-beta04"
 kotlin = "2.2.21"
 
 [libraries]
