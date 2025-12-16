@@ -1,6 +1,6 @@
 [versions]
 agp = "9.0.0-beta05"
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 
 [libraries]
 agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
