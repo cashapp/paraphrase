@@ -30,6 +30,6 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version = "2.1.0" }
 mavenPublish = { id = "com.vanniktech.maven.publish", version = "0.35.0" }
-poko = { id = "dev.drewhamilton.poko", version = "0.21.0" }
+poko = { id = "dev.drewhamilton.poko", version = "0.21.1" }
 spotless = { id = "com.diffplug.spotless", version = "8.1.0" }
 kotlinApiDump = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version = "0.18.1" }
