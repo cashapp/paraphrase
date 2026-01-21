@@ -1,5 +1,6 @@
 import com.android.build.api.dsl.CommonExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
+import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.MavenPublishBaseExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
@@ -42,7 +43,7 @@ subprojects {
     // AGP to use an old version of Dokka which fails to run on the latest Java versions.
     extensions
       .getByType(MavenPublishBaseExtension::class)
-      .configureBasedOnAppliedPlugins(javadocJar = false)
+      .configureBasedOnAppliedPlugins(javadocJar = JavadocJar.Empty())
 
     // All published libraries must use API tracking to help maintain compatibility.
     plugins.apply(libs.plugins.kotlinApiDump.get().pluginId)
