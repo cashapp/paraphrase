@@ -26,6 +26,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,9 +44,13 @@ class MainActivity : ComponentActivity() {
     setContent {
       LazyColumn {
         item { Header(text = "App Strings") }
+        item { SampleRow("Text No Arguments", stringResource(AppFormattedResources.app_name)) }
         items(APP_SAMPLES) { SampleRow(it) }
 
         item { Header(text = "Library Strings") }
+        item {
+          SampleRow("Text No Arguments", stringResource(LibraryFormattedResources.library_name))
+        }
         items(LIBRARY_SAMPLES) { SampleRow(it) }
       }
     }
@@ -63,15 +68,20 @@ class MainActivity : ComponentActivity() {
 
   @Composable
   private fun SampleRow(sample: Sample) {
+    SampleRow(label = sample.label, text = formattedResource(sample.resource))
+  }
+
+  @Composable
+  private fun SampleRow(label: String, text: String) {
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
       Text(
         modifier = Modifier.padding(bottom = 4.dp),
         color = Color.DarkGray,
-        text = sample.label,
+        text = label,
         fontSize = 12.sp,
       )
 
-      Text(text = formattedResource(sample.resource), fontSize = 16.sp)
+      Text(text = text, fontSize = 16.sp)
     }
   }
 

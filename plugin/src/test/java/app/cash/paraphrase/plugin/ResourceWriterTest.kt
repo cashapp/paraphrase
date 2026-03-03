@@ -40,15 +40,31 @@ class ResourceWriterTest {
               name = ResourceName("test"),
               description = null,
               visibility = MergedResource.Visibility.Public,
+              arguments = listOf(MergedResource.Argument("key", "name", String::class)),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+            MergedResource(
+              name = ResourceName("test_no_args"),
+              description = null,
+              visibility = MergedResource.Visibility.Public,
               arguments = emptyList(),
               deprecation = Deprecation.None,
               hasContiguousNumberedTokens = false,
               parsingErrors = emptyList(),
-            )
+            ),
           ),
       )
 
-    result.assertVisibility(expectedClassVisibility = KModifier.PUBLIC, "test" to KModifier.PUBLIC)
+    result.assertFunctionVisibility(
+      expectedClassVisibility = KModifier.PUBLIC,
+      "test" to KModifier.PUBLIC,
+    )
+    result.assertPropertyVisibility(
+      expectedClassVisibility = KModifier.PUBLIC,
+      "test_no_args" to KModifier.PUBLIC,
+    )
   }
 
   @Test
@@ -62,13 +78,31 @@ class ResourceWriterTest {
               name = ResourceName("test1"),
               description = null,
               visibility = MergedResource.Visibility.Public,
-              arguments = emptyList(),
+              arguments = listOf(MergedResource.Argument("key", "name", String::class)),
               deprecation = Deprecation.None,
               hasContiguousNumberedTokens = false,
               parsingErrors = emptyList(),
             ),
             MergedResource(
               name = ResourceName("test2"),
+              description = null,
+              visibility = MergedResource.Visibility.Private,
+              arguments = listOf(MergedResource.Argument("key", "name", String::class)),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+            MergedResource(
+              name = ResourceName("test_no_args1"),
+              description = null,
+              visibility = MergedResource.Visibility.Public,
+              arguments = emptyList(),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+            MergedResource(
+              name = ResourceName("test_no_args2"),
               description = null,
               visibility = MergedResource.Visibility.Private,
               arguments = emptyList(),
@@ -79,10 +113,15 @@ class ResourceWriterTest {
           ),
       )
 
-    result.assertVisibility(
+    result.assertFunctionVisibility(
       expectedClassVisibility = KModifier.PUBLIC,
       "test1" to KModifier.PUBLIC,
       "test2" to KModifier.INTERNAL,
+    )
+    result.assertPropertyVisibility(
+      expectedClassVisibility = KModifier.PUBLIC,
+      "test_no_args1" to KModifier.PUBLIC,
+      "test_no_args2" to KModifier.INTERNAL,
     )
   }
 
@@ -97,13 +136,31 @@ class ResourceWriterTest {
               name = ResourceName("test2"),
               description = null,
               visibility = MergedResource.Visibility.Private,
-              arguments = emptyList(),
+              arguments = listOf(MergedResource.Argument("key", "name", String::class)),
               deprecation = Deprecation.None,
               hasContiguousNumberedTokens = false,
               parsingErrors = emptyList(),
             ),
             MergedResource(
               name = ResourceName("test3"),
+              description = null,
+              visibility = MergedResource.Visibility.Private,
+              arguments = listOf(MergedResource.Argument("key", "name", String::class)),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+            MergedResource(
+              name = ResourceName("test_no_args2"),
+              description = null,
+              visibility = MergedResource.Visibility.Private,
+              arguments = emptyList(),
+              deprecation = Deprecation.None,
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
+            MergedResource(
+              name = ResourceName("test_no_args3"),
               description = null,
               visibility = MergedResource.Visibility.Private,
               arguments = emptyList(),
@@ -114,14 +171,19 @@ class ResourceWriterTest {
           ),
       )
 
-    result.assertVisibility(
+    result.assertFunctionVisibility(
       expectedClassVisibility = KModifier.INTERNAL,
       "test2" to KModifier.INTERNAL,
       "test3" to KModifier.INTERNAL,
     )
+    result.assertPropertyVisibility(
+      expectedClassVisibility = KModifier.INTERNAL,
+      "test_no_args2" to KModifier.INTERNAL,
+      "test_no_args3" to KModifier.INTERNAL,
+    )
   }
 
-  private fun FileSpec.assertVisibility(
+  private fun FileSpec.assertFunctionVisibility(
     expectedClassVisibility: KModifier,
     vararg expectedFunctionVisibility: Pair<String, KModifier>,
   ) {
@@ -139,6 +201,24 @@ class ResourceWriterTest {
     }
   }
 
+  private fun FileSpec.assertPropertyVisibility(
+    expectedClassVisibility: KModifier,
+    vararg expectedPropertyVisibility: Pair<String, KModifier>,
+  ) {
+    assertOnFormattedResourcesObject { formattedResourcesObject ->
+      assertThat(formattedResourcesObject.modifiers).contains(expectedClassVisibility)
+
+      expectedPropertyVisibility.forEach { (name, expectedVisibility) ->
+        val property = formattedResourcesObject.propertySpecs.find { it.name == name }
+        if (property == null) {
+          fail("Property with name <$name> not found")
+        } else {
+          assertThat(property.modifiers).contains(expectedVisibility)
+        }
+      }
+    }
+  }
+
   @Test
   fun deprecationWithMessageProducesDeprecationWithMessage() {
     val result =
@@ -150,18 +230,38 @@ class ResourceWriterTest {
               name = ResourceName("testFun"),
               description = null,
               visibility = MergedResource.Visibility.Public,
-              arguments = emptyList(),
-              deprecation = Deprecation.WithMessage("Test message"),
+              arguments = listOf(MergedResource.Argument("key", "name", String::class)),
+              deprecation = Deprecation.WithMessage("Test message 1"),
               hasContiguousNumberedTokens = false,
               parsingErrors = emptyList(),
-            )
+            ),
+            MergedResource(
+              name = ResourceName("testProp"),
+              description = null,
+              visibility = MergedResource.Visibility.Public,
+              arguments = emptyList(),
+              deprecation = Deprecation.WithMessage("Test message 2"),
+              hasContiguousNumberedTokens = false,
+              parsingErrors = emptyList(),
+            ),
           ),
       )
 
     result.assertOnFormattedResourcesObject { formattedResourcesObject ->
       val testFun = formattedResourcesObject.funSpecs.single { it.name == "testFun" }
       assertThat(testFun.annotations)
-        .contains(AnnotationSpec.builder(Deprecated::class).addMember("%S", "Test message").build())
+        .contains(
+          AnnotationSpec.builder(Deprecated::class).addMember("%S", "Test message 1").build()
+        )
+
+      val testProp = formattedResourcesObject.propertySpecs.single { it.name == "testProp" }
+      assertThat(testProp.annotations)
+        .contains(
+          AnnotationSpec.builder(Deprecated::class)
+            .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
+            .addMember("%S", "Test message 2")
+            .build()
+        )
     }
   }
 

@@ -99,11 +99,9 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
 
     // Merge each resource's configuration map into final, canonical versions.
     val mergedResources =
-      resourceConfigurationsByName
-        .mapNotNull { (name, resourceByConfiguration) ->
-          mergeResources(name, resourceByConfiguration, publicResources)
-        }
-        .filter { it.arguments.isNotEmpty() }
+      resourceConfigurationsByName.mapNotNull { (name, resourceByConfiguration) ->
+        mergeResources(name, resourceByConfiguration, publicResources)
+      }
 
     if (mergedResources.isNotEmpty()) {
       writeResources(namespace.get(), mergedResources).writeTo(outputDirectory.get().asFile)

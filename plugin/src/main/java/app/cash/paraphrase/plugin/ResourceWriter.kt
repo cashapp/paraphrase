@@ -28,6 +28,7 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.NOTHING
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
+import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.STRING
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
@@ -59,13 +60,17 @@ internal fun writeResources(packageName: String, mergedResources: List<MergedRes
       TypeSpec.objectBuilder("FormattedResources")
         .apply {
           mergedResources.forEach { mergedResource ->
-            val funSpec = mergedResource.toFunSpec(packageStringsType)
-            addFunction(funSpec)
+            if (mergedResource.arguments.isNotEmpty()) {
+              val funSpec = mergedResource.toFunSpec(packageStringsType)
+              addFunction(funSpec)
 
-            if (mergedResource.arguments.any { it.type == Long::class }) {
-              // Since Ints are used more commonly than Longs, provide an overload to accept
-              // Ints for Long arguments:
-              addFunction(mergedResource.toIntOverloadFunSpec(funSpec))
+              if (mergedResource.arguments.any { it.type == Long::class }) {
+                // Since Ints are used more commonly than Longs, provide an overload to accept
+                // Ints for Long arguments:
+                addFunction(mergedResource.toIntOverloadFunSpec(funSpec))
+              }
+            } else {
+              addProperty(mergedResource.toPropertySpec(packageStringsType))
             }
           }
         }
@@ -275,10 +280,33 @@ private fun MergedResource.toIntOverloadFunSpec(overloaded: FunSpec): FunSpec {
     .build()
 }
 
+private fun MergedResource.toPropertySpec(packageStringsType: TypeName): PropertySpec =
+  PropertySpec.builder(name.value, Int::class)
+    .getter(FunSpec.getterBuilder().addCode("return %T.%L", packageStringsType, name.value).build())
+    .apply { if (description != null) addKdoc(description) }
+    .apply {
+      if (deprecation is Deprecation.WithMessage) {
+        val spec =
+          deprecatedAnnotationSpec(deprecation)
+            .toBuilder()
+            .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
+            .build()
+        addAnnotation(annotationSpec = spec)
+      }
+    }
+    .addAnnotation(
+      AnnotationSpec.builder(Types.StringRes)
+        .useSiteTarget(AnnotationSpec.UseSiteTarget.GET)
+        .build()
+    )
+    .addModifiers(visibility.toKModifier())
+    .build()
+
 private object Types {
   val ArrayMap = ClassName("androidx.collection", "ArrayMap")
   val Calendar = ClassName("android.icu.util", "Calendar")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
   val TimeZone = ClassName("android.icu.util", "TimeZone")
   val ULocale = ClassName("android.icu.util", "ULocale")
+  val StringRes = ClassName("androidx.annotation", "StringRes")
 }
