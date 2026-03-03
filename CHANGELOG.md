@@ -1,7 +1,14 @@
 # Change Log
 
 ## [Unreleased]
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.5.0...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.6.0...HEAD
+
+## [0.6.0] - 2026-03-03
+[0.6.0]: https://github.com/cashapp/paraphrase/releases/tag/0.6.0
+
+New:
+
+- Paraphrase now generates `FormattedResources` properties for no-arg resources.
 
 ## [0.5.0] - 2025-11-10
 [0.5.0]: https://github.com/cashapp/paraphrase/releases/tag/0.5.0
