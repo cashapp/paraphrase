@@ -38,7 +38,7 @@ class ResourceWriterTest {
           listOf(
             MergedResource(
               name = ResourceName("test"),
-              description = null,
+              description = "See https://example.com/foo%3Abar for details",
               visibility = MergedResource.Visibility.Public,
               arguments = listOf(MergedResource.Argument("key", "name", String::class)),
               deprecation = Deprecation.None,
@@ -47,7 +47,7 @@ class ResourceWriterTest {
             ),
             MergedResource(
               name = ResourceName("test_no_args"),
-              description = null,
+              description = "See https://example.com/foo%3Abar for details",
               visibility = MergedResource.Visibility.Public,
               arguments = emptyList(),
               deprecation = Deprecation.None,

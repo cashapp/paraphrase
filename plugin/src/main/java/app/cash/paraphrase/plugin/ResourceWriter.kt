@@ -82,7 +82,7 @@ internal fun writeResources(packageName: String, mergedResources: List<MergedRes
 
 private fun MergedResource.toFunSpec(packageStringsType: TypeName): FunSpec {
   return FunSpec.builder(name.value)
-    .apply { if (description != null) addKdoc(description) }
+    .apply { if (description != null) addKdoc("%L", description) }
     .apply { arguments.forEach { addParameter(it.toParameterSpec()) } }
     .returns(Types.FormattedResource)
     .apply {
@@ -243,7 +243,7 @@ private fun MergedResource.Visibility.toKModifier(): KModifier {
 private fun MergedResource.toIntOverloadFunSpec(overloaded: FunSpec): FunSpec {
   return FunSpec.builder(name.value)
     .apply {
-      if (description != null) addKdoc(description)
+      if (description != null) addKdoc("%L", description)
       addAnnotation(
         annotationSpec =
           AnnotationSpec.builder(Suppress::class).addMember("%S", "NOTHING_TO_INLINE").build()
@@ -283,7 +283,7 @@ private fun MergedResource.toIntOverloadFunSpec(overloaded: FunSpec): FunSpec {
 private fun MergedResource.toPropertySpec(packageStringsType: TypeName): PropertySpec =
   PropertySpec.builder(name.value, Int::class)
     .getter(FunSpec.getterBuilder().addCode("return %T.%L", packageStringsType, name.value).build())
-    .apply { if (description != null) addKdoc(description) }
+    .apply { if (description != null) addKdoc("%L", description) }
     .apply {
       if (deprecation is Deprecation.WithMessage) {
         val spec =
