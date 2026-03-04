@@ -1,7 +1,14 @@
 # Change Log
 
 ## [Unreleased]
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.6.1...HEAD
+
+## [0.6.1] - 2026-03-04
+[0.6.1]: https://github.com/cashapp/paraphrase/releases/tag/0.6.1
+
+Fixed:
+
+- Fix crash when generating KDocs that contain URL encoded characters.
 
 ## [0.6.0] - 2026-03-03
 [0.6.0]: https://github.com/cashapp/paraphrase/releases/tag/0.6.0
