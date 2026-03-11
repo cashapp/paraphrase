@@ -6,7 +6,7 @@ kotlin = "2.3.10"
 agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidActivityCompose = "androidx.activity:activity-compose:1.12.4"
 androidAnnotation = "androidx.annotation:annotation:1.9.1"
-androidCollection = "androidx.collection:collection:1.5.0"
+androidCollection = "androidx.collection:collection:1.6.0"
 androidTestRunner = "androidx.test:runner:1.7.0"
 composeMaterial = "androidx.compose.material:material:1.10.4"
 composeUi = "androidx.compose.ui:ui:1.10.5"
