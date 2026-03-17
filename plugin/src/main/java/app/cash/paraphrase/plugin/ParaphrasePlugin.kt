@@ -28,34 +28,33 @@ import org.gradle.util.GradleVersion
  * A Gradle plugin that generates type checked formatters for patterned Android string resources.
  */
 public class ParaphrasePlugin : Plugin<Project> {
-  override fun apply(target: Project): Unit =
-    target.run {
-      // If you update the minimum-supported Gradle version, check if the Kotlin api/language
-      // version
-      // can be bumped. See https://docs.gradle.org/current/userguide/compatibility.html#kotlin.
-      val gradleMinimum = GradleVersion.version("9.0")
-      val gradleCurrent = GradleVersion.current()
-      require(gradleCurrent >= gradleMinimum) {
-        "Plugin requires $gradleMinimum or newer. Found $gradleCurrent"
-      }
+  override fun apply(target: Project): Unit = target.run {
+    // If you update the minimum-supported Gradle version, check if the Kotlin api/language
+    // version
+    // can be bumped. See https://docs.gradle.org/current/userguide/compatibility.html#kotlin.
+    val gradleMinimum = GradleVersion.version("9.0")
+    val gradleCurrent = GradleVersion.current()
+    require(gradleCurrent >= gradleMinimum) {
+      "Plugin requires $gradleMinimum or newer. Found $gradleCurrent"
+    }
 
-      addDependencies()
-      extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
+    addDependencies()
+    extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
+      registerGenerateFormattedResourcesTask(
+        sources = variant.sources,
+        name = variant.name,
+        namespace = variant.namespace,
+      )
+
+      (variant as? HasAndroidTest)?.androidTest?.let { androidTest ->
         registerGenerateFormattedResourcesTask(
-          sources = variant.sources,
-          name = variant.name,
-          namespace = variant.namespace,
+          sources = androidTest.sources,
+          name = androidTest.name,
+          namespace = androidTest.namespace,
         )
-
-        (variant as? HasAndroidTest)?.androidTest?.let { androidTest ->
-          registerGenerateFormattedResourcesTask(
-            sources = androidTest.sources,
-            name = androidTest.name,
-            namespace = androidTest.namespace,
-          )
-        }
       }
     }
+  }
 
   private fun Project.addDependencies() {
     val isInternal = properties["app.cash.paraphrase.internal"].toString() == "true"
