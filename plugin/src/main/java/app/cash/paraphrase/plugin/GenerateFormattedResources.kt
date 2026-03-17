@@ -60,21 +60,19 @@ internal abstract class GenerateFormattedResources @Inject constructor() : Defau
     // Example:
     //   values -> [strings.xml, dimens.xml]
     //   values-es -> [strings.xml]
-    val filesByConfiguration =
-      valuesFolders.associate { folder ->
-        ResourceFolder(folder.name) to
-          folder.listFiles().orEmpty().filter { it.extension.equals("xml", ignoreCase = true) }
-      }
+    val filesByConfiguration = valuesFolders.associate { folder ->
+      ResourceFolder(folder.name) to
+        folder.listFiles().orEmpty().filter { it.extension.equals("xml", ignoreCase = true) }
+    }
 
     // Parse the files in each folder into the tokenized resources.
     //
     // Example:
     //   values -> [TokenizedResource(name=hi, ..), TokenizedResource(name=hello, ..)]
     //   values-es -> [TokenizedResource(name=hello, ..)]
-    val resourcesByConfiguration =
-      filesByConfiguration.mapValues { (_, files) ->
-        files.flatMap { it.checkedRead(::parseResources) }.map(::tokenizeResource)
-      }
+    val resourcesByConfiguration = filesByConfiguration.mapValues { (_, files) ->
+      files.flatMap { it.checkedRead(::parseResources) }.map(::tokenizeResource)
+    }
 
     // Split the folder map into individual maps keyed on resource name.
     //
