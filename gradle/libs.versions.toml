@@ -5,7 +5,7 @@ kotlin = "2.3.20"
 [libraries]
 agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 androidActivityCompose = "androidx.activity:activity-compose:1.13.0"
-androidAnnotation = "androidx.annotation:annotation:1.9.1"
+androidAnnotation = "androidx.annotation:annotation:1.10.0"
 androidCollection = "androidx.collection:collection:1.6.0"
 androidTestRunner = "androidx.test:runner:1.7.0"
 composeMaterial = "androidx.compose.material:material:1.10.6"
