@@ -39,6 +39,10 @@ public class ParaphrasePlugin : Plugin<Project> {
     }
 
     addDependencies()
+    // Enable lint scanning of generated sources so that R.string references in the generated
+    // FormattedResources code are detected, preventing false-positive UnusedResources warnings.
+    extensions.getByType(CommonExtension::class.java).lint.checkGeneratedSources = true
+
     extensions.getByType(AndroidComponentsExtension::class.java).onVariants { variant ->
       registerGenerateFormattedResourcesTask(
         sources = variant.sources,
