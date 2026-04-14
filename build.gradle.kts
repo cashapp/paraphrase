@@ -83,7 +83,7 @@ subprojects {
     Action<Plugin<Any>> {
       with(extensions.getByType<CommonExtension>()) {
         compileSdk = 36
-        defaultConfig.minSdk = 24
+        defaultConfig.minSdk = 26
 
         compileOptions.apply {
           sourceCompatibility = javaVersion
