@@ -128,7 +128,8 @@ class MainActivity : ComponentActivity() {
         ),
         Sample(
           label = "Date Argument",
-          resource = LibraryFormattedResources.library_date_argument(release_date = LocalDate.now()),
+          resource =
+            LibraryFormattedResources.library_date_argument(release_date = LocalDate.now()),
         ),
         Sample(
           label = "Number Argument",
