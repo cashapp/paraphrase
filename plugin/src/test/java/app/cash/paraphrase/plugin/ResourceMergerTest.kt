@@ -74,7 +74,8 @@ class ResourceMergerTest {
                 parsingError = null,
               )
           ),
-        publicResources = listOf(PublicResource.Named(name = ResourceName("test"), type = "string")),
+        publicResources =
+          listOf(PublicResource.Named(name = ResourceName("test"), type = "string")),
       )
     assertThat(result!!.visibility).isEqualTo(MergedResource.Visibility.Public)
     assertThat(result.deprecation).isEqualTo(Deprecation.None)
