@@ -1,1 +1,1 @@
-sourceset_dependencies='{}'
+sourceset_dependencies = '{":runtime-compose-ui/release":[],":runtime/release":[]}'
