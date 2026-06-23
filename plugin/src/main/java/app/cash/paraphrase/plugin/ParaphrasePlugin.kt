@@ -57,7 +57,8 @@ public class ParaphrasePlugin : Plugin<Project> {
   }
 
   private fun Project.addDependencies() {
-    val isInternal = properties["app.cash.paraphrase.internal"].toString() == "true"
+    val isInternal =
+      providers.gradleProperty("app.cash.paraphrase.internal").getOrElse("false").toBoolean()
 
     // Automatically add the runtime dependency.
     val runtimeDependency: Any =
