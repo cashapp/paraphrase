@@ -1,7 +1,14 @@
 # Change Log
 
 ## [Unreleased]
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.6.1...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.6.2...HEAD
+
+## [0.6.2] - 2026-06-23
+[0.6.2]: https://github.com/cashapp/paraphrase/releases/tag/0.6.2
+
+Fixed:
+
+- Fix isolated projects violation.
 
 ## [0.6.1] - 2026-03-04
 [0.6.1]: https://github.com/cashapp/paraphrase/releases/tag/0.6.1
