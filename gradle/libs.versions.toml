@@ -1,6 +1,7 @@
 [versions]
 agp = "9.2.1"
 kotlin = "2.4.0"
+lint = "32.2.1"
 
 [libraries]
 agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -14,6 +15,9 @@ googleMaterial = "com.google.android.material:material:1.14.0"
 icu4j = "com.ibm.icu:icu4j:78.3"
 junit = "junit:junit:4.13.2"
 kotlinPoet = "com.squareup:kotlinpoet:2.3.0"
+lintApi = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
+lintChecks = { module = "com.android.tools.lint:lint-checks", version.ref = "lint" }
+lintTests = { module = "com.android.tools.lint:lint-tests", version.ref = "lint" }
 robolectric = "org.robolectric:robolectric:4.16.1"
 testParameterInjector = "com.google.testparameterinjector:test-parameter-injector:1.22"
 assertk = "com.willowtreeapps.assertk:assertk:0.28.1"
