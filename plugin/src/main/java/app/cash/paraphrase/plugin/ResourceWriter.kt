@@ -58,6 +58,7 @@ internal fun writeResources(packageName: String, mergedResources: List<MergedRes
     .addImport(packageName = packageName, "R")
     .addType(
       TypeSpec.objectBuilder("FormattedResources")
+        .addAnnotation(Types.Generated)
         .apply {
           mergedResources.forEach { mergedResource ->
             if (mergedResource.arguments.isNotEmpty()) {
@@ -306,6 +307,7 @@ private object Types {
   val ArrayMap = ClassName("androidx.collection", "ArrayMap")
   val Calendar = ClassName("android.icu.util", "Calendar")
   val FormattedResource = ClassName("app.cash.paraphrase", "FormattedResource")
+  val Generated = ClassName("app.cash.paraphrase", "Generated")
   val TimeZone = ClassName("android.icu.util", "TimeZone")
   val ULocale = ClassName("android.icu.util", "ULocale")
   val StringRes = ClassName("androidx.annotation", "StringRes")

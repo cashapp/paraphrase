@@ -1,0 +1,23 @@
+public final class app/cash/paraphrase/lint/ParaphraseIssueRegistry : com/android/tools/lint/client/api/IssueRegistry {
+	public fun <init> ()V
+	public fun getIssues ()Ljava/util/List;
+	public fun getVendor ()Lcom/android/tools/lint/client/api/Vendor;
+}
+
+public final class app/cash/paraphrase/lint/UnusedFormattedResourcesDetector : com/android/tools/lint/detector/api/ResourceXmlDetector, com/android/tools/lint/detector/api/SourceCodeScanner {
+	public static final field Companion Lapp/cash/paraphrase/lint/UnusedFormattedResourcesDetector$Companion;
+	public static final field ISSUE Lcom/android/tools/lint/detector/api/Issue;
+	public fun <init> ()V
+	public fun afterCheckRootProject (Lcom/android/tools/lint/detector/api/Context;)V
+	public fun checkPartialResults (Lcom/android/tools/lint/detector/api/Context;Lcom/android/tools/lint/detector/api/PartialResult;)V
+	public fun createUastHandler (Lcom/android/tools/lint/detector/api/JavaContext;)Lcom/android/tools/lint/client/api/UElementHandler;
+	public fun getApplicableAttributes ()Ljava/util/Collection;
+	public fun getApplicableElements ()Ljava/util/Collection;
+	public fun getApplicableUastTypes ()Ljava/util/List;
+	public fun visitAttribute (Lcom/android/tools/lint/detector/api/XmlContext;Lorg/w3c/dom/Attr;)V
+	public fun visitElement (Lcom/android/tools/lint/detector/api/XmlContext;Lorg/w3c/dom/Element;)V
+}
+
+public final class app/cash/paraphrase/lint/UnusedFormattedResourcesDetector$Companion {
+}
+
