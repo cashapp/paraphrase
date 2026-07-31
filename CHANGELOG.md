@@ -1,7 +1,14 @@
 # Change Log
 
 ## [Unreleased]
-[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.6.2...HEAD
+[Unreleased]: https://github.com/cashapp/paraphrase/compare/0.7.0...HEAD
+
+## [0.7.0] - 2026-07-31
+[0.7.0]: https://github.com/cashapp/paraphrase/releases/tag/0.7.0
+
+New:
+
+- Introduce a new lint rule to detect unused formatted resources.
 
 ## [0.6.2] - 2026-06-23
 [0.6.2]: https://github.com/cashapp/paraphrase/releases/tag/0.6.2
