@@ -7,3 +7,7 @@ plugins {
 android {
   namespace = "app.cash.paraphrase.sample.library"
 }
+
+dependencies {
+  lintChecks(projects.lint)
+}

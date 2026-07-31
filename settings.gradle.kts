@@ -19,7 +19,15 @@ dependencyResolutionManagement {
 
 rootProject.name = "paraphrase"
 
-include(":plugin", ":runtime", ":runtime-compose-ui", ":sample:app", ":sample:library", ":tests")
+include(
+  ":lint",
+  ":plugin",
+  ":runtime",
+  ":runtime-compose-ui",
+  ":sample:app",
+  ":sample:library",
+  ":tests",
+)
 
 includeBuild("build-logic") {
   dependencySubstitution {

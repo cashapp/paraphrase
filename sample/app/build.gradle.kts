@@ -17,6 +17,10 @@ android {
   compileOptions {
     isCoreLibraryDesugaringEnabled = true
   }
+
+  lint {
+    checkDependencies = true
+  }
 }
 
 kotlin {
@@ -33,4 +37,6 @@ dependencies {
   implementation(libs.composeUi)
 
   coreLibraryDesugaring(libs.coreLibraryDesugaring)
+
+  lintChecks(projects.lint)
 }
