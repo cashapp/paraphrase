@@ -3,6 +3,11 @@
 ## [Unreleased]
 [Unreleased]: https://github.com/cashapp/paraphrase/compare/0.7.0...HEAD
 
+Changed:
+
+- Artifacts are now compiled against Android API 37 and use Java 11 bytecode (to match Compose).
+
+
 ## [0.7.0] - 2026-07-31
 [0.7.0]: https://github.com/cashapp/paraphrase/releases/tag/0.7.0
 
