@@ -82,7 +82,7 @@ subprojects {
   val configureAndroid =
     Action<Plugin<Any>> {
       with(extensions.getByType<CommonExtension>()) {
-        compileSdk = 36
+        compileSdk = 37
         defaultConfig.minSdk = 24
 
         compileOptions.apply {
