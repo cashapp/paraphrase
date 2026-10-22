@@ -12,7 +12,7 @@ androidTestRunner = "androidx.test:runner:1.7.0"
 composeMaterial = "androidx.compose.material:material:1.12.1"
 composeUi = "androidx.compose.ui:ui:1.12.1"
 googleMaterial = "com.google.android.material:material:1.14.0"
-icu4j = "com.ibm.icu:icu4j:78.3"
+icu4j = "com.ibm.icu:icu4j:79.1"
 junit = "junit:junit:4.13.2"
 kotlinPoet = "com.squareup:kotlinpoet:2.4.0"
 lintApi = { module = "com.android.tools.lint:lint-api", version.ref = "lint" }
